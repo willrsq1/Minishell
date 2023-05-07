@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 18:11:06 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/07 11:22:52 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/05/07 19:10:05 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ int	ft_is_invalid_arg_wildcard(char *arg, char *file)
 		return (0);
 	while (arg[y] && arg[y] != '*' && file[i] && arg[y] == file[i++])
 		y++;
-	if (arg[y] == '*')
-		printf("THIS %s\n", &arg[y]);
+	// if (arg[y] == '*')
+	// 	printf("THIS %s\n", &arg[y]);
 	return (arg[y] - file[i]);
 }
 

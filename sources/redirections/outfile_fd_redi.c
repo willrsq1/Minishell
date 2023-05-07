@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 23:56:49 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/06 13:33:02 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/05/07 19:29:30 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ static void	ft_fd_redi_append(char *file, t_shell *shell, int i, int file_fd)
 		return ;
 	if (dup2(fd, file_fd) == -1)
 		ft_end_program(shell, 1, errno);
+	if (file_fd == 1)
+		shell->outfile = fd;
 	ft_add_tbc_list(file_fd, shell);
 	ft_add_tbc_list(fd, shell);
 	return ;
@@ -81,7 +83,9 @@ static void	ft_fd_redi_trunc(char *file, t_shell *shell, int i, int file_fd)
 	if (fd == -1)
 		return ;
 	if (dup2(fd, file_fd) == -1)
-		ft_end_program(shell, 1, errno);
+		ft_end_program(shell, 1, errno);	
+	if (file_fd == 1)
+		shell->outfile = fd;
 	ft_add_tbc_list(file_fd, shell);
 	ft_add_tbc_list(fd, shell);
 	return ;

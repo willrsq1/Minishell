@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 14:24:40 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/07 10:10:47 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/05/07 21:28:30 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void	ft_do_the_execve_thing(t_shell *shell, char **envp)
 {
 	t_init	init;
 
+	if (tab_creation(shell, shell->buff))
+		return ;
 	// print_args(shell);
 	shell->infile = -1;
 	shell->outfile = -1;
@@ -39,12 +41,14 @@ static int	exec_no_pipes(t_shell *shell, char **envp)
 {
 	pid_t	pid;
 
-	pid = ft_setup_execution(shell, envp);
-	if (pid)
-		return (pid);
+	if (ft_strcmp(shell->tab[0], "exit") == 0)
+		ft_exit(shell);
 	pid = fork();
 	if (pid == 0)
 	{
+		pid = ft_setup_execution(shell, envp);
+		if (pid)
+			exit(pid);
 		ft_dup_in_and_out_fd(shell);
 		execve(shell->no_pipes_cmd, shell->tab, envp);
 		ft_end_program(shell, 1, errno);
@@ -70,8 +74,6 @@ static int	ft_setup_execution(t_shell *shell, char **envp)
 			return (126);
 		return (COMMAND);
 	}
-	if (ft_strcmp(shell->no_pipes_cmd, "exit") == 0)
-		ft_exit(shell);
 	return (0);
 }
 

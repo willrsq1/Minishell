@@ -47,16 +47,17 @@ int	main(int argc, char **argv, char **envp)
 	shell.exit_status = 0;
 	while (1)
 	{
-		buff = readline("Minishell :) > ");
+		buff = readline("Minishell d'Arbesa > ");
 		ft_init_shell(&shell);
 		add_history(buff);
-		if (tab_creation(&shell, buff) == 0 && buff && buff[0])
+		shell.buff = buff;
+		if (buff && buff[0])
 			ft_do_the_execve_thing(&shell, envp);
 		if (argc == 2 && !ft_strcmp(argv[1], "--exit"))
 			printf("		The exit status is = %d\n", shell.exit_status);
 		ft_close_everything_lol(&shell);
 		ft_free_everything_lol(&shell);
-		exit(shell.exit_status);
+		// exit(shell.exit_status);
 		free(buff);
 	}
 	return (0);

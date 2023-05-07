@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 03:44:56 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/03 15:20:51 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/05/07 21:08:55 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,14 @@ static char	**fill_is_quoted(char **tab, int **is_quoted)
 
 	i = -1;
 	while (tab[++i])
+	{
+		if (tab[i][0] == '(')
+		{
+			tab[i][ft_strlen(tab[i]) - 1] = '\0';
+			tab[i] = &tab[i][1];
+		}
 		fill_is_quoted_loop(tab, is_quoted, i, ft_which_quote(tab[i]));
+	}
 	return (tab);
 }
 

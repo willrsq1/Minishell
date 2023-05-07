@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:32:43 by marvin            #+#    #+#             */
-/*   Updated: 2023/04/26 19:01:32 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/05/07 20:57:07 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,28 @@ static char	**ft_spliting(char **tab, t_shell *shell, char c, int lignes)
 	return (tab);
 }
 
+static int	parenthesis(t_split split, t_shell *shell, char **tab, int i)
+{
+	char	*s;
+	int		count;
+
+	count = 0;
+	s = shell->buff;	
+	while (s[i])
+	{
+		tab[split.j] = ft_weird_realloc_thing(tab[split.j], 1, shell);
+		tab[split.j][++split.w] = s[i];
+		if (s[i] == ')')
+			count--;
+		if (s[i] == '(')
+			count++;
+		i++;
+		if (count == 0)
+			break ;
+	}
+	return (i);
+}
+
 static int	ft_spliting_2(t_shell *shell, char **tab, t_split split, int i)
 {
 	char	*s;
@@ -131,6 +153,8 @@ static int	ft_spliting_2(t_shell *shell, char **tab, t_split split, int i)
 		tab[split.j] = ft_weird_realloc_thing(tab[split.j], split.len, shell);
 		while (split.len >= 0 && split.len--)
 		{
+			if (s[i] == '(')
+				return (parenthesis(split, shell, tab, i));
 			tab[split.j][++split.w] = s[i];
 			i++;
 		}

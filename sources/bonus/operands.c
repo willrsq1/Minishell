@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 23:05:03 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/07 10:16:53 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/05/07 20:33:34 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,41 @@ static int	*ft_get_op_options(t_shell *shell, char **tab, int count);
  * EXECUTE THEM ACCORDINGLY TO THE && AND || RULES
  * RETURN 1 IF OPERANDS ARE FOUD
 */
+
+char *join_tab(char **tab, t_shell *shell)
+{
+	char *new;
+	int i;
+	i = -1;
+	int y;
+	int c;
+	int w;
+	new = ft_calloc(10000, shell);
+	w = -1;
+	c = 0;
+	while (tab[++i])
+	{
+		y = -1;
+		while (tab[i][++y])
+		{
+			if (c && !shell->is_quoted[i][y])
+			{
+				c = 0;
+				new[++w] = '"';
+			}
+			if (shell->is_quoted[i][y] && c == 0 && ++c)
+				new[++w] = '"';
+			new[++w] = tab[i][y];
+		}
+		if (c && !shell->is_quoted[i][y])
+		{
+			c = 0;
+			new[++w] = '"';
+		}
+		new[++w] = ' ';
+	}
+	return (new);
+}
 
 int	ft_operands(t_shell *shell, char **envp)
 {
@@ -44,6 +79,7 @@ int	ft_operands(t_shell *shell, char **envp)
 	{
 		shell->tab = operands_tab[w];
 		shell->is_quoted = operands_is_quoted[w];
+		shell->buff = join_tab(operands_tab[w], shell);
 		ft_do_the_execve_thing(shell, envp);
 		ft_close_everything_lol(shell);
 		if ((options[w] == OR_OPERAND && !shell->exit_status) || \
