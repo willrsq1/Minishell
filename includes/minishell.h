@@ -41,8 +41,8 @@ void	print_args(t_shell *shell);
 
 /*		WILDCARD_TAB_CREATION.C */
 
-char	**ft_wildcard_new_tab_creation(int count, t_lst *first, \
-	char *directory_path, t_shell *shell);
+char	**ft_wildc_new_init(int count, t_wildc *first, \
+	char *dir_path, t_shell *shell);
 int		ft_dup_new_tab_wildcard(t_shell *shell, char **tab, char **new_args);
 
 /*		WILDCARD.C */
@@ -51,7 +51,7 @@ int		ft_find_wildcard(t_shell *shell, char **tab);
 
 /*		WILDCARD_UTILS.C */
 
-void	ft_lstnew_wildcard(void *file, t_lst *first, t_shell *shell);
+void	ft_wildcnew_wildcard(void *file, t_wildc *first, t_shell *shell);
 int		ft_is_invalid_arg_wildcard(char *arg, char *file);
 char	*find_wildcard_directory(t_shell *shell, char *arg, char **arg_add);
 int		find_wildcard(char *arg, t_shell *shell, int i);
@@ -67,7 +67,16 @@ int		ft_find_op_lenght(char **tab, t_shell *shell, int i);
 int		ft_operands(t_shell *shell, char **envp);
 
 /* ------------------------------------------------------------------------- */
-/* -------------------------- EXEC ----------------------------------------- */
+/* -------------------------- BUILTINS ------------------------------------- */
+/* ------------------------------------------------------------------------- */
+
+/*		EXIT.C */
+
+void	ft_exit(t_shell *shell);
+int		ft_find_exit_status(t_shell *shell);
+
+/* ------------------------------------------------------------------------- */
+/* -------------------------- EXECVE --------------------------------------- */
 /* ------------------------------------------------------------------------- */
 
 /*		COMMAND_ACCESS.C */
@@ -84,6 +93,18 @@ void	ft_do_the_execve_thing(t_shell *shell, char **envp);
 int		ft_ppx_strncmp_path(char *str, char *checked, int size);
 char	*ft_strjoin_ppx(char *s1, char *s2, t_pipex *p);
 void	ft_get_paths_in_struct(t_pipex *p, char **envp);
+
+/*		PIPEX_HEREDOC.C */
+
+void	ft_get_heredocs_pipex(t_pipex *p, int i);
+
+/*		PIPEX_UTILS.C */
+
+void	ft_forking(t_pipex *p, char **envp);
+
+/*		PIPEX.C */
+
+void	ft_pipex(int argc, t_init *init, char **envp);
 
 /* ------------------------------------------------------------------------- */
 /* -------------------------- INIT ----------------------------------------- */
@@ -198,22 +219,6 @@ void	ft_outfile_append(t_shell *shell, int i);
 void	ft_outfile_trunc(t_shell *shell, int i);
 
 /* ------------------------------------------------------------------------- */
-/* -------------------------- PIPEX ---------------------------------------- */
-/* ------------------------------------------------------------------------- */
-
-/*		PIPEX_HEREDOC.C */
-
-void	ft_get_heredocs_pipex(t_pipex *p, int i);
-
-/*		PIPEX_UTILS.C */
-
-void	ft_forking(t_pipex *p, char **envp);
-
-/*		PIPEX.C */
-
-void	ft_pipex(int argc, t_init *init, char **envp);
-
-/* ------------------------------------------------------------------------- */
 /* -------------------------- UTILS ---------------------------------------- */
 /* ------------------------------------------------------------------------- */
 
@@ -235,14 +240,5 @@ int		ft_open_rdonly(char *file, t_shell *shell);
 int		ft_open_trunc(char *file, t_shell *shell);
 int		ft_open_append(char *file, t_shell *shell);
 void	ft_pipe(int *tab, t_shell *shell);
-
-/* ------------------------------------------------------------------------- */
-/* -------------------------- BUILTINS ------------------------------------- */
-/* ------------------------------------------------------------------------- */
-
-/*		EXIT.C */
-
-void	ft_exit(t_shell *shell);
-int		ft_find_exit_status(t_shell *shell);
 
 #endif

@@ -6,17 +6,17 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 18:11:06 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/05 02:06:06 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/05/07 11:22:52 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	ft_lstnew_wildcard(void *file, t_lst *first, t_shell *shell)
+void	ft_wildcnew_wildcard(void *file, t_wildc *first, t_shell *shell)
 {
-	t_lst	*lst;
+	t_wildc	*lst;
 
-	lst = ft_calloc(sizeof(t_lst), shell);
+	lst = ft_calloc(sizeof(t_wildc), shell);
 	lst->file = file;
 	lst->next = NULL;
 	if (first->next == NULL)

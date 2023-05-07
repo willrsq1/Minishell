@@ -1,7 +1,7 @@
 
 ### COMPILATION ###
 CC      = gcc
-FLAGS  = -Wall -Wextra -Werror -I -L/usr/local/lib -g3 #-fsanitize=address
+FLAGS  = -Wall -Wextra -Werror -g -I -L/usr/local/lib -g3 #-fsanitize=address
 
 ### EXECUTABLE ###
 NAME   = minishell
@@ -23,6 +23,9 @@ SOURCES =     		main.c \
 					execve/execution.c \
 					execve/command_access.c \
 					execve/path_access.c \
+					execve/pipex_heredoc.c \
+					execve/pipex_utils.c \
+					execve/pipex.c \
 					init/pipes_syntax_check.c \
 					init/quote_handling.c \
 					init/syntax_check.c \
@@ -36,9 +39,6 @@ SOURCES =     		main.c \
 					libft_minishell/functs_3.c \
 					libft_minishell/gnl/get_next_line.c \
 					libft_minishell/gnl/get_next_line_utils.c \
-					pipex/pipex_heredoc.c \
-					pipex/pipex_utils.c \
-					pipex/pipex.c \
 					redirections/dispatch_redi.c \
 					redirections/heredoc_redi.c \
 					redirections/heredoc.c \

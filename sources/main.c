@@ -40,7 +40,9 @@ int	main(int argc, char **argv, char **envp)
 	char		*buff;
 	t_shell		shell;
 
-	if (argc != 1)
+	if (argc == 2 && !ft_strcmp(argv[1], "--exit"))
+		printf("The exit status will be shown at exit.\n");
+	else if (argc != 1)
 		return (write(2, "Bad args\n", 10), 1);
 	shell.exit_status = 0;
 	while (1)
@@ -50,14 +52,12 @@ int	main(int argc, char **argv, char **envp)
 		add_history(buff);
 		if (tab_creation(&shell, buff) == 0 && buff && buff[0])
 			ft_do_the_execve_thing(&shell, envp);
-		// printf("EXIT STATUS = %d\n", shell.exit_status);
+		if (argc == 2 && !ft_strcmp(argv[1], "--exit"))
+			printf("		The exit status is = %d\n", shell.exit_status);
 		ft_close_everything_lol(&shell);
 		ft_free_everything_lol(&shell);
+		exit(shell.exit_status);
 		free(buff);
-		// exit (shell.exit_status);
 	}
-	write(2, "Left Minishell\n", 16);
 	return (0);
-	if (argc != 0 && argv && envp)
-		return (1);
 }

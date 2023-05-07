@@ -34,8 +34,6 @@ void	ft_forking(t_pipex *p, char **envp)
 				close(p->pipe[i][1]);
 			else if (i == p->nb_cmds - 1)
 				close (p->pipe[i - 1][1]);
-			if (p->shell->pipe_heredoc)
-				close(p->shell->pipe_heredoc[1]);
 		}
 		else if (p->forks_id[i] == 0)
 			ft_fork_loop(p, envp, i);
@@ -107,7 +105,7 @@ static void	ft_check_for_redirections(t_pipex *p, int i)
 		return ;
 	if (shell->infile != -1)
 		p->fds[i][0] = p->shell->infile;
-	if (p->shell->infile == -2)
+	if (shell->infile == -2)
 		p->fds[i][0] = p->heredoc_fds[i];
 	if (shell->outfile != -1)
 		p->fds[i][1] = p->shell->outfile;

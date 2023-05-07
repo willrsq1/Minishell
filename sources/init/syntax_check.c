@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 02:33:08 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/07 09:33:16 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/05/07 19:05:39 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ static int	ft_check_redi(char *arg, int *is_quoted);
 
 int	ft_syntax_error(char **tab, t_shell *shell)
 {
-	if (ft_check_pipes_tokens(tab, shell) == 1)
-		return (shell->exit_status = 2, 1);
 	if (ft_check_redi_tokens(tab, shell) == 1)
+		return (shell->exit_status = 2, 1);
+	if (ft_check_pipes_tokens(tab, shell) == 1)
 		return (shell->exit_status = 2, 1);
 	return (0);
 }

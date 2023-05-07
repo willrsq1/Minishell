@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 00:31:54 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/06 13:31:47 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/05/07 14:58:28 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static void	ft_get_fd_heredoc(t_shell *shell, int i)
 	}
 	else
 	{
-		shell->heredoc = ft_heredoc(tab[i + 1], shell);
+		shell->heredoc = ft_heredoc(ft_strcat(tab[i + 1], "\n", shell), shell);
 		shell->infile = shell->heredoc;
 		return ;
 	}
@@ -66,25 +66,23 @@ int	ft_heredoc(char *delimiter, t_shell *shell)
 
 	shell->pipe_heredoc = ft_calloc(sizeof(int) * 2, shell);
 	ft_pipe(shell->pipe_heredoc, shell);
-	delimiter = ft_strcat(delimiter, "\n", shell);
-	write(2, "heredoc > ", 11);
-	while (1)
+	while (write(2, "heredoc > ", 11))
 	{
 		buffer = get_next_line(0);
-		if (buffer)
+		if (!buffer)
 		{
-			if (ft_strcmp(buffer, delimiter) == 0)
-			{
-				free(buffer);
-				break ;
-			}
-			write(shell->pipe_heredoc[1], buffer, ft_strlen(buffer));
-			free(buffer);
-			write(2, "heredoc > ", 11);
+			write(2, "\nMinishell: warning: here-document delimited", 45);
+			write(2, " by end-of-file (wanted `", 26);
+			delimiter[ft_strlen(delimiter) - 1] = '\0';
+			write(2, delimiter, ft_strlen(delimiter));
+			write(2, "')\n", 4);
+			break ;
 		}
-		else
-			ft_end_program(shell, 1, errno);
+		if (!ft_strcmp(buffer, delimiter))
+			break ;
+		write(shell->pipe_heredoc[1], buffer, ft_strlen(buffer));
+		free(buffer);
 	}
 	close(shell->pipe_heredoc[1]);
-	return (shell->pipe_heredoc[0]);
+	return (free(buffer), shell->pipe_heredoc[0]);
 }

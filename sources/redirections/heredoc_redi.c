@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 15:35:05 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/06 12:40:54 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/05/07 14:19:21 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static void	heredoc_dup_error(t_shell *shell, char **tab, int i, int file_fd)
 {
 	int	fd;
 
-	fd = ft_heredoc(tab[i + 1], shell);
+	fd = ft_heredoc(ft_strcat(tab[i + 1], "\n", shell), shell);
 	ft_add_tbc_list(file_fd, shell);
 	ft_add_tbc_list(fd, shell);
 	ft_remove_redi_ligns(shell, i);

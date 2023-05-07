@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 10:02:39 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/07 10:06:05 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/05/07 11:22:52 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 static int	ft_new_tab_filling(char **new_args, char **tab, \
 	int **new_is_quoted, t_shell *shell);
 
-char	**ft_wildcard_new_tab_creation(int count, t_lst *first, \
-	char *directory_path, t_shell *shell)
+char	**ft_wildc_new_init(int count, t_wildc *first, \
+	char *dir_path, t_shell *shell)
 {
 	char	**new;
 
@@ -28,8 +28,8 @@ char	**ft_wildcard_new_tab_creation(int count, t_lst *first, \
 	{
 		if (first->file[0] != '.')
 		{
-			if (ft_strcmp(directory_path, ".") != 0)
-				new[count++] = ft_strcat(directory_path, first->file, shell);
+			if (ft_strcmp(dir_path, ".") != 0)
+				new[count++] = ft_strcat(dir_path, first->file, shell);
 			else
 				new[count++] = ft_strdup(first->file, shell);
 		}

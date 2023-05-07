@@ -23,7 +23,7 @@ typedef struct s_to_be_freed	t_to_be_freed;
 typedef struct s_to_be_closed	t_to_be_closed;
 typedef struct s_init			t_init;
 typedef struct s_split			t_split;
-typedef struct s_lst			t_lst;
+typedef struct s_wildc			t_wildc;
 
 typedef struct s_shell
 {
@@ -99,10 +99,10 @@ typedef struct s_split
 	int			len;
 }		t_split;
 
-typedef struct s_lst
+typedef struct s_wildc
 {
 	char		*file;
-	t_lst		*next;
-}		t_lst;
+	t_wildc		*next;
+}		t_wildc;
 
 #endif
