@@ -1,2 +1,0 @@
-1 1 4 infile
-1 1 4 total
