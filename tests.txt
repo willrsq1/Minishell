@@ -1,0 +1,64 @@
+wc Makefile
+wc 2147483647>R infile
+cat '"'"'"
+cat "'"'"'
+cat "'"'"'"'"'"'""l
+cat '"'""'
+ca't' in'f'""ile
+cat '>' ''l""'' outfile
+cat '''' '>' lll
+cat '''>' lll
+cat '>' ''>outfile
+cat '>' ''l outfile
+cat '>' ''l""'' outfile
+cat <<l | sleep 3 | cat << u
+ cat <<l | sleep 3 | cat << u | gorpre >fezfze | hello <infile <outfile <cat <heyhey < sources | ff | wc Makefile >> output
+cat << l infile > outfile
+cat infile << l >outfile
+ cat <fezfioze | cat << l<infile <frer <<l <infile
+cat <infile << l > outfile
+ cat < inf < infile <<l
+wc 2000<R
+ wc 2000<sources
+ wc 2147483648>sources infile
+ wc 2147483647>sources infile
+wc 2147483647>R infile
+ wc 2147483648>R infile
+wc 2000<R | wc hey 100<sources | wc  21012299192< | wc hey 1023>R
+ wc 2000<R | wc 2000<sources | wc 21012299192<l | wc 1023>R | wc 1023>sources| wc 2147483648>sources infile | wc 2147483647>sources infile | wc 2147483647>R infile | wc 2147483648>R infile
+ cat "'"l'""'
+cat <'"<|"'<'|'"<"'<|<'"<'|'<"|'|<'>'>''|">>"|l<'<'|"<"'>'"|'<"L'>'|"k'|>'|'k'|'>"|'"<'L<'|'L'"k""'''""'|">"|'''''""'<|'L'|'<"|"i'n'f"|"i'le
+ wc <<<l Makefile
+ cat <l | sleep 3 | cat < u | gorpre >fezfze | hello <infile <outfile <cat <heyhey < sources | ff | wc Makefile 123>> output
+cat <'"<|"'<'|'""<'"|""i'n'f"|"i'le
+ ''""""''''""exit
+ cat Makefile | exit | wc
+wc Makefile |
+cat <infile | wc 1>>HELL 1>hi >outfileZZ
+ >test1 >test3 ls -la | >test3 ls
+wc Makefile | cat | cat | cat 
+ cat 12201201<<l 123231<<u >sources
+c
+.c
+./c
+sources
+.sources
+./sources
+/lib32
+chmod 000 Minishell && ./Minishell
+./
+.
+/
+cp Minishell cat && cat infile && ./cat infile
+wc Make'*'*file
+ca't ui'hiuh iuh 'i'hi'' || 'ijoié'éé"''ij" && ||''i
+wc Makefile && sleep 1 &&cat infile && sleep 3
+wc Makefi || cat infle || sleep 3
+wc Makefi || cat infile || sleep 3
+wc infile && cat fee | sleep 3 | wc LKJ && wc Makefile
+ 127 2>out
+ls |
+<sources ""
+ cat <<l | ls >out >out >out <<l <inf <inf <<hooo | cat | cat | cat
+ls | <sources
+cat <<l | ls >out >out >out <<l <inf <inf <<hooo | cat | cat | cat wc <<l | cat >>out|ls >>out && cat out
