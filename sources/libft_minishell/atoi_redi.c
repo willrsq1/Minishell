@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 16:58:46 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/03 15:26:17 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/05/07 10:17:42 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*ft_itoa(int nb, t_shell *shell)
 {
 	char	*str;
 	int		i;
-	
+
 	i = len_nb(nb);
 	str = ft_calloc(i + 1, shell);
 	i--;
@@ -27,7 +27,6 @@ char	*ft_itoa(int nb, t_shell *shell)
 	{
 		str[0] = '0';
 		str[1] = '\0';
-		// printf("AO = %s\n", str);
 		return (str);
 	}
 	while (nb > 0)
@@ -36,7 +35,6 @@ char	*ft_itoa(int nb, t_shell *shell)
 		nb = nb / 10;
 		i--;
 	}
-		// printf("AO = %s\n", str);
 	return (str);
 }
 

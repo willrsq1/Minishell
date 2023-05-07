@@ -15,6 +15,7 @@ SRC_PATH  = sources
 SOURCES =     		main.c \
 					bonus/operands_utils.c \
 					bonus/operands.c \
+					bonus/wildcard_tab_creation.c \
 					bonus/wildcard_utils.c \
 					bonus/wildcard.c \
 					builtins/exit_status.c \
@@ -22,6 +23,7 @@ SOURCES =     		main.c \
 					execve/execution.c \
 					execve/command_access.c \
 					execve/path_access.c \
+					init/pipes_syntax_check.c \
 					init/quote_handling.c \
 					init/syntax_check.c \
 					init/tab_creation.c \
@@ -47,6 +49,7 @@ SOURCES =     		main.c \
 					utils/free_exit.c \
 					utils/open_close.c \
 					utils/malloc.c \
+					utils/print_functions.c \
 
 
 ### OBJECTS ###

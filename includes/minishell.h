@@ -32,11 +32,18 @@
 
 // int		main(int argc, char **argv, char **envp);
 void	ft_init_shell(t_shell *shell);
-
+void	print_args_operands(char ***operands_tab, int ***operands_is_quoted, int *options);
+void	print_args(t_shell *shell);
 
 /* ------------------------------------------------------------------------- */
 /* -------------------------- BONUS ---------------------------------------- */
 /* ------------------------------------------------------------------------- */
+
+/*		WILDCARD_TAB_CREATION.C */
+
+char	**ft_wildcard_new_tab_creation(int count, t_lst *first, \
+	char *directory_path, t_shell *shell);
+int		ft_dup_new_tab_wildcard(t_shell *shell, char **tab, char **new_args);
 
 /*		WILDCARD.C */
 
@@ -81,6 +88,10 @@ void	ft_get_paths_in_struct(t_pipex *p, char **envp);
 /* ------------------------------------------------------------------------- */
 /* -------------------------- INIT ----------------------------------------- */
 /* ------------------------------------------------------------------------- */
+
+/*		PIPES_SYNTAX_CHECK.C */
+
+int		ft_check_pipes_tokens(char **tab, t_shell *shell);
 
 /*		QUOTE_HANDLING.C */
 

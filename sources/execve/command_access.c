@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 12:52:01 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/07 02:35:56 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/05/07 03:18:55 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static int	ft_thing(t_pipex *p, t_shell *shell, char *cmd)
 	{
 		open(cmd, O_CREAT);
 		perror(cmd);
-		return (-2);
+		return (shell->bad_open = 126, -2);
 	}
 	if (access(cmd, X_OK) != -1)
 		return (p->cmd = cmd, 0);

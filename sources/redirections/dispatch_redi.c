@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 18:56:00 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/06 15:04:30 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/05/07 10:17:17 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	ft_get_redi(t_shell *shell)
 	i = -1;
 	while (tab[++i])
 	{
-		// printf("ARG %s\n", tab[i]);
 		if (ft_file_redirection(tab[i], i, shell) == 0)
 			i--;
 		else if (ft_strcmp(tab[i], "<<") == 0 && \

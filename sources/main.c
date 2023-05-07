@@ -30,7 +30,8 @@ void	ft_init_shell(t_shell *shell)
 	shell->tbc_list = NULL;
 	shell->exit = 0;
 	shell->id_pipe = 0;
-	shell->err = errno;
+	shell->err = 0;
+	shell->exit_status = 0;
 	shell->i = 0;
 }
 
@@ -40,7 +41,7 @@ int	main(int argc, char **argv, char **envp)
 	t_shell		shell;
 
 	if (argc != 1)
-		return (write(2, "Bad args\n", 10), 1);	
+		return (write(2, "Bad args\n", 10), 1);
 	shell.exit_status = 0;
 	while (1)
 	{
@@ -53,6 +54,7 @@ int	main(int argc, char **argv, char **envp)
 		ft_close_everything_lol(&shell);
 		ft_free_everything_lol(&shell);
 		free(buff);
+		// exit (shell.exit_status);
 	}
 	write(2, "Left Minishell\n", 16);
 	return (0);

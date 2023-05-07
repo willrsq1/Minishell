@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 18:29:00 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/06 13:28:55 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/05/07 10:12:48 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,12 @@ void	ft_close_everything_lol(t_shell *shell)
 		return ;
 	while (lst)
 	{
-		if (lst->fd && lst->fd > 2 && lst->fd < 1024)
+		if (lst->fd > -1 && lst->fd < 1024)
 			close(lst->fd);
 		lst = lst->next;
 	}
+	dup2(0, 0);
+	dup2(1, 1);
+	dup2(2, 2);
 	shell->tbc_list = NULL;
 }

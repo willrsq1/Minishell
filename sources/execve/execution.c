@@ -6,35 +6,25 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 14:24:40 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/07 02:48:26 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/05/07 10:10:47 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 static int	exec_no_pipes(t_shell *shell, char **envp);
+static int	ft_setup_execution(t_shell *shell, char **envp);
 static void	ft_dup_in_and_out_fd(t_shell *shell);
 static int	ft_count_pipes(t_shell *shell);
 
-	
 void	ft_do_the_execve_thing(t_shell *shell, char **envp)
 {
 	t_init	init;
 
+	// print_args(shell);
+	shell->infile = -1;
+	shell->outfile = -1;
 	init.shell = shell;
-	// int y;
-	// int i;
-	// i = 0;
-	// while (shell->tab[i])
-	// {
-	// 	printf("Lign %d is : %s *** ", i, shell->tab[i]);
-	// 	y = -1;
-	// 	while (shell->tab[i][++y])
-	// 		printf("%d", shell->is_quoted[i][y]);
-	// 	printf("\n");	
-	// 	i++;
-	// }
-	// printf("\n\n\n");
 	if (ft_find_exit_status(shell) || ft_operands(shell, envp))
 		return ;
 	ft_find_wildcard(shell, shell->tab);
@@ -49,16 +39,9 @@ static int	exec_no_pipes(t_shell *shell, char **envp)
 {
 	pid_t	pid;
 
-	ft_get_heredocs(shell);
-	if (shell->bad_open == 1)
-		return (1);
-	ft_get_redi(shell);
-	if (shell->bad_open == 1)
-		return (1);
-	if (ft_false_pipex_get_good_cmd(shell, envp) != 0)
-		return (COMMAND);
-	if (ft_strcmp(shell->no_pipes_cmd, "exit") == 0)
-		ft_exit(shell);
+	pid = ft_setup_execution(shell, envp);
+	if (pid)
+		return (pid);
 	pid = fork();
 	if (pid == 0)
 	{
@@ -70,6 +53,25 @@ static int	exec_no_pipes(t_shell *shell, char **envp)
 		waitpid(pid, &pid, 0);
 	if (WIFEXITED(pid))
 		return (WEXITSTATUS(pid));
+	return (0);
+}
+
+static int	ft_setup_execution(t_shell *shell, char **envp)
+{
+	ft_get_heredocs(shell);
+	if (shell->bad_open == 1)
+		return (1);
+	ft_get_redi(shell);
+	if (shell->bad_open == 1)
+		return (1);
+	if (ft_false_pipex_get_good_cmd(shell, envp) != 0)
+	{
+		if (shell->bad_open == 126)
+			return (126);
+		return (COMMAND);
+	}
+	if (ft_strcmp(shell->no_pipes_cmd, "exit") == 0)
+		ft_exit(shell);
 	return (0);
 }
 
