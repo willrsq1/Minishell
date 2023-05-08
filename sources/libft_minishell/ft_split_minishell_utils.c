@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 16:12:41 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/02 00:22:43 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/05/07 22:59:32 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ int	ft_len_without_quotes(char *s)
 	int	i;
 
 	i = 0;
-	if (s[i] && (s[i] == '<' || s[i] == '>' || s[i] == '|' || s[i] == '&'))
+	if (s[i] && (s[i] == '<' || s[i] == '>' || s[i] == '|' || s[i] == '&' || \
+		s[i] == ';'))
 	{
 		if (s[i + 1] && s[i] == '<' && s[i + 1] == '<')
 			return (2);
@@ -53,7 +54,7 @@ int	ft_len_without_quotes(char *s)
 		return (1);
 	}
 	while (s[i] && s[i] != ' ' && s[i] != '<' && s[i] != '>' && \
-		s[i] != '"' && s[i] != '\'' && s[i] != '|' && s[i] != '&')
+		s[i] != '"' && s[i] != '\'' && s[i] != '|' && s[i] != '&'&& s[i] != ';')
 		i++;
 	return (i);
 }
@@ -73,12 +74,12 @@ int	ft_len_within_quotes(char *s)
 
 int	ft_should_i_break(char *s, int i)
 {
-	if (!s[i] || s[i] == ' ' || s[i - 1] == '<' || \
+	if (!s[i] || s[i] == ' ' || s[i - 1] == '<' || s[i - 1] == ';' || \
 		s[i - 1] == '>' || s[i - 1] == '|' || s[i - 1] == '&')
 		return (1);
 	if ((s[i - 1] == '"' || s[i - 1] == '\'') && (s[i] == '<' || s[i] == '>'))
 		return (1);
-	if (s[i] == '|' || s[i] == '<' || s[i] == '>' || s[i] == '&')
+	if (s[i] == '|' || s[i] == '<' || s[i] == '>' || s[i] == '&' || s[i] == ';')
 		return (1);
 	return (0);
 }

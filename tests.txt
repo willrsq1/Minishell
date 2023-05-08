@@ -70,3 +70,5 @@ ls &&  (wc '0<infile' && c  ) && (ls)
 ls &&  (wc '0<infile' || ls  ) && (ls)
 ls &&  (wc '0<infile' || (ls && fefefefzefaz)  ) && (ls)
  ls &&  (wc '0<infile' || (HAHAHA || ls)    ) && (echo "SUCCESS")
+ls *;ls &&  (wc '0<infile' || (ls && fefefefzefaz)  ) && (ls)
+ls *;ls *;ls *;ls *;ls *;ls *;ls *;ls *;ls *;ls *;ls *;

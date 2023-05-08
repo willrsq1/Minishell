@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 14:24:40 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/07 21:28:30 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/05/07 23:33:09 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static int	exec_no_pipes(t_shell *shell, char **envp)
 	{
 		pid = ft_setup_execution(shell, envp);
 		if (pid)
-			exit(pid);
+			ft_end_program(shell, 0, pid);
 		ft_dup_in_and_out_fd(shell);
 		execve(shell->no_pipes_cmd, shell->tab, envp);
 		ft_end_program(shell, 1, errno);
