@@ -16,6 +16,7 @@
 # define COMMAND 127
 # define OR_OPERAND 401
 # define AND_OPERAND 402
+# define SEMICOLON 403
 
 typedef struct s_shell			t_shell;
 typedef struct s_pipex			t_pipex;
