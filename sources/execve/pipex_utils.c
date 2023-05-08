@@ -77,7 +77,10 @@ static void	ft_close_pipes(int i, t_pipex *p)
 	y = -1;
 	ft_close_everything_lol(p->shell);
 	while (++y < i)
-		waitpid(p->forks_id[y], &status, 0);
+	{	
+		if (p->forks_id[y] != -1)
+			waitpid(p->forks_id[y], &status, 0);
+	}
 	if (WIFEXITED(status))
 		p->shell->exit_status = WEXITSTATUS(status);
 	else

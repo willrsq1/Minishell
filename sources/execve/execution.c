@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 14:24:40 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/08 22:53:05 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/05/08 22:56:23 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ static int	ft_count_pipes(t_shell *shell)
 	count = 0;
 	while (tab[++i])
 	{
-		if (!ft_strcmp(tab[i], "|") && !shell->is_quoted[i])
+		if (!ft_strcmp(tab[i], "|") && !shell->is_quoted[i][0])
 			count++;
 	}
 	return (count);
