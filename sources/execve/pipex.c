@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 00:13:01 by root              #+#    #+#             */
-/*   Updated: 2023/05/08 22:22:58 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/05/08 22:52:57 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,8 @@ static int	get_size_until_pipe(t_shell *shell, int lign)
 	int	nb;
 
 	nb = 0;
-	while (shell->tab && shell->tab[++lign] && \
-		!(ft_strcmp(shell->tab[lign], "|") == 0 && shell->is_quoted[lign] && \
+	while (shell->tab[++lign] && \
+		!(ft_strcmp(shell->tab[lign], "|") == 0 && \
 		shell->is_quoted[lign][0] == 0))
 		nb++;
 	return (nb);
