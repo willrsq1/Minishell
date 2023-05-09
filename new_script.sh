@@ -26,12 +26,14 @@ do
 done
   # Step 4
   grep -an "0x1" err.txt | grep -av "main" >> results.txt || echo "No leaks !" >> results.txt
-  grep -an "open" err.txt | grep -av "2 open" | grep -av "3 open" >> results.txt || echo "No unclosed files !" >> results.txt
+  grep -an "open" err.txt | grep -av "2 open" | grep -av "3 open" | grep -av "dl_open" | grep -av "dlopen" >> results.txt  
   grep -an "signal" err.txt >> results.txt || echo "No Segfault !" >> results.txt
   grep -an "Invalid" err.txt | awk '/Invalid/ { split($0, a, ":"); printf "%s:", a[1]; for (i=1; i<=NF; i++) { if ($i ~ /Invalid/) { for (j=i; j<=i+4; j++) if ($j !~ /^Minishell/) printf "%s ", $j } } printf "\n" }' >> results.txt || echo "No Invalid read/write !" >> results.txt
-echo -e "\n\n\n"
-echo "input 'cat results.txt' to see your results."
-echo "The line_nb of an error is at the beginning of a line."
-echo "Use 'tail -n +LIGN_NB err.txt | head -n 20' to see the full error."
+
+  # Get results
+  echo -e "\n\n\n"
+  echo "input 'cat results.txt' to see your results."
+  echo "The line_nb of an error is at the beginning of a line."
+  echo "Use 'tail -n +LIGN_NB err.txt | head -n 20' to see the full error."
 
 

@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:32:43 by marvin            #+#    #+#             */
-/*   Updated: 2023/05/08 23:36:48 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/05/09 14:14:14 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,10 @@ static char	**ft_spliting(char **tab, t_shell *shell, char c, int lignes)
 			break ;
 		split.w = -1;
 		split.len = 0;
-		while (shell->buff[i] == c)
+		while (shell->buff[i] && shell->buff[i] == c)
 			i++;
+		if (!shell->buff[i])
+			break ;
 		split.len = ft_find_redi_with_fd((char *)shell->buff, i);
 		if (split.len != 0)
 		{
