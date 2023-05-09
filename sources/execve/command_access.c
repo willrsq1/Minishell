@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 12:52:01 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/07 03:18:55 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/05/09 12:02:57 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,13 +70,17 @@ static int	ft_get_cmd(t_pipex *p, int index)
 
 static int	ft_thing(t_pipex *p, t_shell *shell, char *cmd)
 {
+	int	fd;
+
 	if (cmd[0] == '.' && cmd[1] == '\0')
 	{
 		write(2, "Minishell: .: filename argument required\n", 42);
 		return (write(2, ".: usage: . filename [arguments]\n", 34), -2);
 	}
-	if (open(cmd, O_DIRECTORY) != -1)
+	fd = open(cmd, O_DIRECTORY);
+	if (fd != -1)
 	{
+		ft_add_tbc_list(fd, shell);
 		open(cmd, O_CREAT);
 		perror(cmd);
 		return (shell->bad_open = 126, -2);
