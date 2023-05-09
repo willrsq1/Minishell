@@ -1,6 +1,7 @@
 #!/bin/bash
 
-rm err.txt results.txt
+echo "Error file :" > err.txt
+echo "Results :" > results.txt
 sleep 1
 
 # Step 1
@@ -16,7 +17,7 @@ cat /dev/urandom | valgrind --leak-check=full --show-leak-kinds=all --track-fds=
 
 echo "Please wait 120 seconds."
 sleep 120
-echo "exit" >/dev/null 2>&1
+kill -9 $(ps aux | grep /usr/bin/valgrind | awk '{print $2}')
 echo "Done !"
 
 # Step 4
