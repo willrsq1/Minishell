@@ -14,8 +14,10 @@ cat /dev/urandom | valgrind --leak-check=full --show-leak-kinds=all --track-fds=
 
 # Step 3
 
-echo "Please wait 20 seconds."
-sleep 20
+echo "Please wait 40 seconds."
+sleep 30
+echo "Please wait another 10 secs..."
+sleep 10
 echo "exit" >/dev/null 2>&1
 echo "Done !"
 
