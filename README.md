@@ -1,6 +1,10 @@
 # Minishell
 Ongoing project
 
+expected result :
+
+
+![image](https://github.com/willrsq1/Minishell/assets/117649637/25c90a6b-1602-4e09-82bd-86cc814001d3)
 
 How to check for leaks, unclosed opens, invalid reads/writes :
 
