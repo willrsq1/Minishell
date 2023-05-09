@@ -6,6 +6,8 @@ How to check for leaks, unclosed opens, invalid reads/writes :
 
 /!\ WARNING /!\ Make a clone of your repository and do the tests in there ! Lots of files can be created / deleted.
 
+Either launch the script "crash_test_minishell", or do it mannually :
+
 1 ) Launch your minishell like this : valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes ./minishell > err.txt 2>&1
 
 2 ) Copy paste this and hit enter (in your minishell) : cat /dev/urandom | valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes ./minishell
