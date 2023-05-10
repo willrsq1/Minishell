@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 00:31:54 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/07 14:58:28 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/05/10 10:37:37 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	ft_heredoc(char *delimiter, t_shell *shell)
 
 	shell->pipe_heredoc = ft_calloc(sizeof(int) * 2, shell);
 	ft_pipe(shell->pipe_heredoc, shell);
-	while (write(2, "heredoc > ", 11))
+	while (write(1, "heredoc > ", 11))
 	{
 		buffer = get_next_line(0);
 		if (!buffer)

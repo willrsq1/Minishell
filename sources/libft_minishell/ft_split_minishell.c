@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:32:43 by marvin            #+#    #+#             */
-/*   Updated: 2023/05/10 02:23:15 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/05/10 03:18:19 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,9 @@ static char	**ft_spliting(char **tab, t_shell *shell, char c, int lignes)
 	split.j = -1;
 	while (++split.j < lignes)
 	{
+		if (i > 0 && !shell->buff[i - 1])
+			break ;
 		split.w = -1;
-		split.len = 0;
 		while (shell->buff[i] && shell->buff[i] == c)
 			i++;
 		if (!shell->buff[i])
