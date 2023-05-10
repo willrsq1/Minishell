@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 14:24:40 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/08 22:56:23 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/05/10 02:19:17 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@ void	ft_do_the_execve_thing(t_shell *shell, char **envp)
 
 	if (tab_creation(shell, shell->buff))
 		return ;
-	// print_args(shell);
+	//print_args(shell);
 	shell->infile = -1;
 	shell->outfile = -1;
 	init.shell = shell;
-	if (ft_find_exit_status(shell) || ft_operands(shell, envp))
+	if (ft_find_exit_status(shell) || ft_operands(shell, envp, -1))
 		return ;
 	ft_find_wildcard(shell, shell->tab);
 	init.pipes_number = ft_count_pipes(shell);

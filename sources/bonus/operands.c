@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 23:05:03 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/07 23:11:39 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/05/10 02:19:00 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,12 @@ char *join_tab(char **tab, t_shell *shell)
 	return (new);
 }
 
-int	ft_operands(t_shell *shell, char **envp)
+int	ft_operands(t_shell *shell, char **envp, int w)
 {
 	int		count;
 	char	***operands_tab;
 	int		***operands_is_quoted;
 	int		*options;
-	int		w;
 
 	count = ft_count_operands(shell);
 	if (!count)
@@ -74,7 +73,6 @@ int	ft_operands(t_shell *shell, char **envp)
 	operands_is_quoted = ft_create_op_is_quoted(shell, shell->tab, count);
 	options = ft_get_op_options(shell, shell->tab, count);
 	// print_args_operands(operands_tab, operands_is_quoted, options);
-	w = -1;
 	while (operands_tab[++w])
 	{
 		shell->tab = operands_tab[w];

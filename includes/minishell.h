@@ -32,7 +32,8 @@
 
 // int		main(int argc, char **argv, char **envp);
 void	ft_init_shell(t_shell *shell);
-void	print_args_operands(char ***operands_tab, int ***operands_is_quoted, int *options);
+void	print_args_operands(char ***operands_tab, \
+	int ***operands_is_quoted, int *options);
 void	print_args(t_shell *shell);
 
 /* ------------------------------------------------------------------------- */
@@ -64,7 +65,7 @@ int		ft_find_op_lenght(char **tab, t_shell *shell, int i);
 
 /*		OPERANDS.C */
 
-int		ft_operands(t_shell *shell, char **envp);
+int		ft_operands(t_shell *shell, char **envp, int w);
 
 /* ------------------------------------------------------------------------- */
 /* -------------------------- BUILTINS ------------------------------------- */
