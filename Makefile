@@ -13,41 +13,38 @@ SRC_PATH  = sources
 
 ### SOURCE FILES ###
 SOURCES =     		main.c \
-					bonus/operands_utils.c \
-					bonus/operands.c \
-					bonus/wildcard_tab_creation.c \
-					bonus/wildcard_utils.c \
-					bonus/wildcard.c \
-					builtins/exit_status.c \
-					builtins/exit.c \
-					execve/execution.c \
-					execve/command_access.c \
-					execve/path_access.c \
-					execve/pipex_heredoc.c \
-					execve/pipex_utils.c \
-					execve/pipex.c \
-					init/pipes_syntax_check.c \
-					init/quote_handling.c \
-					init/syntax_check.c \
-					init/tab_creation.c \
-					libft_minishell/atoi_redi.c \
-					libft_minishell/ft_split_minishell_utils.c \
-					libft_minishell/ft_split_minishell.c \
-					libft_minishell/ft_split.c \
-					libft_minishell/functs.c \
-					libft_minishell/functs_2.c \
-					libft_minishell/functs_3.c \
-					libft_minishell/gnl/get_next_line.c \
-					libft_minishell/gnl/get_next_line_utils.c \
-					redirections/dispatch_redi.c \
-					redirections/heredoc.c \
-					redirections/infile.c \
-					redirections/outfile.c \
-					utils/free_exit.c \
-					utils/open_close.c \
-					utils/malloc.c \
-					utils/print_functions.c \
-
+					1_init/A_tab_creation.c \
+					1_init/B_quote_handling.c \
+					1_init/C_syntax_check.c \
+					2_execve/A_execution.c \
+					2_execve/B_pipex.c \
+					2_execve/C_pipex_utils.c \
+					2_execve/D_command_access.c \
+					3_redirections/A_dispatch_redi.c \
+					3_redirections/B_infile.c \
+					3_redirections/C_outfile.c \
+					3_redirections/D_heredoc.c \
+					4_builtins/exit_status.c \
+					4_builtins/exit.c \
+					7_libft_minishell/atoi_redi.c \
+					7_libft_minishell/ft_split_minishell_utils.c \
+					7_libft_minishell/ft_split_minishell.c \
+					7_libft_minishell/ft_split.c \
+					7_libft_minishell/functs.c \
+					7_libft_minishell/functs_2.c \
+					7_libft_minishell/functs_3.c \
+					7_libft_minishell/gnl/get_next_line.c \
+					7_libft_minishell/gnl/get_next_line_utils.c \
+					8_utils/free_exit.c \
+					8_utils/open_functs.c \
+					8_utils/malloc.c \
+					8_utils/print_functions.c \
+					8_utils/syntax_check_utils.c \
+					9_bonus/operands_utils.c \
+					9_bonus/operands.c \
+					9_bonus/wildcard_tab_creation.c \
+					9_bonus/wildcard_utils.c \
+					9_bonus/wildcard.c \
 
 ### OBJECTS ###
 

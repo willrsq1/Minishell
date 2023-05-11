@@ -45,7 +45,6 @@ typedef struct s_shell
 	int				exit;
 	int				id_pipe;
 	int				bad_open;
-	int				err;
 	int				i;
 	int				exit_status;
 }		t_shell;

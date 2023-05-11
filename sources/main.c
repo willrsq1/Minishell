@@ -30,7 +30,6 @@ void	ft_init_shell(t_shell *shell)
 	shell->tbc_list = NULL;
 	shell->exit = 0;
 	shell->id_pipe = 0;
-	shell->err = 0;
 	shell->exit_status = 0;
 	shell->i = 0;
 }

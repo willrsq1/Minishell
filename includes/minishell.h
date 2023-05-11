@@ -37,6 +37,48 @@ void	print_args_operands(char ***operands_tab, \
 void	print_args(t_shell *shell);
 
 /* ------------------------------------------------------------------------- */
+/* -------------------------- 1_INIT --------------------------------------- */
+/* ------------------------------------------------------------------------- */
+
+/* 		A_TAB_CREATION.C */
+
+int		tab_creation(t_shell *shell, char *buff);
+
+/*		B_QUOTE_HANDLING.C */
+
+char	**trim_and_is_quoted(t_shell *shell, char **tab);
+char	ft_which_quote(char *str);
+
+/*		C_SYNTAX_CHECK.C */
+
+int		ft_syntax_error(char **tab, t_shell *shell);
+
+/* ------------------------------------------------------------------------- */
+/* -------------------------- 2_EXECVE ------------------------------------- */
+/* ------------------------------------------------------------------------- */
+
+/*		A_EXECUTION.C */
+
+void	ft_do_the_execve_thing(t_shell *shell, char **envp);
+
+/*		B_PIPEX.C */
+
+void	ft_pipex(int argc, t_init *init, char **envp);
+
+/*		C_PIPEX_UTILS.C */
+
+void	ft_pipex_initialisation(t_pipex *p);
+void	ft_pipex_big_tab(int pipes_number, t_init *init, t_shell *shell);
+void	ft_get_heredocs_pipex(t_pipex *p, int i);
+void	ft_close_pipes(int i, t_pipex *p);
+
+/*		E_COMMAND_ACCESS.C */
+
+void	ft_get_envp_paths(t_pipex *p, char **envp);
+int		ft_get_cmd(t_pipex *p, int i);
+int		get_cmd_no_pipes(t_shell *shell, char **envp);
+
+/* ------------------------------------------------------------------------- */
 /* -------------------------- BONUS ---------------------------------------- */
 /* ------------------------------------------------------------------------- */
 
@@ -75,58 +117,6 @@ int		ft_operands(t_shell *shell, char **envp, int w);
 
 void	ft_exit(t_shell *shell);
 int		ft_find_exit_status(t_shell *shell);
-
-/* ------------------------------------------------------------------------- */
-/* -------------------------- EXECVE --------------------------------------- */
-/* ------------------------------------------------------------------------- */
-
-/*		COMMAND_ACCESS.C */
-
-int		ft_command_check(t_pipex *p, int i);
-int		ft_false_pipex_get_good_cmd(t_shell *shell, char **envp);
-
-/*		EXECUTION.C */
-
-void	ft_do_the_execve_thing(t_shell *shell, char **envp);
-
-/*		PATH_ACCESS.C */
-
-int		ft_ppx_strncmp_path(char *str, char *checked, int size);
-char	*ft_strjoin_ppx(char *s1, char *s2, t_pipex *p);
-void	ft_get_paths_in_struct(t_pipex *p, char **envp);
-
-/*		PIPEX_HEREDOC.C */
-
-void	ft_get_heredocs_pipex(t_pipex *p, int i);
-
-/*		PIPEX_UTILS.C */
-
-void	ft_forking(t_pipex *p, char **envp);
-
-/*		PIPEX.C */
-
-void	ft_pipex(int argc, t_init *init, char **envp);
-
-/* ------------------------------------------------------------------------- */
-/* -------------------------- INIT ----------------------------------------- */
-/* ------------------------------------------------------------------------- */
-
-/*		PIPES_SYNTAX_CHECK.C */
-
-int		ft_check_pipes_tokens(char **tab, t_shell *shell);
-
-/*		QUOTE_HANDLING.C */
-
-char	**trim_and_is_quoted(t_shell *shell, char **tab);
-char	ft_which_quote(char *str);
-
-/*		SYNTAX_CHECK.C */
-
-int		ft_syntax_error(char **tab, t_shell *shell);
-
-/* 		TAB_CREATION.C */
-
-int		tab_creation(t_shell *shell, char *buff);
 
 /* ------------------------------------------------------------------------- */
 /* -------------------------- LIBFT_SHELL ---------------------------------- */
@@ -222,7 +212,7 @@ void	ft_outfile_append(t_shell *shell, int i);
 void	ft_outfile_trunc(t_shell *shell, int i);
 
 /* ------------------------------------------------------------------------- */
-/* -------------------------- UTILS ---------------------------------------- */
+/* -------------------------- 8_UTILS -------------------------------------- */
 /* ------------------------------------------------------------------------- */
 
 /*		FREE_EXIT.C */
@@ -243,5 +233,11 @@ int		ft_open_rdonly(char *file, t_shell *shell);
 int		ft_open_trunc(char *file, t_shell *shell);
 int		ft_open_append(char *file, t_shell *shell);
 void	ft_pipe(int *tab, t_shell *shell);
+
+/*		SYNTAX_CHECK_UTILS.C */
+
+int		ft_is_token_operand(char *arg, int *is_quoted);
+int		ft_is_token_meta(char *arg, int *is_quoted);
+int		ft_is_token_redi(char *arg, int *is_quoted);
 
 #endif
