@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 23:05:03 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/11 20:04:00 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/05/11 21:21:32 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,19 @@ int	ft_operands(t_shell *shell, char **envp, int w)
 		shell->buff = join_tab(operands_tab[w], shell);
 		ft_do_the_execve_thing(shell, envp);
 		ft_close_everything_lol(shell);
-		if ((options[w] == OR_OPERAND && !shell->exit_status) || \
-			(options[w] == AND_OPERAND && shell->exit_status))
+		if (options[w] == OR_OPERAND && !shell->exit_status)
+		{
+			while (options[w] == OR_OPERAND && options[w + 1])
+				w++;
+		}	
+		else if (options[w] == AND_OPERAND && shell->exit_status)
+		{
+			while (options[w] == AND_OPERAND && options[w + 1])
+				w++;
+		}
+		if (options[w] == AND_OPERAND && shell->exit_status)
+			break ;
+		if (options[w] == OR_OPERAND && !shell->exit_status)
 			break ;
 	}
 	return (1);

@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 12:52:01 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/11 19:56:53 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/05/11 21:15:07 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,11 @@ void	ft_get_envp_paths(t_pipex *p, char **envp)
 	char	*envp2;
 
 	i = 0;
+	if (!envp)
+	{
+		p->paths = NULL;
+		return ;
+	}
 	while (envp[i] && ft_strncmp(envp[i], "PATH=", 5))
 		i++;
 	envp2 = envp[i] + 5;
@@ -93,7 +98,7 @@ static int	ft_get_cmd_error_check(t_pipex *p, t_shell *shell, char *cmd)
 		ft_add_tbc_list(fd, shell);
 		open(cmd, O_CREAT);
 		perror(cmd);
-		ft_end_program(shell, 0, 1);
+		ft_end_program(shell, 0, 126);
 	}
 	if (access(cmd, X_OK) != -1)
 		return (p->cmd = cmd, 0);

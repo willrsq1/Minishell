@@ -77,3 +77,5 @@ ls *;ls *;ls *;ls *;ls *;ls *;ls *;ls *;ls *;ls *;ls *;
 sources || ./sources
 ls 2><<
 cat infile 1>>OUTFILE grekzgierzgz
+(ls || ls &&ls) ls
+(ls || ls &&ls)

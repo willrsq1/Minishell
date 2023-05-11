@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 02:33:08 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/11 17:46:24 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/05/11 20:45:58 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,6 @@ static int	ft_is_token_redi_tokens(char **tab, t_shell *shell, int i)
 static int	ft_check_pipes_tokens(char **tab, t_shell *shell)
 {
 	int		i;
-	char	*s;
-
-	s = NULL;
 	i = 0;
 	while (tab[i])
 	{
@@ -69,11 +66,16 @@ static int	ft_check_pipes_tokens(char **tab, t_shell *shell)
 				shell->is_quoted[i + 1])) || i == 0)
 			{
 				write(2, "Minishell: syntax error near", 29);
-				write(2, " unexpected token `|'\n", 23);
+				write(2, " unexpected token `", 20);
+				if (i > 0)
+					write(2, tab[i + 1], ft_strlen(tab[i + 1]));
+				else
+					write(2, tab[i], ft_strlen(tab[i]));
+				return (write(2, "'\n", 3), 1);
 				return (1);
 			}
 			if (!tab[i + 1])
-				return (no_token_after_last_pipe(i, s, shell));
+				return (no_token_after_last_pipe(i, NULL, shell));
 		}
 		i++;
 	}
