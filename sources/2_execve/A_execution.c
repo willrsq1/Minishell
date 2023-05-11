@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 14:24:40 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/11 14:54:28 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/05/11 16:07:05 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,22 +63,15 @@ static int	exec_no_pipes(t_shell *shell, char **envp)
 static int	ft_setup_exec_no_pipes(t_shell *shell, char **envp)
 {
 	ft_get_heredocs(shell);
-	if (shell->bad_open == 1)
-		return (1);
 	ft_get_redi(shell);
-	if (shell->bad_open == 1)
-		return (1);
 	if (get_cmd_no_pipes(shell, envp) != 0)
-	{
-		if (shell->bad_open == 126)
-			return (126);
 		return (COMMAND);
-	}
 	return (0);
 }
 
 static void	ft_dup2_exec_no_pipes(t_shell *shell)
 {
+	return ;
 	if (shell->infile == -1)
 		shell->infile = 0;
 	if (shell->outfile == -1)

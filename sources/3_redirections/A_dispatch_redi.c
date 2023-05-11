@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   dispatch_redi.c                                    :+:      :+:    :+:   */
+/*   A_dispatch_redi.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 18:56:00 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/11 02:24:36 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/05/11 15:59:40 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	ft_get_redi(t_shell *shell)
 	char	**tab;
 
 	tab = shell->tab;
-	shell->bad_open = 0;
 	i = -1;
 	while (tab[++i])
 	{
@@ -37,8 +36,6 @@ void	ft_get_redi(t_shell *shell)
 			ft_outfile_append(shell, i--);
 		else if (ft_strcmp(tab[i], ">") == 0 && shell->is_quoted[i][0] == 0)
 			ft_outfile_trunc(shell, i--);
-		if (shell->bad_open == 1)
-			return ;
 	}
 }
 

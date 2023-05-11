@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 00:13:01 by root              #+#    #+#             */
-/*   Updated: 2023/05/11 14:57:21 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/05/11 15:59:20 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,6 @@ static void	ft_forking(t_pipex *p, char **envp)
 static void	ft_fork_loop(t_pipex *p, char **envp, int i)
 {
 	ft_check_for_redirections(p, i);
-	if (p->shell->bad_open != 0)
-		ft_end_program(p->shell, 0, p->shell->bad_open);
 	if (p->fds[i][0] == -1)
 	{
 		close(p->pipe[i - 1][1]);
@@ -89,20 +87,13 @@ static void	ft_check_for_redirections(t_pipex *p, int i)
 	shell->pipe_heredoc = NULL;
 	shell->infile = -1;
 	shell->outfile = -1;
-	if (p->bad_open_heredocs[i] == 1)
-	{
-		shell->bad_open = 1;
-		return ;
-	}
 	ft_get_redi(shell);
-	if (shell->bad_open == 1)
-		return ;
 	if (shell->infile != -1)
 		p->fds[i][0] = p->shell->infile;
 	if (shell->infile == -2)
 		p->fds[i][0] = p->heredoc_fds[i];
 	if (shell->outfile != -1)
 		p->fds[i][1] = p->shell->outfile;
-	if (ft_get_cmd(p, i) != 0 && shell->bad_open != 126)
-		shell->bad_open = COMMAND;
+	if (ft_get_cmd(p, i) != 0)
+		ft_end_program(shell, 0, COMMAND);
 }

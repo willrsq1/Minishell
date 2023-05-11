@@ -27,15 +27,12 @@ void	ft_pipex_initialisation(t_pipex *p)
 	p->commands = ft_calloc(sizeof(char **) * p->nb_cmds, p->shell);
 	p->pipe = ft_calloc(sizeof(int *) * p->nb_cmds - 1, p->shell);
 	p->fds = ft_calloc(sizeof(int *) * p->nb_cmds, p->shell);
-	p->bad_open_heredocs = ft_calloc(sizeof(int) * p->nb_cmds, p->shell);
 	p->heredoc_fds = ft_calloc(sizeof(int) * p->nb_cmds, p->shell);
 	while (++i < p->nb_cmds - 1)
 	{
-		p->bad_open_heredocs[i] = 0;
 		p->fds[i] = ft_calloc(sizeof(int) * 2, p->shell);
 		p->pipe[i] = ft_calloc(sizeof(int) * 2, p->shell);
 	}
-	p->bad_open_heredocs[i] = 0;
 	p->fds[i] = ft_calloc(sizeof(int) * 2, p->shell);
 }
 
@@ -103,7 +100,6 @@ void	ft_get_heredocs_pipex(t_pipex *p, int i)
 		shell->is_quoted = p->is_quoted[i];
 		p->shell->infile = -1;
 		ft_get_heredocs(shell);
-		p->bad_open_heredocs[i] = shell->bad_open;
 		if (p->shell->infile != -1)
 			p->heredoc_fds[i] = p->shell->infile;
 	}

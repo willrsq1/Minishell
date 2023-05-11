@@ -44,7 +44,6 @@ typedef struct s_shell
 	t_split			*split;
 	int				exit;
 	int				id_pipe;
-	int				bad_open;
 	int				i;
 	int				exit_status;
 }		t_shell;
@@ -62,7 +61,6 @@ typedef struct s_pipex
 	int			***is_quoted;
 	int			**fds;
 	int			*heredoc_fds;
-	int			*bad_open_heredocs;
 	t_shell		*shell;
 }	t_pipex;
 
