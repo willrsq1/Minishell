@@ -41,7 +41,7 @@ int	main(int argc, char **argv, char **envp)
 
 	if (argc == 2 && !ft_strcmp(argv[1], "--exit"))
 		printf("The exit status will be shown at exit.\n");
-	else if (argc != 1)
+	else if (argc < 1)
 		return (write(2, "Bad args\n", 10), 1);
 	shell.exit_status = 0;
 	while (1)
@@ -56,7 +56,8 @@ int	main(int argc, char **argv, char **envp)
 			printf("		The exit status is = %d\n", shell.exit_status);
 		ft_close_everything_lol(&shell);
 		ft_free_everything_lol(&shell);
-		// exit(shell.exit_status);
+		if (argc == 2 && !ft_strcmp(argv[1], "exit"))
+			exit(shell.exit_status);
 		free(buff);
 	}
 	return (0);

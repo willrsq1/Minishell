@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 12:52:01 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/11 16:15:11 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/05/11 17:16:32 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,29 +101,4 @@ static int	ft_get_cmd_error_check(t_pipex *p, t_shell *shell, char *cmd)
 		return (42);
 	perror(ft_strcat("Minishell: ", cmd, shell));
 	return (-2);
-}
-
-int	get_cmd_no_pipes(t_shell *shell, char **envp)
-{
-	t_pipex	*pipex;
-
-	pipex = ft_calloc(sizeof(t_pipex), shell);
-	if (!pipex)
-		return (1);
-	pipex->nb_cmds = 1;
-	pipex->shell = shell;
-	pipex->forks_id = NULL;
-	pipex->commands = NULL;
-	pipex->pipe = NULL;
-	pipex->paths = NULL;
-	pipex->is_quoted = ft_calloc(sizeof(int **) * 2, shell);
-	pipex->is_quoted[0] = shell->is_quoted;
-	pipex->forks_id = ft_calloc(sizeof(int), shell);
-	pipex->commands = ft_calloc(sizeof(char **), shell);
-	ft_get_envp_paths(pipex, envp);
-	pipex->commands[0] = ft_split(shell->tab[0], '\0', shell);
-	if (ft_get_cmd(pipex, 0) != 0)
-		return (1);
-	shell->no_pipes_cmd = pipex->cmd;
-	return (0);
 }

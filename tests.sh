@@ -31,13 +31,14 @@ function run_test {
     # On exécute la commande sur bash
     bash_output=$(bash -c "$input_cmd" 2>&1)
     bash_status="$?"
+    bash_output=$(echo "$bash_output" | sed 's/^bash: -c: at line 1 //')
     bash_output=$(echo "$bash_output" | sed 's/^bash: line [0-9]*: //')
     bash_output=$(echo "$bash_output" | sed 's/^bash: -c: line [0-9]*: //')
     expected_output=$bash_output
 
 
     # On exécute la commande sur minishell
-    minishell_output=$(echo "$input_cmd" | ./minishell 2>&1)
+    minishell_output=$(echo "$input_cmd" | ./minishell exit 2>&1)
     minishell_status="$?"
     minishell_output=$(echo "$minishell_output" | tail +2 | sed 's/^Minishell: //' | grep -av "heredoc >")
 
@@ -54,7 +55,7 @@ function run_test {
     else
         echo -e "\n\n${BLUE}Le test \"$input_cmd\" va être exécuté.${NC}"
         echo -e "Test $test_num: ${input_cmd} "
-        echo "$expected_output && $expected_status"
+       # echo "$expected_output && $expected_status"
         echo -e "  Bash output: ${RED}\n${bash_output}${NC}"
         echo -e "  Bash status: ${RED}${bash_status}${NC}"
         echo -e "  Minishell output: ${RED}\n${minishell_output}${NC}"

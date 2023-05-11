@@ -76,7 +76,6 @@ void	ft_close_pipes(int i, t_pipex *p);
 
 void	ft_get_envp_paths(t_pipex *p, char **envp);
 int		ft_get_cmd(t_pipex *p, int i);
-int		get_cmd_no_pipes(t_shell *shell, char **envp);
 
 /* ------------------------------------------------------------------------- */
 /* -------------------------- BONUS ---------------------------------------- */

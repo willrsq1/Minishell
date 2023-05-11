@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tab_creation.c                                     :+:      :+:    :+:   */
+/*   A_tab_creation.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 20:56:19 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/11 13:17:08 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/05/11 17:21:43 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static char	**ft_create_tab(t_shell *shell, char *buff)
 		return (NULL);
 	nb_db_quotes = ft_count_quotes(buff);
 	if (!buff || nb_db_quotes % 2 != 0)
-		return (NULL);
+		return (shell->exit_status = 1, NULL);
 	tab = ft_split_minishell(buff, ' ', shell);
 	return (tab);
 }

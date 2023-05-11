@@ -26,25 +26,25 @@ SOURCES =     		main.c \
 					3_redirections/D_heredoc.c \
 					4_builtins/exit_status.c \
 					4_builtins/exit.c \
-					7_libft_minishell/atoi_redi.c \
-					7_libft_minishell/ft_split_minishell_utils.c \
-					7_libft_minishell/ft_split_minishell.c \
-					7_libft_minishell/ft_split.c \
-					7_libft_minishell/functs.c \
-					7_libft_minishell/functs_2.c \
-					7_libft_minishell/functs_3.c \
+					7_libft_minishell/A_ft_split_minishell.c \
+					7_libft_minishell/B_ft_split_minishell_utils.c \
+					7_libft_minishell/C_functs.c \
+					7_libft_minishell/D_functs_2.c \
+					7_libft_minishell/E_functs_3.c \
+					7_libft_minishell/F_ft_split.c \
+					7_libft_minishell/G_atoi_redi.c \
 					7_libft_minishell/gnl/get_next_line.c \
 					7_libft_minishell/gnl/get_next_line_utils.c \
-					8_utils/free_exit.c \
-					8_utils/open_functs.c \
-					8_utils/malloc.c \
-					8_utils/print_functions.c \
-					8_utils/syntax_check_utils.c \
-					9_bonus/operands_utils.c \
-					9_bonus/operands.c \
-					9_bonus/wildcard_tab_creation.c \
-					9_bonus/wildcard_utils.c \
-					9_bonus/wildcard.c \
+					8_utils/A_free_exit.c \
+					8_utils/B_malloc.c \
+					8_utils/C_open_functs.c \
+					8_utils/D_syntax_check_utils.c \
+					8_utils/E_print_functions.c \
+					9_bonus/A_operands.c \
+					9_bonus/B_operands_utils.c \
+					9_bonus/C_wildcard.c \
+					9_bonus/D_wildcard_utils.c \
+					9_bonus/E_wildcard_tab_creation.c \
 
 ### OBJECTS ###
 
