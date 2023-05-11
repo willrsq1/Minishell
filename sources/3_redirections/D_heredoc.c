@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 15:35:05 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/11 15:17:54 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/05/11 15:56:51 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	ft_get_heredocs(t_shell *shell)
 	char	**tab;
 
 	tab = shell->tab;
-	shell->bad_open = 0;
 	i = -1;
 	while (tab[++i])
 	{
@@ -87,12 +86,11 @@ void	heredoc_dup_error(t_shell *shell, char **tab, int i, int file_fd)
 	ft_add_tbc_list(fd, shell);
 	if (file_fd > 1023)
 	{
-		shell->bad_open = 1;
 		write(2, "Minishell: ", 12);
 		ft_putnbr_error(file_fd);
 		write(2, ": Bad file descriptor\n", 23);
 		ft_remove_redi_ligns(shell, i);
-		return ;
+		ft_end_program(shell, 0, 1);
 	}
 	write(2, "Minishell: Unallowed option: ", 30);
 	write(2, tab[i], ft_strlen(tab[i]) - 2);

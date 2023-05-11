@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   open_close.c                                       :+:      :+:    :+:   */
+/*   open_functs.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 16:49:53 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/10 23:32:07 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/05/11 15:36:27 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	ft_open_rdonly(char *file, t_shell *shell)
 	{
 		write(2, "Minishell: ", 12);
 		perror(file);
-		shell->bad_open = 1;
+		ft_end_program(shell, 0, 1);
 		return (fd);
 	}
 	ft_add_tbc_list(fd, shell);
@@ -57,7 +57,7 @@ int	ft_open_append(char *file, t_shell *shell)
 	{
 		write(2, "Minishell: ", 12);
 		perror(file);
-		shell->bad_open = 1;
+		ft_end_program(shell, 0, 1);
 		return (fd);
 	}
 	ft_add_tbc_list(fd, shell);
@@ -73,8 +73,7 @@ int	ft_open_trunc(char *file, t_shell *shell)
 	{
 		write(2, "Minishell: ", 12);
 		perror(file);
-		shell->bad_open = 1;
-		return (fd);
+		ft_end_program(shell, 0, 1);
 	}
 	ft_add_tbc_list(fd, shell);
 	return (fd);
