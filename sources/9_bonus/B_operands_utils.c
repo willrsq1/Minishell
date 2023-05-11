@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 14:30:53 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/11 17:51:47 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/05/12 00:43:28 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,14 @@ int	ft_count_operands(t_shell *shell)
 	count = 0;
 	while (shell->tab[++i])
 	{
+		if (shell->tab[i][0] == '(')
+		{
+			shell->is_quoted[i][ft_strlen(shell->tab[i])] = -42;
+			shell->is_quoted[i] = &shell->is_quoted[i][1];
+			shell->tab[i][ft_strlen(shell->tab[i]) - 1] = '\0';
+			shell->tab[i] = &shell->tab[i][1];
+			count++;
+		}
 		if (ft_is_it_operand(shell->tab[i], shell->is_quoted[i]))
 			count++;
 	}

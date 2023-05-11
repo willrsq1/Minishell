@@ -152,6 +152,7 @@ char	*ft_strdup(const char *s, t_shell *shell);
 
 int		ft_is_meta_carac(char c);
 int		ft_find_redi_with_fd(char *s, int i);
+char 	*ft_join_tab(char **tab, t_shell *shell);
 
 /*		FUNCTS.C */
 

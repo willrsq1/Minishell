@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 23:05:03 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/11 21:21:32 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/05/12 01:19:36 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static char	***ft_create_operands_tab(t_shell *shell, char **tab, int count);
 static int	***ft_create_op_is_quoted(t_shell *shell, char **tab, int count);
 static int	*ft_get_op_options(t_shell *shell, char **tab, int count);
+static int	ft_operands_actions(int *options, int w, t_shell *shell);
 
 /**
  * FT_OPERANDS
@@ -23,41 +24,6 @@ static int	*ft_get_op_options(t_shell *shell, char **tab, int count);
  * EXECUTE THEM ACCORDINGLY TO THE && AND || RULES
  * RETURN 1 IF OPERANDS ARE FOUD
 */
-
-char *join_tab(char **tab, t_shell *shell)
-{
-	char *new;
-	int i;
-	i = -1;
-	int y;
-	int c;
-	int w;
-	new = ft_calloc(10000, shell);
-	w = -1;
-	c = 0;
-	while (tab[++i])
-	{
-		y = -1;
-		while (tab[i][++y])
-		{
-			if (c && !shell->is_quoted[i][y])
-			{
-				c = 0;
-				new[++w] = '"';
-			}
-			if (shell->is_quoted[i][y] && c == 0 && ++c)
-				new[++w] = '"';
-			new[++w] = tab[i][y];
-		}
-		if (c && !shell->is_quoted[i][y])
-		{
-			c = 0;
-			new[++w] = '"';
-		}
-		new[++w] = ' ';
-	}
-	return (new);
-}
 
 int	ft_operands(t_shell *shell, char **envp, int w)
 {
@@ -73,27 +39,14 @@ int	ft_operands(t_shell *shell, char **envp, int w)
 	operands_is_quoted = ft_create_op_is_quoted(shell, shell->tab, count);
 	options = ft_get_op_options(shell, shell->tab, count);
 	// print_args_operands(operands_tab, operands_is_quoted, options);
-	while (operands_tab[++w])
+	while (w > -10 && operands_tab[++w])
 	{
 		shell->tab = operands_tab[w];
 		shell->is_quoted = operands_is_quoted[w];
-		shell->buff = join_tab(operands_tab[w], shell);
+		shell->buff = ft_join_tab(operands_tab[w], shell);
 		ft_do_the_execve_thing(shell, envp);
 		ft_close_everything_lol(shell);
-		if (options[w] == OR_OPERAND && !shell->exit_status)
-		{
-			while (options[w] == OR_OPERAND && options[w + 1])
-				w++;
-		}	
-		else if (options[w] == AND_OPERAND && shell->exit_status)
-		{
-			while (options[w] == AND_OPERAND && options[w + 1])
-				w++;
-		}
-		if (options[w] == AND_OPERAND && shell->exit_status)
-			break ;
-		if (options[w] == OR_OPERAND && !shell->exit_status)
-			break ;
+		w = ft_operands_actions(options, w, shell);
 	}
 	return (1);
 }
@@ -162,4 +115,23 @@ static int	*ft_get_op_options(t_shell *shell, char **tab, int count)
 		options[++y] = ft_is_it_operand(tab[i], shell->is_quoted[i]);
 	}
 	return (options);
+}
+
+static int	ft_operands_actions(int *options, int w, t_shell *shell)
+{
+	if (options[w] == OR_OPERAND && !shell->exit_status)
+	{
+		while (options[w] == OR_OPERAND && options[w + 1])
+			w++;
+	}	
+	else if (options[w] == AND_OPERAND && shell->exit_status)
+	{
+		while (options[w] == AND_OPERAND && options[w + 1])
+			w++;
+	}
+	if (options[w] == AND_OPERAND && shell->exit_status)
+		return (-42);
+	if (options[w] == OR_OPERAND && !shell->exit_status)
+		return (-42);
+	return (w);
 }
