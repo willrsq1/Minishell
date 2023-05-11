@@ -78,38 +78,43 @@ void	ft_get_envp_paths(t_pipex *p, char **envp);
 int		ft_get_cmd(t_pipex *p, int i);
 
 /* ------------------------------------------------------------------------- */
-/* -------------------------- BONUS ---------------------------------------- */
+/* -------------------------- 3_REDIRECTIONS ------------------------------- */
 /* ------------------------------------------------------------------------- */
 
-/*		WILDCARD_TAB_CREATION.C */
+/*		DISPATCH_REDI.C */
 
-char	**ft_wildc_new_init(int count, t_wildc *first, \
-	char *dir_path, t_shell *shell);
-int		ft_dup_new_tab_wildcard(t_shell *shell, char **tab, char **new_args);
+void	ft_get_redi(t_shell *shell);
+void	ft_remove_redi_ligns(t_shell *shell, int i);
 
-/*		WILDCARD.C */
+/*		HEREDOC_REDI.C */
 
-int		ft_find_wildcard(t_shell *shell, char **tab);
+int		ft_dup_heredoc_pipex(char **tab, int i, t_shell *shell);
+void	ft_fd_redi_heredoc(t_shell *shell, int i, int file_fd);
 
-/*		WILDCARD_UTILS.C */
+/*		HEREDOC.C */
 
-void	ft_wildcnew_wildcard(void *file, t_wildc *first, t_shell *shell);
-int		ft_is_invalid_arg_wildcard(char *arg, char *file);
-char	*find_wildcard_directory(t_shell *shell, char *arg, char **arg_add);
-int		find_wildcard(char *arg, t_shell *shell, int i);
+void	ft_get_heredocs(t_shell *shell);
+int		ft_heredoc(char *delimiter, t_shell *shell);
 
-/*		OPERANDS_UTILS.C */
+void	heredoc_dup_error(t_shell *shell, char **tab, int i, int file_fd);
 
-int		ft_is_it_operand(char *arg, int *is_quoted);
-int		ft_count_operands(t_shell *shell);
-int		ft_find_op_lenght(char **tab, t_shell *shell, int i);
+/*		INFILE.C */
 
-/*		OPERANDS.C */
+void	ft_infile(t_shell *shell, int i);
+void	ft_fd_redi_infile(t_shell *shell, int i, int file_fd);
 
-int		ft_operands(t_shell *shell, char **envp, int w);
+/*		OUTFILE_FD_REDI.C */
+
+void	ft_fd_redi_outfile_append(t_shell *shell, int i, int file_fd);
+void	ft_fd_redi_outfile_trunc(t_shell *shell, int i, int file_fd);
+
+/*		OUTFILE.C */
+
+void	ft_outfile_append(t_shell *shell, int i);
+void	ft_outfile_trunc(t_shell *shell, int i);
 
 /* ------------------------------------------------------------------------- */
-/* -------------------------- BUILTINS ------------------------------------- */
+/* -------------------------- 4_BUILTINS ----------------------------------- */
 /* ------------------------------------------------------------------------- */
 
 /*		EXIT.C */
@@ -118,7 +123,7 @@ void	ft_exit(t_shell *shell);
 int		ft_find_exit_status(t_shell *shell);
 
 /* ------------------------------------------------------------------------- */
-/* -------------------------- LIBFT_SHELL ---------------------------------- */
+/* -------------------------- 7_LIBFT_MINISHELL ---------------------------- */
 /* ------------------------------------------------------------------------- */
 
 /*		ATOI_REDI.C */
@@ -132,6 +137,7 @@ char	*ft_weird_realloc_thing(char *initial, int added_len, t_shell *shell);
 int		ft_len_without_quotes(char *s);
 int		ft_len_within_quotes(char *s);
 int		ft_should_i_break(char *s, int i);
+int		parenthesis(t_split split, t_shell *shell, char **tab, int i);
 
 /* 		FT_SPLIT_MINISHELL.C */
 
@@ -175,42 +181,6 @@ size_t	ft_strlen_gnl(const char *str);
 size_t	ft_strlcpy_gnl(char *dest, const char *src, size_t size);
 
 /* ------------------------------------------------------------------------- */
-/* -------------------------- REDIRECTIONS --------------------------------- */
-/* ------------------------------------------------------------------------- */
-
-/*		DISPATCH_REDI.C */
-
-void	ft_get_redi(t_shell *shell);
-void	ft_remove_redi_ligns(t_shell *shell, int i);
-
-/*		HEREDOC_REDI.C */
-
-int		ft_dup_heredoc_pipex(char **tab, int i, t_shell *shell);
-void	ft_fd_redi_heredoc(t_shell *shell, int i, int file_fd);
-
-/*		HEREDOC.C */
-
-void	ft_get_heredocs(t_shell *shell);
-int		ft_heredoc(char *delimiter, t_shell *shell);
-
-void	heredoc_dup_error(t_shell *shell, char **tab, int i, int file_fd);
-
-/*		INFILE.C */
-
-void	ft_infile(t_shell *shell, int i);
-void	ft_fd_redi_infile(t_shell *shell, int i, int file_fd);
-
-/*		OUTFILE_FD_REDI.C */
-
-void	ft_fd_redi_outfile_append(t_shell *shell, int i, int file_fd);
-void	ft_fd_redi_outfile_trunc(t_shell *shell, int i, int file_fd);
-
-/*		OUTFILE.C */
-
-void	ft_outfile_append(t_shell *shell, int i);
-void	ft_outfile_trunc(t_shell *shell, int i);
-
-/* ------------------------------------------------------------------------- */
 /* -------------------------- 8_UTILS -------------------------------------- */
 /* ------------------------------------------------------------------------- */
 
@@ -238,5 +208,36 @@ void	ft_pipe(int *tab, t_shell *shell);
 int		ft_is_token_operand(char *arg, int *is_quoted);
 int		ft_is_token_meta(char *arg, int *is_quoted);
 int		ft_is_token_redi(char *arg, int *is_quoted);
+
+/* ------------------------------------------------------------------------- */
+/* -------------------------- 9_BONUS -------------------------------------- */
+/* ------------------------------------------------------------------------- */
+
+/*		E_WILDCARD_TAB_CREATION.C */
+
+char	**ft_wildc_new_init(int count, t_wildc *first, \
+	char *dir_path, t_shell *shell);
+int		ft_dup_new_tab_wildcard(t_shell *shell, char **tab, char **new_args);
+
+/*		C_WILDCARD.C */
+
+int		ft_find_wildcard(t_shell *shell, char **tab);
+
+/*		D_WILDCARD_UTILS.C */
+
+void	ft_wildcnew_wildcard(void *file, t_wildc *first, t_shell *shell);
+int		ft_is_invalid_arg_wildcard(char *arg, char *file);
+char	*find_wildcard_directory(t_shell *shell, char *arg, char **arg_add);
+int		find_wildcard(char *arg, t_shell *shell, int i);
+
+/*		B_OPERANDS_UTILS.C */
+
+int		ft_is_it_operand(char *arg, int *is_quoted);
+int		ft_count_operands(t_shell *shell);
+int		ft_find_op_lenght(char **tab, t_shell *shell, int i);
+
+/*		A_OPERANDS.C */
+
+int		ft_operands(t_shell *shell, char **envp, int w);
 
 #endif

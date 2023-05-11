@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split_minishell_utils.c                         :+:      :+:    :+:   */
+/*   B_ft_split_minishell_utils.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 16:12:41 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/10 02:22:04 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/05/11 17:49:47 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,4 +84,26 @@ int	ft_should_i_break(char *s, int i)
 	if (s[i] == '|' || s[i] == '<' || s[i] == '>' || s[i] == '&' || s[i] == ';')
 		return (1);
 	return (0);
+}
+
+int	parenthesis(t_split split, t_shell *shell, char **tab, int i)
+{
+	char	*s;
+	int		count;
+
+	count = 0;
+	s = shell->buff;
+	while (s[i])
+	{
+		tab[split.j] = ft_weird_realloc_thing(tab[split.j], 1, shell);
+		tab[split.j][++split.w] = s[i];
+		if (s[i] == ')')
+			count--;
+		if (s[i] == '(')
+			count++;
+		i++;
+		if (count == 0)
+			break ;
+	}
+	return (i);
 }

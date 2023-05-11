@@ -1,7 +1,7 @@
 
 ### COMPILATION ###
 CC      = gcc
-FLAGS  = -Wall -Wextra -Werror -g -I -L/usr/local/lib -g3 #-fsanitize=address
+FLAGS  = -Wall -Wextra -Werror -I -L/usr/local/lib -g3 #-fsanitize=address
 
 ### EXECUTABLE ###
 NAME   = minishell
@@ -50,7 +50,6 @@ SOURCES =     		main.c \
 
 SRCS = $(addprefix $(SRC_PATH)/,$(SOURCES))
 OBJS = $(addprefix $(OBJ_PATH)/,$(SOURCES:.c=.o))
-
 
 ### COLORS ###
 NOC         = \033[0m
