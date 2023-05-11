@@ -86,32 +86,25 @@ int		ft_get_cmd(t_pipex *p, int i);
 void	ft_get_redi(t_shell *shell);
 void	ft_remove_redi_ligns(t_shell *shell, int i);
 
-/*		HEREDOC_REDI.C */
-
-int		ft_dup_heredoc_pipex(char **tab, int i, t_shell *shell);
-void	ft_fd_redi_heredoc(t_shell *shell, int i, int file_fd);
-
 /*		HEREDOC.C */
 
 void	ft_get_heredocs(t_shell *shell);
 int		ft_heredoc(char *delimiter, t_shell *shell);
-
 void	heredoc_dup_error(t_shell *shell, char **tab, int i, int file_fd);
+int		ft_dup_heredoc_pipex(char **tab, int i, t_shell *shell);
+void	ft_fd_redi_heredoc(t_shell *shell, int i, int file_fd);
 
 /*		INFILE.C */
 
 void	ft_infile(t_shell *shell, int i);
 void	ft_fd_redi_infile(t_shell *shell, int i, int file_fd);
 
-/*		OUTFILE_FD_REDI.C */
-
-void	ft_fd_redi_outfile_append(t_shell *shell, int i, int file_fd);
-void	ft_fd_redi_outfile_trunc(t_shell *shell, int i, int file_fd);
-
 /*		OUTFILE.C */
 
 void	ft_outfile_append(t_shell *shell, int i);
 void	ft_outfile_trunc(t_shell *shell, int i);
+void	ft_fd_redi_outfile_append(t_shell *shell, int i, int file_fd);
+void	ft_fd_redi_outfile_trunc(t_shell *shell, int i, int file_fd);
 
 /* ------------------------------------------------------------------------- */
 /* -------------------------- 4_BUILTINS ----------------------------------- */

@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 21:01:45 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/11 15:40:31 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/05/11 19:31:21 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	ft_fd_redi_outfile_append(t_shell *shell, int i, int file_fd)
 	if (file_fd == -1)
 		return ;
 	fd = ft_open_append(shell->tab[i + 1], shell);
-	ft_remove_redi_ligns(shell, i - 1);
+	ft_remove_redi_ligns(shell, i);
 	if (dup2(fd, file_fd) == -1)
 		ft_end_program(shell, 1, errno);
 	if (file_fd == 1)
