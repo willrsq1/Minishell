@@ -6,37 +6,37 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 02:33:08 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/07 19:05:39 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/05/11 02:28:12 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static int	ft_check_redi_tokens(char **tab, t_shell *shell);
+static int	ft_check_redi_tokens(char **tab, t_shell *shell, int i);
 static int	ft_check_meta_redi(char *arg, int *is_quoted);
 static int	ft_check_redi(char *arg, int *is_quoted);
 
 int	ft_syntax_error(char **tab, t_shell *shell)
 {
-	if (ft_check_redi_tokens(tab, shell) == 1)
+	if (ft_check_redi_tokens(tab, shell, -1) == 1)
 		return (shell->exit_status = 2, 1);
 	if (ft_check_pipes_tokens(tab, shell) == 1)
 		return (shell->exit_status = 2, 1);
 	return (0);
 }
 
-static int	ft_check_redi_tokens(char **tab, t_shell *shell)
+static int	ft_check_redi_tokens(char **tab, t_shell *shell, int i)
 {
-	int		i;
 	char	*s;
 
-	i = -1;
 	while (tab[++i])
 	{
-		if (ft_check_redi(tab[i], shell->is_quoted[i]))
+		if (ft_check_redi(tab[i], shell->is_quoted[i]) || \
+			(!(arg_is_unquoted(tab[i], shell->is_quoted[i]) != 0 || \
+			ft_find_redi_with_fd(tab[i], 0) == 0)))
 		{
 			s = tab[i + 1];
-			if (s && ft_check_meta_redi(s, shell->is_quoted[i]))
+			if (s && ft_check_meta_redi(s, shell->is_quoted[i + 1]))
 			{
 				write(2, "Minishell: syntax error near", 29);
 				write(2, " unexpected token `", 20);

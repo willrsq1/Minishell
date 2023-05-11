@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 14:24:40 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/10 02:19:17 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/05/11 01:32:36 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	ft_do_the_execve_thing(t_shell *shell, char **envp)
 
 	if (tab_creation(shell, shell->buff))
 		return ;
-	//print_args(shell);
+	// print_args(shell);
 	shell->infile = -1;
 	shell->outfile = -1;
 	init.shell = shell;

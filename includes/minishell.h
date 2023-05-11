@@ -204,6 +204,8 @@ void	ft_fd_redi_heredoc(t_shell *shell, int i, int file_fd);
 void	ft_get_heredocs(t_shell *shell);
 int		ft_heredoc(char *delimiter, t_shell *shell);
 
+void	heredoc_dup_error(t_shell *shell, char **tab, int i, int file_fd);
+
 /*		INFILE.C */
 
 void	ft_infile(t_shell *shell, int i);

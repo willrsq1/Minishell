@@ -40,12 +40,9 @@ SOURCES =     		main.c \
 					libft_minishell/gnl/get_next_line.c \
 					libft_minishell/gnl/get_next_line_utils.c \
 					redirections/dispatch_redi.c \
-					redirections/heredoc_redi.c \
 					redirections/heredoc.c \
 					redirections/infile.c \
-					redirections/outfile_fd_redi.c \
 					redirections/outfile.c \
-					redirections/remove_ligns.c \
 					utils/free_exit.c \
 					utils/open_close.c \
 					utils/malloc.c \

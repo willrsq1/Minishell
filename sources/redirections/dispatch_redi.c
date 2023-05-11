@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 18:56:00 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/07 10:17:17 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/05/11 02:24:36 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static int	ft_file_redirection(char *arg, int i, t_shell *shell)
 	while (arg[y] && (arg[y] >= '0' && arg[y] <= '9'))
 		y++;
 	if (ft_strcmp(&arg[y], "<<") == 0)
-		ft_fd_redi_heredoc(shell, i, ft_atoi_redi(arg, shell, next, 1));
+		heredoc_dup_error(shell, shell->tab, i, ft_atoi_redi(arg, shell, next, 1));
 	else if (ft_strcmp(&arg[y], "<") == 0)
 		ft_fd_redi_infile(shell, i, ft_atoi_redi(arg, shell, next, 1));
 	else if (ft_strcmp(&arg[y], ">>") == 0)

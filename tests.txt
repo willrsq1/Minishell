@@ -74,3 +74,4 @@ ls *;ls &&  (wc '0<infile' || (ls && fefefefzefaz)  ) && (ls)
 ls *;ls *;ls *;ls *;ls *;ls *;ls *;ls *;ls *;ls *;ls *;
 
 sources || ./sources
+ls 2><<
