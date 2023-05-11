@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 12:52:01 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/11 15:28:39 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/05/11 16:15:11 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,7 @@ static int	ft_get_cmd_error_check(t_pipex *p, t_shell *shell, char *cmd)
 		return (p->cmd = cmd, 0);
 	if (cmd[0] == '.' && cmd[1] != '/')
 		return (42);
-	write(2, "Minishell: ", 12);
-	perror(cmd);
+	perror(ft_strcat("Minishell: ", cmd, shell));
 	return (-2);
 }
 

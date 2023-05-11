@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 16:49:53 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/11 16:02:03 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/05/11 16:14:31 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,7 @@ int	ft_open_rdonly(char *file, t_shell *shell)
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
 	{
-		write(2, "Minishell: ", 12);
-		perror(file);
+		perror(ft_strcat("Minishell: ", file, shell));
 		ft_end_program(shell, 0, 1);
 	}
 	ft_add_tbc_list(fd, shell);
@@ -54,8 +53,7 @@ int	ft_open_append(char *file, t_shell *shell)
 	fd = open(file, O_CREAT | O_WRONLY | O_APPEND, 000644);
 	if (fd == -1)
 	{
-		write(2, "Minishell: ", 12);
-		perror(file);
+		perror(ft_strcat("Minishell: ", file, shell));
 		ft_end_program(shell, 0, 1);
 	}
 	ft_add_tbc_list(fd, shell);
@@ -69,8 +67,7 @@ int	ft_open_trunc(char *file, t_shell *shell)
 	fd = open(file, O_CREAT | O_WRONLY | O_TRUNC, 000644);
 	if (fd == -1)
 	{
-		write(2, "Minishell: ", 12);
-		perror(file);
+		perror(ft_strcat("Minishell: ", file, shell));
 		ft_end_program(shell, 0, 1);
 	}
 	ft_add_tbc_list(fd, shell);

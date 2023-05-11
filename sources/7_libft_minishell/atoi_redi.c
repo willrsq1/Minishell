@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 16:58:46 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/11 15:41:04 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/05/11 16:16:20 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ static void	ft_atoi_redi_error(int result, char *str, t_shell *shell)
 	while (str[i] && (str[i] >= '0' && str[i] <= '9'))
 		i++;
 	str[i] = '\0';
-	write(2, "Minishell: ", 12);
-	perror(str);
+	perror(ft_strcat("Minishell: ", str, shell));
 	ft_end_program(shell, 0, 1);
 }
