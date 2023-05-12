@@ -49,6 +49,7 @@ int	main(int argc, char **argv, char **envp)
 		buff = readline("Minishell d'Arbesa > ");
 		ft_init_shell(&shell);
 		add_history(buff);
+		printf("\n");
 		shell.buff = buff;
 		if (buff && buff[0])
 			ft_do_the_execve_thing(&shell, envp);

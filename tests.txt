@@ -81,3 +81,5 @@ cat infile 1>>OUTFILE grekzgierzgz
 (ls || ls &&ls)
 ('"0'"'"<infile'')
 I"'"NF'"'"'"ILE truc I"'"NF'"'"'"ILE || IN"'"""F'IL'EI"'"NF'"'"'"ILE truc I"'"NF'"'"'"ILE || IN"'"""F'IL'EI"'"NF'"'"'"ILE truc I"'"NF'"'"'"ILE || IN"'"""F'IL'EI"'"NF'"'"'"ILE truc I"'"NF'"'"'"ILE || IN"'"""F'IL'EI"'"NF'"'"'"ILE truc I"'"NF'"'"'"ILE || IN"'"""F'IL'EI"'"NF'"'"'"ILE truc I"'"NF'"'"'"ILE || IN"'"""F'IL'EI"'"NF'"'"'"ILE truc I"'"NF'"'"'"ILE || IN"'"""F'IL'EI"'"NF'"'"'"ILE truc I"'"NF'"'"'"ILE || IN"'"""F'IL'EI"'"NF'"'"'"ILE truc I"'"NF'"'"'"ILE || IN"'"""F'IL'EI"'"NF'"'"'"ILE truc I"'"NF'"'"'"ILE || IN"'"""F'IL'E || I"'"NF'"'"'"ILE truc I"'"NF'"'"'"ILE || IN"'"""F'IL'EI"'"NF'"'"'"ILE truc I"'"NF'"'"'"ILE || IN"'"""F'IL'EI"'"NF'"'"'"ILE truc I"'"NF'"'"'"ILE || IN"'"""F'IL'EI"'"NF'"'"'"ILE truc I"'"NF'"'"'"ILE || IN"'"""F'IL'EI"'"NF'"'"'"ILE truc I"'"NF'"'"'"ILE || IN"'"""F'IL'EI"'"NF'"'"'"ILE truc I"'"NF'"'"'"ILE || IN"'"""F'IL'EI"'"NF'"'"'"ILE truc I"'"NF'"'"'"ILE || IN"'"""F'IL'EI"'"NF'"'"'"ILE truc I"'"NF'"'"'"ILE || IN"'"""F'IL'EI"'"NF'"'"'"ILE truc I"'"NF'"'"'"ILE || IN"'"""F'IL'EI"'"NF'"'"'"ILE truc I"'"NF'"'"'"ILE || IN"'"""F'IL'E
+exit
+exit
