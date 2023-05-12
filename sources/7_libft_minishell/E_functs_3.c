@@ -6,11 +6,14 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 16:13:33 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/12 01:23:18 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/05/12 02:54:35 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+static int	ft_join_tab_quoting(int *y_add, int i, t_shell *shell, int w);
+static int	ft_lenght_join_tab(char **tab, t_shell *shell, int i, int y);
 
 int	ft_is_meta_carac(char c)
 {
@@ -45,40 +48,57 @@ int	ft_find_redi_with_fd(char *s, int i)
 	return (0);
 }
 
-// char *ft_join_tab(char **tab, t_shell *shell)
-// {
-// 	char *new;
-// 	int i;
-// 	i = -1;
-// 	int y;
-// 	int c;
-// 	int w;
-// 	new = ft_calloc(10000, shell);
-// 	w = -1;
-// 	c = 0;
-// 	while (tab[++i])
-// 	{
-// 		y = -1;
-// 		while (tab[i][++y])
-// 		{
-// 			if (c && !shell->is_quoted[i][y])
-// 			{
-// 				c = 0;
-// 				new[++w] = '"';
-// 			}
-// 			if (shell->is_quoted[i][y] && c == 0 && ++c)
-// 				new[++w] = '"';
-// 			new[++w] = tab[i][y];
-// 		}
-// 		if (c && !shell->is_quoted[i][y])
-// 		{
-// 			c = 0;
-// 			new[++w] = '"';
-// 		}
-// 		new[++w] = ' ';
-// 	}
-// 	return (new);
-// }
+char *ft_join_tab(char **tab, t_shell *shell)
+{
+	char *new;
+	int i;
+	i = -1;
+	int y;
+	int w;
+	shell->buff = ft_calloc(ft_lenght_join_tab(tab, shell, -1, -1) + 1, shell);
+	new = shell->buff;
+	w = -1;
+	while (tab[++i])
+	{
+		y = -1;
+		while (tab[i][++y])
+		{
+			if (shell->is_quoted[i][y])
+				w = ft_join_tab_quoting(&y, i, shell, w);
+			else
+				new[++w] = tab[i][y];
+		}
+		new[++w] = ' ';
+	}
+	return (new);
+}
+
+static int	ft_join_tab_quoting(int *y_add, int i, t_shell *shell, int w)
+{
+	int	y;
+	int	quote;
+	char *new;
+	char **tab;
+
+	tab = shell->tab;
+	new = shell->buff;
+	y = *y_add;
+	if (shell->is_quoted[i][y] == 1)
+		new[++w] = '"';
+	if (shell->is_quoted[i][y] == 2)
+		new[++w] = '\'';
+	quote = shell->is_quoted[i][y];
+	while (shell->is_quoted[i][y] == quote)
+		new[++w] = tab[i][y++];
+	y--;
+	if (quote == 1)
+		new[++w] = '"';
+	if (quote == 2)
+		new[++w] = '\'';
+	*y_add = y;
+	return (w);
+}
+
 static int	ft_lenght_join_tab(char **tab, t_shell *shell, int i, int y)
 {
 	int	lenght;
@@ -89,53 +109,19 @@ static int	ft_lenght_join_tab(char **tab, t_shell *shell, int i, int y)
 	{
 		y = -1;
 		quoted = 0;
-		while (tab[++y])
+		while (tab[i][++y])
 		{
 			if (shell->is_quoted[i][y] != quoted && ++lenght)
+			{
+				if (quoted && shell->is_quoted[i][y])
+					lenght++;
 				quoted = shell->is_quoted[i][y];
+			}
 			lenght++;
 		}
 		if (shell->is_quoted[i][y] != quoted && ++lenght)
 			quoted = shell->is_quoted[i][y];
+		lenght++;
 	}
 	return (lenght);
-}
-
-char *ft_join_tab(char **tab, t_shell *shell)
-{
-	char *new;
-	int i;
-	i = -1;
-	int y;
-	int quoted;
-	int	c;
-	int w;
-	new = ft_calloc(ft_lenght_join_tab(tab, shell, -1, -1) + 1, shell);
-	w = -1;
-	c = 0;
-	while (tab[++i])
-	{
-		y = -1;
-		quoted = 0;
-		while (tab[i][++y])
-		{
-			if (c && !shell->is_quoted[i][y])
-			{
-				c = 0;
-				new[++w] = '"';
-			}
-			if (shell->is_quoted[i][y] && c == 0 && ++c)
-				new[++w] = '"';
-			new[++w] = tab[i][y];
-		}
-		if (c && !shell->is_quoted[i][y])
-		{
-			c = 0;
-			new[++w] = '"';
-		}
-		new[++w] = ' ';
-	}
-	if (quoted)
-		return (new);
-	return (new);
 }

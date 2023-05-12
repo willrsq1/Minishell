@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:32:43 by marvin            #+#    #+#             */
-/*   Updated: 2023/05/11 17:49:35 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/05/12 02:42:48 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ char	**ft_split_minishell(char *s, char c, t_shell *shell)
 		return (NULL);
 	shell->split = &split;
 	lignes = ft_nb_lignes(s, c, i, shell);
-	tab = (char **)ft_calloc((lignes * 2 + 1) * sizeof(char *), shell);
+	tab = (char **)ft_calloc((lignes * 10 + 1) * sizeof(char *), shell);
 	tab[lignes * 2] = NULL;
 	shell->buff = s;
-	if (ft_spliting(tab, shell, c, lignes) == NULL)
+	if (ft_spliting(tab, shell, c, lignes * 10) == NULL)
 		return (NULL);
 	return (tab);
 }
