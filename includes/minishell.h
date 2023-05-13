@@ -31,10 +31,6 @@
 /*		MAIN.C */
 
 // int		main(int argc, char **argv, char **envp);
-void	ft_init_shell(t_shell *shell);
-void	print_args_operands(char ***operands_tab, \
-	int ***operands_is_quoted, int *options);
-void	print_args(t_shell *shell);
 
 /* ------------------------------------------------------------------------- */
 /* -------------------------- 1_INIT --------------------------------------- */
@@ -81,30 +77,29 @@ int		ft_get_cmd(t_pipex *p, int i);
 /* -------------------------- 3_REDIRECTIONS ------------------------------- */
 /* ------------------------------------------------------------------------- */
 
-/*		DISPATCH_REDI.C */
+/*		A_DISPATCH_REDI.C */
 
 void	ft_get_redi(t_shell *shell);
 void	ft_remove_redi_ligns(t_shell *shell, int i);
 
-/*		HEREDOC.C */
-
-void	ft_get_heredocs(t_shell *shell);
-int		ft_heredoc(char *delimiter, t_shell *shell);
-void	heredoc_dup_error(t_shell *shell, char **tab, int i, int file_fd);
-int		ft_dup_heredoc_pipex(char **tab, int i, t_shell *shell);
-void	ft_fd_redi_heredoc(t_shell *shell, int i, int file_fd);
-
-/*		INFILE.C */
+/*		B_INFILE.C */
 
 void	ft_infile(t_shell *shell, int i);
 void	ft_fd_redi_infile(t_shell *shell, int i, int file_fd);
 
-/*		OUTFILE.C */
+/*		C_OUTFILE.C */
 
 void	ft_outfile_append(t_shell *shell, int i);
 void	ft_outfile_trunc(t_shell *shell, int i);
 void	ft_fd_redi_outfile_append(t_shell *shell, int i, int file_fd);
 void	ft_fd_redi_outfile_trunc(t_shell *shell, int i, int file_fd);
+
+/*		D_HEREDOC.C */
+
+void	ft_get_heredocs(t_shell *shell);
+int		ft_heredoc(char *delimiter, t_shell *shell);
+void	heredoc_dup_error(t_shell *shell, char **tab, int i, int file_fd);
+int		ft_dup_heredoc_pipex(char **tab, int i, t_shell *shell);
 
 /* ------------------------------------------------------------------------- */
 /* -------------------------- 4_BUILTINS ----------------------------------- */
@@ -119,49 +114,6 @@ int		ft_find_exit_status(t_shell *shell);
 /* -------------------------- 7_LIBFT_MINISHELL ---------------------------- */
 /* ------------------------------------------------------------------------- */
 
-/*		ATOI_REDI.C */
-
-char	*ft_itoa(int nb, t_shell *shell);
-int		ft_atoi_redi(char *str, t_shell *shell, char *file, int mode);
-
-/* 		FT_SPLIT_MINISHELL_UTILS.C */
-
-char	*ft_weird_realloc_thing(char *initial, int added_len, t_shell *shell);
-int		ft_len_without_quotes(char *s);
-int		ft_len_within_quotes(char *s);
-int		ft_should_i_break(char *s, int i);
-int		parenthesis(t_split split, t_shell *shell, char **tab, int i);
-
-/* 		FT_SPLIT_MINISHELL.C */
-
-char	**ft_split_minishell(char *s, char c, t_shell *shell);
-int		ft_is_meta_carac(char c);
-
-/*		FT_SPLIT.C */
-
-char	**ft_split(char *s, char c, t_shell *shell);
-
-/*		FUNCTS_2.C */
-
-void	ft_delete_char(char *str);
-void	ft_putnbr_error(int nb);
-int		ft_strlen(char *s);
-char	*ft_strdup(const char *s, t_shell *shell);
-
-/*		FUNCTS_3.C */
-
-int		ft_is_meta_carac(char c);
-int		ft_find_redi_with_fd(char *s, int i);
-char 	*ft_join_tab(char **tab, t_shell *shell);
-
-/*		FUNCTS.C */
-
-int		ft_strcmp(char *arg, char *checked);
-int		ft_strncmp(char *arg, char *checked, int n);
-size_t	ft_strlcpy(char *dest, const char *src, size_t size);
-char	*ft_strcat(char *s1, char *s2, t_shell *shell);
-int		arg_is_unquoted(char *arg, int *is_quoted);
-
 /*		GNL/GET_NEXT_LINE.C */
 
 char	*get_next_line(int fd);
@@ -173,6 +125,48 @@ void	*ft_calloc_gnl(size_t nmemb, size_t size);
 void	ft_bzero_gnl(void *s, size_t n);
 size_t	ft_strlen_gnl(const char *str);
 size_t	ft_strlcpy_gnl(char *dest, const char *src, size_t size);
+
+/* 		A_FT_SPLIT_MINISHELL.C */
+
+char	**ft_split_minishell(char *s, char c, t_shell *shell);
+
+/* 		B_FT_SPLIT_MINISHELL_UTILS.C */
+
+char	*ft_weird_realloc_thing(char *initial, int added_len, t_shell *shell);
+int		ft_len_without_quotes(char *s);
+int		ft_len_within_quotes(char *s);
+int		ft_should_i_break(char *s, int i);
+int		parenthesis(t_split split, t_shell *shell, char **tab, int i);
+
+/*		C_FUNCTS.C */
+
+int		ft_strcmp(char *arg, char *checked);
+int		ft_strncmp(char *arg, char *checked, int n);
+size_t	ft_strlcpy(char *dest, const char *src, size_t size);
+char	*ft_strcat(char *s1, char *s2, t_shell *shell);
+int		arg_is_unquoted(char *arg, int *is_quoted);
+
+/*		D_FUNCTS_2.C */
+
+void	ft_delete_char(char *str);
+void	ft_putnbr_error(int nb);
+int		ft_strlen(char *s);
+char	*ft_strdup(const char *s, t_shell *shell);
+
+/*		E_FUNCTS_3.C */
+
+int		ft_is_meta_carac(char c);
+int		ft_find_redi_with_fd(char *s, int i);
+char 	*ft_join_tab(char **tab, t_shell *shell);
+
+/*		F_FT_SPLIT.C */
+
+char	**ft_split(char *s, char c, t_shell *shell);
+
+/*		G_ATOI_REDI.C */
+
+char	*ft_itoa(int nb, t_shell *shell);
+int		ft_atoi_redi(char *str, t_shell *shell, char *file, int mode);
 
 /* ------------------------------------------------------------------------- */
 /* -------------------------- 8_UTILS -------------------------------------- */
@@ -202,6 +196,14 @@ void	ft_pipe(int *tab, t_shell *shell);
 int		ft_is_token_operand(char *arg, int *is_quoted);
 int		ft_is_token_meta(char *arg, int *is_quoted);
 int		ft_is_token_redi(char *arg, int *is_quoted);
+
+/*		E_PRINT_FUNCTIONS.C */
+
+void	print_tokens(t_shell *shell);
+void	print_tokens_operands(char ***operands_tab, int ***operands_is_quoted, \
+	int *options);
+void	ft_initializing_options(t_shell *shell, int argc, char **argv);
+
 
 /* ------------------------------------------------------------------------- */
 /* -------------------------- 9_BONUS -------------------------------------- */

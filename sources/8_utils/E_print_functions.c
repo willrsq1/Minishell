@@ -6,31 +6,34 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 09:34:25 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/11 17:46:14 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/05/13 12:25:15 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	print_args(t_shell *shell)
+static void	ft_print_help_menu(void);
+
+void	print_tokens(t_shell *shell)
 {
 	int	y;
 	int	i;
 
 	i = 0;
+	printf("\n\tTokens: \n");
 	while (shell->tab[i])
 	{
-		printf("Lign %d is : %s *** ", i, shell->tab[i]);
+		printf("Token %d is : %s *** ", i + 1, shell->tab[i]);
 		y = -1;
 		while (shell->tab[i][++y])
 			printf("%d", shell->is_quoted[i][y]);
 		printf("\n");
 		i++;
 	}
-	printf("\n\n\n");
+	printf("\n");
 }
 
-void	print_args_operands(char ***operands_tab, int ***operands_is_quoted, \
+void	print_tokens_operands(char ***operands_tab, int ***operands_is_quoted, \
 	int *options)
 {
 	int	y;
@@ -55,4 +58,45 @@ void	print_args_operands(char ***operands_tab, int ***operands_is_quoted, \
 			printf("\nOPERAND IS = %d\n\n", options[i]);
 	}
 	printf("\n\n\n DONE\n");
+}
+
+void	ft_initializing_options(t_shell *shell, int argc, char **argv)
+{
+	shell->exit_status = 0;
+	shell->show_exit_status = 0;
+	shell->show_tokens = 0;
+	shell->exit_after_first_input = 0;
+	while (argc > 0)
+	{
+		if (!ft_strcmp(argv[argc - 1], "--show-exit-status"))
+		{
+			shell->show_exit_status = 1;
+			printf("The exit status will be shown at exit.\n");
+		}
+		if (!ft_strcmp(argv[argc - 1], "--show-tokens"))
+		{
+			printf("The Tokens will be showned.\n");
+			shell->show_tokens = 1;
+		}
+		if (!ft_strcmp(argv[argc - 1], "--exit"))
+		{
+			printf("The args will be showned.\n");
+			shell->exit_after_first_input = 1;
+		}
+		if (!ft_strcmp(argv[argc - 1], "--help"))
+			ft_print_help_menu();
+		argc--;
+	}
+}
+
+static void	ft_print_help_menu(void)
+{
+	printf("Usage: ./minishell [options]\n\n");
+	printf("Options:\n");
+	printf("\t--exit: The Minishell will exit after the first input.\n");
+	printf("\t--help: The Minishell will display the Help menu.\n");
+	printf("\t--show-exit-status: The Minishell will display ");
+	printf("the exit status of the input.\n");
+	printf("\t--show-tokens: The Minishell will display the tokens obtained ");
+	printf("from the input.\n\n");
 }

@@ -12,7 +12,34 @@
 
 #include "../includes/minishell.h"
 
-void	ft_init_shell(t_shell *shell)
+static void	ft_init_shell(t_shell *shell);
+
+int	main(int argc, char **argv, char **envp)
+{
+	char		*buff;
+	t_shell		shell;
+
+	ft_initializing_options(&shell, argc, argv);
+	while (1)
+	{
+		buff = readline("Minishell d'Arbesa > ");
+		ft_init_shell(&shell);
+		add_history(buff);
+		shell.buff = buff;
+		if (buff && buff[0])
+			ft_do_the_execve_thing(&shell, envp);
+		ft_close_everything_lol(&shell);
+		ft_free_everything_lol(&shell);
+		if (shell.show_exit_status)
+			printf("		The exit status is = %d\n", shell.exit_status);
+		if (shell.exit_after_first_input)
+			exit(shell.exit_status);
+		free(buff);
+	}
+	return (0);
+}
+
+static void	ft_init_shell(t_shell *shell)
 {
 	shell->nb_of_double_quotes = 0;
 	shell->tab = NULL;
@@ -32,34 +59,4 @@ void	ft_init_shell(t_shell *shell)
 	shell->id_pipe = 0;
 	shell->exit_status = 0;
 	shell->i = 0;
-}
-
-int	main(int argc, char **argv, char **envp)
-{
-	char		*buff;
-	t_shell		shell;
-
-	if (argc == 2 && !ft_strcmp(argv[1], "--exit"))
-		printf("The exit status will be shown at exit.\n");
-	else if (argc < 1)
-		return (write(2, "Bad args\n", 10), 1);
-	shell.exit_status = 0;
-	while (1)
-	{
-		buff = readline("Minishell d'Arbesa > ");
-		ft_init_shell(&shell);
-		add_history(buff);
-		printf("\n");
-		shell.buff = buff;
-		if (buff && buff[0])
-			ft_do_the_execve_thing(&shell, envp);
-		if (argc == 2 && !ft_strcmp(argv[1], "--exit"))
-			printf("		The exit status is = %d\n", shell.exit_status);
-		ft_close_everything_lol(&shell);
-		ft_free_everything_lol(&shell);
-		if (argc == 2 && !ft_strcmp(argv[1], "exit"))
-			exit(shell.exit_status);
-		free(buff);
-	}
-	return (0);
 }

@@ -32,7 +32,7 @@ SOURCES =     		main.c \
 					7_libft_minishell/D_functs_2.c \
 					7_libft_minishell/E_functs_3.c \
 					7_libft_minishell/F_ft_split.c \
-					7_libft_minishell/G_atoi_redi.c \
+					7_libft_minishell/G_itoa_atoi.c \
 					7_libft_minishell/gnl/get_next_line.c \
 					7_libft_minishell/gnl/get_next_line_utils.c \
 					8_utils/A_free_exit.c \
