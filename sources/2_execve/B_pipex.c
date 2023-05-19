@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 00:13:01 by root              #+#    #+#             */
-/*   Updated: 2023/05/11 17:46:30 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/05/19 09:41:10 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ static void	ft_forking(t_pipex *p, char **envp)
 			ft_end_program(p->shell, 1, errno);
 		if (p->forks_id[i] == 0)
 			ft_fork_loop(p, envp, i);
+		if (i < p->nb_cmds - 1)
+			close(p->pipe[i][1]);
 	}
 	ft_close_pipes(i, p);
 }
