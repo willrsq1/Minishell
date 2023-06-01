@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 16:12:41 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/11 17:49:47 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/02 00:10:57 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,17 +73,17 @@ int	ft_len_within_quotes(char *s)
 	return (i + 1);
 }
 
-int	ft_should_i_break(char *s, int i)
+int	ft_break_split_loop(char *s, int i)
 {
 	if ((i > 0 && !s[i - 1]) || !s[i] || s[i] == ' ' || s[i - 1] == '<' \
 		|| s[i - 1] == ';' || \
 		s[i - 1] == '>' || s[i - 1] == '|' || s[i - 1] == '&')
-		return (1);
+		return (OK);
 	if ((s[i - 1] == '"' || s[i - 1] == '\'') && (s[i] == '<' || s[i] == '>'))
-		return (1);
+		return (OK);
 	if (s[i] == '|' || s[i] == '<' || s[i] == '>' || s[i] == '&' || s[i] == ';')
-		return (1);
-	return (0);
+		return (OK);
+	return (ERROR);
 }
 
 int	parenthesis(t_split split, t_shell *shell, char **tab, int i)

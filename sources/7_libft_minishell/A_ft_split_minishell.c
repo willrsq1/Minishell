@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:32:43 by marvin            #+#    #+#             */
-/*   Updated: 2023/05/12 17:34:52 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/02 00:06:31 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,11 @@ static int	nb_lignes_2(int *lignes, int i, char *s, char c)
 			quote = s[i];
 		if (s[i] == quote)
 			y++;
-		if (y % 2 == 0 && ft_is_meta_carac(s[i]) == 1)
+		if (y % 2 == 0 && ft_is_meta_carac(s[i]) == OK)
 		{
-			if (s[i + 1] && s[i + 1] != c && ft_is_meta_carac(s[i + 1] == 1))
+			if (s[i + 1] && s[i + 1] != c && ft_is_meta_carac(s[i + 1] == OK))
 				*lignes += 1;
-			if (i > 0 && !(s[i - 1] == ' ' || ft_is_meta_carac(s[i - 1]) == 1))
+			if (i > 0 && !(s[i - 1] == ' ' || ft_is_meta_carac(s[i - 1]) == OK))
 				*lignes += 1;
 			i++;
 			break ;
@@ -136,7 +136,7 @@ static int	ft_spliting_2(t_shell *shell, char **tab, t_split split, int i)
 			tab[split.j][++split.w] = s[i];
 			i++;
 		}
-		if (ft_should_i_break(s, i) == 1)
+		if (ft_break_split_loop(s, i) == OK)
 			return (i);
 	}
 }

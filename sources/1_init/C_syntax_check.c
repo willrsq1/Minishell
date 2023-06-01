@@ -6,29 +6,29 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 02:33:08 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/01 18:23:33 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/02 00:03:24 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static int	ft_is_token_redi_tokens(char **tab, t_shell *shell, int i);
+static int	ft_check_redi_tokenss(char **tab, t_shell *shell, int i);
 static int	ft_check_pipes_tokens(char **tab, t_shell *shell);
 static int	ft_check_parenthesis_tokens(char **tab, t_shell *shell);
 static int	no_token_after_last_pipe(int i, char *s, t_shell *shell);
 
 int	ft_syntax_error(char **tab, t_shell *shell)
 {
-	if (ft_is_token_redi_tokens(tab, shell, -1) == ERROR)
-		return (shell->exit_status = 2, ERROR);
+	if (ft_check_redi_tokenss(tab, shell, -1) == ERROR)
+		return (shell->exit_status = SYNTAX_ERROR, ERROR);
 	if (ft_check_pipes_tokens(tab, shell) == ERROR)
-		return (shell->exit_status = 2, ERROR);
+		return (shell->exit_status = SYNTAX_ERROR, ERROR);
 	if (ft_check_parenthesis_tokens(tab, shell) == ERROR)
-		return (shell->exit_status = 2, ERROR);
+		return (shell->exit_status = SYNTAX_ERROR, ERROR);
 	return (OK);
 }
 
-static int	ft_is_token_redi_tokens(char **tab, t_shell *shell, int i)
+static int	ft_check_redi_tokenss(char **tab, t_shell *shell, int i)
 {
 	char	*s;
 

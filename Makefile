@@ -17,9 +17,10 @@ SOURCES =     		main.c \
 					1_init/B_quote_handling.c \
 					1_init/C_syntax_check.c \
 					2_execve/A_execution.c \
-					2_execve/B_pipex.c \
-					2_execve/C_pipex_utils.c \
-					2_execve/D_command_access.c \
+					2_execve/B_exec_no_pipes.c \
+					2_execve/C_exec_pipes.c \
+					2_execve/D_exec_pipes_utils.c \
+					2_execve/E_command_access.c \
 					3_redirections/A_dispatch_redi.c \
 					3_redirections/B_redi_in_and_out.c \
 					3_redirections/C_heredoc.c \

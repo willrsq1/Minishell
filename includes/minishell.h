@@ -57,11 +57,15 @@ int		ft_syntax_error(char **tab, t_shell *shell);
 
 void	ft_do_the_execve_thing(t_shell *shell, char **envp);
 
-/*		B_PIPEX.C */
+/*		B_EXEC_NO_PIPES.C */
+
+void	exec_no_pipes(t_shell *shell, char **envp);
+
+/*		C_EXEC_PIPES.C */
 
 void	ft_pipex(int argc, t_init *init, char **envp);
 
-/*		C_PIPEX_UTILS.C */
+/*		D_EXEC_PIPES_UTILS.C */
 
 void	ft_pipex_initialisation(t_pipex *p);
 void	ft_pipex_big_tab(int pipes_number, t_init *init, t_shell *shell);
@@ -130,7 +134,7 @@ char	**ft_split_minishell(char *s, char c, t_shell *shell);
 char	*ft_weird_realloc_thing(char *initial, int added_len, t_shell *shell);
 int		ft_len_without_quotes(char *s);
 int		ft_len_within_quotes(char *s);
-int		ft_should_i_break(char *s, int i);
+int		ft_break_split_loop(char *s, int i);
 int		parenthesis(t_split split, t_shell *shell, char **tab, int i);
 
 /*		C_FUNCTS.C */
