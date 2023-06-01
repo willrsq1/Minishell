@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 16:49:53 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/31 15:15:27 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/01 19:51:53 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,11 @@ int	ft_open(char *file, t_shell *shell, int option)
 	else if (option == APPEND)
 		fd = open(file, O_CREAT | O_WRONLY | O_APPEND, 000644);
 	else
-		return (perror("Bad open option"), ft_end_program(shell, 0, 1), -1);
-	if (fd == -1)
+		return (ft_end_program(shell, ERROR, ERROR), FAIL);
+	if (fd == FAIL)
 	{
 		perror(ft_strcat("Minishell: ", file, shell));
-		ft_end_program(shell, 0, 1);
+		ft_end_program(shell, OK, ERROR);
 	}
 	ft_add_tbc_list(fd, shell);
 	return (fd);
@@ -55,8 +55,8 @@ int	ft_open(char *file, t_shell *shell, int option)
 
 void	ft_pipe(int *tab, t_shell *shell)
 {
-	if (pipe(tab) == -1)
-		ft_end_program(shell, 1, errno);
+	if (pipe(tab) == FAIL)
+		ft_end_program(shell, ERROR, errno);
 	ft_add_tbc_list(tab[0], shell);
 	ft_add_tbc_list(tab[1], shell);
 }

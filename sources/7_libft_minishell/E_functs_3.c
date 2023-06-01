@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 16:13:33 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/12 02:54:35 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/01 18:24:18 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ static int	ft_lenght_join_tab(char **tab, t_shell *shell, int i, int y);
 int	ft_is_meta_carac(char c)
 {
 	if (c == '|' || c == '&' || c == ';' || c == '&' || c == '<' || c == '>')
-		return (1);
-	return (0);
+		return (ERROR);
+	return (OK);
 }
 
 int	ft_find_redi_with_fd(char *s, int i)
@@ -45,7 +45,7 @@ int	ft_find_redi_with_fd(char *s, int i)
 			return (i - start + 2);
 		return (i - start + 1);
 	}
-	return (0);
+	return (OK);
 }
 
 char *ft_join_tab(char **tab, t_shell *shell)

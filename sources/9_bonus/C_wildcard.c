@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 02:17:31 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/11 17:51:56 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/01 18:40:37 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	ft_find_wildcard(t_shell *shell, char **tab)
 			}
 		}
 	}
-	return (0);
+	return (OK);
 }
 
 int	ft_create_wildcard_lst(t_wildc *first, t_shell *shell, \
@@ -85,7 +85,7 @@ static int	ft_wildcard(t_shell *shell, char *arg, t_wildc *first)
 	first->file = dir_path;
 	dir = opendir(dir_path);
 	if (!dir)
-		return (0);
+		return (OK);
 	s_dir = readdir(dir);
 	while (s_dir)
 	{

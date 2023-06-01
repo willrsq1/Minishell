@@ -161,7 +161,7 @@ char	**ft_split(char *s, char c, t_shell *shell);
 /*		G_ATOI_REDI.C */
 
 char	*ft_itoa(int nb, t_shell *shell);
-int		ft_atoi_redi(char *str, t_shell *shell, char *file, int mode);
+int		ft_atoi(char *str, t_shell *shell, char *file, int mode);
 
 /* ------------------------------------------------------------------------- */
 /* -------------------------- 8_UTILS -------------------------------------- */
@@ -227,6 +227,6 @@ int		ft_find_op_lenght(char **tab, t_shell *shell, int i);
 
 /*		A_OPERANDS.C */
 
-int		ft_operands(t_shell *shell, char **envp, int w);
+int		ft_no_operands(t_shell *shell, char **envp, int w);
 
 #endif

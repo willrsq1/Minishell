@@ -21,9 +21,8 @@ SOURCES =     		main.c \
 					2_execve/C_pipex_utils.c \
 					2_execve/D_command_access.c \
 					3_redirections/A_dispatch_redi.c \
-					3_redirections/B_infile.c \
-					3_redirections/C_outfile.c \
-					3_redirections/D_heredoc.c \
+					3_redirections/B_redi_in_and_out.c \
+					3_redirections/C_heredoc.c \
 					4_builtins/exit_status.c \
 					4_builtins/exit.c \
 					7_libft_minishell/A_ft_split_minishell.c \

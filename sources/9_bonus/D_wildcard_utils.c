@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 18:11:06 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/11 17:52:09 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/01 18:40:59 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,14 @@ int	ft_is_invalid_arg_wildcard(char *arg, char *file)
 	while (arg[++i] != '*')
 	{
 		if (file[i] != arg[i])
-			return (-1);
+			return (FAIL);
 	}
 	y = i + 1;
 	next_char = arg[y];
 	while (file[i] && file[i] != next_char)
 		i++;
 	if (next_char == '\0' && file[i] == next_char)
-		return (0);
+		return (OK);
 	while (arg[y] && arg[y] != '*' && file[i] && arg[y] == file[i++])
 		y++;
 	// if (arg[y] == '*')
@@ -83,7 +83,7 @@ int	find_wildcard(char *arg, t_shell *shell, int i)
 	while (arg[++y])
 	{
 		if (arg[y] == '*' && shell->is_quoted[i][y] == 0)
-			return (1);
+			return (ERROR);
 	}
-	return (0);
+	return (OK);
 }

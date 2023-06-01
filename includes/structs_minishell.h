@@ -13,7 +13,12 @@
 #ifndef STRUCTS_MINISHELL_H
 # define STRUCTS_MINISHELL_H
 
-# define COMMAND 127
+# define FAIL -1
+# define OK 0
+# define ERROR 1
+# define SYNTAX_ERROR 2
+# define DIRECTORY_ERROR 126
+# define COMMAND_ERROR 127
 # define OR_OPERAND 401
 # define AND_OPERAND 402
 # define SEMICOLON 403

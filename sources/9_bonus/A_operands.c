@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 23:05:03 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/13 11:54:24 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/01 18:39:22 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,17 @@
 static char	***ft_create_operands_tab(t_shell *shell, char **tab, int count);
 static int	***ft_create_op_is_quoted(t_shell *shell, char **tab, int count);
 static int	*ft_get_op_options(t_shell *shell, char **tab, int count);
-static int	ft_operands_actions(int *options, int w, t_shell *shell);
+static int	ft_no_operands_actions(int *options, int w, t_shell *shell);
 
 /**
- * FT_OPERANDS
+ * ft_no_operands
  * WILL EXECUTE THE INPUT AND STOP ALL OTHER EXECUTION IF OPERANDS ARE FOUND
  * CREATES AS MANY **CHAR AS THERE ARE OPERANDS
  * EXECUTE THEM ACCORDINGLY TO THE && AND || RULES
  * RETURN 1 IF OPERANDS ARE FOUD
 */
 
-int	ft_operands(t_shell *shell, char **envp, int w)
+int	ft_no_operands(t_shell *shell, char **envp, int w)
 {
 	int		count;
 	char	***operands_tab;
@@ -34,7 +34,7 @@ int	ft_operands(t_shell *shell, char **envp, int w)
 
 	count = ft_count_operands(shell);
 	if (!count)
-		return (0);
+		return (OK);
 	operands_tab = ft_create_operands_tab(shell, shell->tab, count);
 	operands_is_quoted = ft_create_op_is_quoted(shell, shell->tab, count);
 	options = ft_get_op_options(shell, shell->tab, count);
@@ -46,9 +46,9 @@ int	ft_operands(t_shell *shell, char **envp, int w)
 		shell->buff = ft_join_tab(operands_tab[w], shell);
 		ft_do_the_execve_thing(shell, envp);
 		ft_close_everything_lol(shell);
-		w = ft_operands_actions(options, w, shell);
+		w = ft_no_operands_actions(options, w, shell);
 	}
-	return (1);
+	return (ERROR);
 }
 
 static char	***ft_create_operands_tab(t_shell *shell, char **tab, int count)
@@ -117,7 +117,7 @@ static int	*ft_get_op_options(t_shell *shell, char **tab, int count)
 	return (options);
 }
 
-static int	ft_operands_actions(int *options, int w, t_shell *shell)
+static int	ft_no_operands_actions(int *options, int w, t_shell *shell)
 {
 	if (options[w] == OR_OPERAND && !shell->exit_status)
 	{

@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 18:56:00 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/31 15:20:01 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/01 18:23:38 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,17 @@ void	ft_get_redi(t_shell *shell)
 	i = -1;
 	while (tab[++i])
 	{
-		if (ft_file_redirection(tab[i], i, shell) == 0)
+		if (ft_file_redirection(tab[i], i, shell) == OK)
 			i--;
-		else if (ft_strcmp(tab[i], "<<") == 0 && \
-			shell->is_quoted[i][0] == 0 && shell->is_quoted[i][1] == 0)
+		else if (ft_strcmp(tab[i], "<<") == OK && \
+			shell->is_quoted[i][0] == OK && shell->is_quoted[i][1] == OK)
 			ft_heredoc_was_found(shell, i--);
-		else if (ft_strcmp(tab[i], "<") == 0 && shell->is_quoted[i][0] == 0)
+		else if (ft_strcmp(tab[i], "<") == OK && shell->is_quoted[i][0] == OK)
 			ft_infile(shell, i--);
-		else if (ft_strcmp(tab[i], ">>") == 0 && \
-			shell->is_quoted[i][0] == 0 && shell->is_quoted[i][1] == 0)
+		else if (ft_strcmp(tab[i], ">>") == OK && \
+			shell->is_quoted[i][0] == OK && shell->is_quoted[i][1] == OK)
 			ft_outfile(shell, i--, APPEND);
-		else if (ft_strcmp(tab[i], ">") == 0 && shell->is_quoted[i][0] == 0)
+		else if (ft_strcmp(tab[i], ">") == OK && shell->is_quoted[i][0] == OK)
 			ft_outfile(shell, i--, TRUNC);
 	}
 }
@@ -44,21 +44,21 @@ static int	ft_file_redirection(char *arg, int i, t_shell *shell)
 	int		y;
 	char	*next;
 
-	if (arg_is_unquoted(arg, shell->is_quoted[i]) != 0 || \
-		ft_find_redi_with_fd(arg, 0) == 0)
+	if (arg_is_unquoted(arg, shell->is_quoted[i]) == ERROR || \
+		ft_find_redi_with_fd(arg, 0) == OK)
 		return (-1);
 	y = 0;
 	next = shell->tab[i + 1];
 	while (arg[y] && (arg[y] >= '0' && arg[y] <= '9'))
 		y++;
-	if (ft_strcmp(&arg[y], "<<") == 0)
-		heredoc_dup_error(shell, shell->tab, i, ft_atoi_redi(arg, shell, next, 1));
-	else if (ft_strcmp(&arg[y], "<") == 0)
-		ft_fd_redi_infile(shell, i, ft_atoi_redi(arg, shell, next, 1));
-	else if (ft_strcmp(&arg[y], ">>") == 0)
-		ft_fd_redi_outfile(shell, i, ft_atoi_redi(arg, shell, next, 2), APPEND);
-	else if (ft_strcmp(&arg[y], ">") == 0)
-		ft_fd_redi_outfile(shell, i, ft_atoi_redi(arg, shell, next, 3), TRUNC);
+	if (ft_strcmp(&arg[y], "<<") == OK)
+		heredoc_dup_error(shell, shell->tab, i, ft_atoi(arg, shell, next, 1));
+	else if (ft_strcmp(&arg[y], "<") == OK)
+		ft_fd_redi_infile(shell, i, ft_atoi(arg, shell, next, RDONLY));
+	else if (ft_strcmp(&arg[y], ">>") == OK)
+		ft_fd_redi_outfile(shell, i, ft_atoi(arg, shell, next, APPEND), APPEND);
+	else if (ft_strcmp(&arg[y], ">") == OK)
+		ft_fd_redi_outfile(shell, i, ft_atoi(arg, shell, next, TRUNC), TRUNC);
 	return (0);
 }
 

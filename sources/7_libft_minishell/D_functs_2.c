@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 05:49:21 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/11 17:50:25 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/01 18:22:36 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	ft_strlen(char *s)
 	int	i;
 
 	if (!s)
-		return (0);
+		return (OK);
 	i = 0;
 	while (s[i])
 		i++;

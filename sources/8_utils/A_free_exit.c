@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 18:29:00 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/11 19:08:49 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/01 19:51:48 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	ft_free_close_perror(t_shell *shell, char *description, int mode)
 {
-	if (mode == 1)
+	if (mode == ERROR)
 	{
-		description = ft_strcat("Minishell: ", description, shell);
+		description = ft_strcat("Minishell", description, shell);
 		perror(description);
 	}
 	ft_close_everything_lol(shell);
@@ -25,10 +25,10 @@ void	ft_free_close_perror(t_shell *shell, char *description, int mode)
 
 void	ft_end_program(t_shell *shell, int mode, int err)
 {
-	if (err == -1)
+	if (err == FAIL)
 		err = errno;
-	if (mode == 1)
-		perror("Minishell: ");
+	if (mode == ERROR)
+		perror("Minishell");
 	ft_close_everything_lol(shell);
 	ft_free_everything_lol(shell);
 	exit(err);
@@ -61,9 +61,9 @@ void	ft_close_everything_lol(t_shell *shell)
 
 	if (!shell)
 		return ;
-	dup2(0, 0);
-	dup2(1, 1);
-	dup2(2, 2);
+	dup2(STDIN_FILENO, STDIN_FILENO);
+	dup2(STDOUT_FILENO, STDOUT_FILENO);
+	dup2(STDERR_FILENO, STDERR_FILENO);
 	lst = shell->tbc_list;
 	if (!lst)
 		return ;

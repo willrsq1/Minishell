@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 20:56:19 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/01 10:13:17 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/01 17:40:32 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,26 +24,24 @@ int	tab_creation(t_shell *shell, char *buff)
 	shell->tab = NULL;
 	tab = ft_create_tab(shell, buff);
 	if (tab == NULL)
-		return (1);
+		return (ERROR);
 	tab = fix_tab(shell, tab);
 	tab = quotes_management(shell, tab);
 	shell->tab = tab;
 	shell->buff = buff;
-	if (ft_syntax_error(tab, shell) == 1)
-		return (1);
-	return (0);
+	if (ft_syntax_error(tab, shell))
+		return (ERROR);
+	return (OK);
 }
 
 static char	**ft_create_tab(t_shell *shell, char *buff)
 {
 	char	**tab;
-	int		nb_db_quotes;
 
 	if (!buff || !buff[0])
 		return (NULL);
-	nb_db_quotes = ft_count_quotes(buff);
-	if (!buff || nb_db_quotes % 2 != 0)
-		return (shell->exit_status = 1, NULL);
+	if (!buff || ft_count_quotes(buff))
+		return (shell->exit_status = ERROR, NULL);
 	tab = ft_split_minishell(buff, ' ', shell);
 	return (tab);
 }
@@ -68,18 +66,18 @@ static int	ft_count_quotes(char *buff)
 		else if (buff[i] == c && quote % 2 == 0)
 			quote++;
 		if (quote >= INT32_MAX - 3)
-			return (write(2, "Too many dbquotes\n", 19), 0);
+			return (write(2, "Too many dbquotes\n", 19), ERROR);
 		if (!buff[i])
 			break ;
 		i++;
 	}
 	count_quotes_perror(quote, c);
-	return (quote);
+	return (quote % 2);
 }
 
 static void	count_quotes_perror(int quote, char c)
 {
-	if (quote % 2 != 0)
+	if (quote % 2)
 	{
 		write(2, "Minishell: Expected finishing ", 31);
 		if (c == '\'')

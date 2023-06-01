@@ -55,8 +55,8 @@ void	ft_pipex_big_tab(int pipes_number, t_init *init, t_shell *shell)
 		args[tab] = ft_calloc(sizeof(char *) * (nb + 1), shell);
 		init->is_quoted[tab] = ft_calloc(sizeof(int *) * (nb + 1), shell);
 		while (shell->tab[++lign] && \
-			!(ft_strcmp(shell->tab[lign], "|") == 0 && \
-			shell->is_quoted[lign][0] == 0))
+			!(ft_strcmp(shell->tab[lign], "|") == OK && \
+			shell->is_quoted[lign][0] == OK))
 		{
 			args[tab][++args_lign] = ft_strdup(shell->tab[lign], shell);
 			init->is_quoted[tab][args_lign] = shell->is_quoted[lign];
@@ -71,8 +71,8 @@ static int	get_size_until_pipe(t_shell *shell, int lign)
 
 	nb = 0;
 	while (shell->tab[++lign] && \
-		!(ft_strcmp(shell->tab[lign], "|") == 0 && \
-		shell->is_quoted[lign][0] == 0))
+		!(ft_strcmp(shell->tab[lign], "|") == OK && \
+		shell->is_quoted[lign][0] == OK))
 		nb++;
 	return (nb);
 }
@@ -82,25 +82,25 @@ void	ft_get_heredocs_pipex(t_pipex *p, int i)
 	t_shell	*shell;
 
 	i = 0;
-	p->fds[0][0] = 0;
-	p->fds[0][1] = -1;
-	p->fds[p->nb_cmds - 1][0] = -1;
-	p->fds[p->nb_cmds - 1][1] = 1;
+	p->fds[0][0] = STDIN_FILENO;
+	p->fds[0][1] = FAIL;
+	p->fds[p->nb_cmds - 1][0] = FAIL;
+	p->fds[p->nb_cmds - 1][1] = STDOUT_FILENO;
 	while (++i < p->nb_cmds - 1)
 	{
-		p->fds[i][0] = -1;
-		p->fds[i][1] = -1;
+		p->fds[i][0] = FAIL;
+		p->fds[i][1] = FAIL;
 	}
 	i = -1;
 	shell = p->shell;
 	while (++i < p->nb_cmds)
 	{
-		p->heredoc_fds[i] = -1;
+		p->heredoc_fds[i] = FAIL;
 		shell->tab = p->commands[i];
 		shell->is_quoted = p->is_quoted[i];
-		p->shell->infile = -1;
+		p->shell->infile = FAIL;
 		ft_get_heredocs(shell);
-		if (p->shell->infile != -1)
+		if (p->shell->infile != FAIL)
 			p->heredoc_fds[i] = p->shell->infile;
 	}
 }
@@ -117,8 +117,7 @@ void	ft_close_pipes(int i, t_pipex *p)
 		if (p->forks_id[y] != -1)
 			waitpid(p->forks_id[y], &status, 0);
 	}
+	p->shell->exit_status = 0;
 	if (WIFEXITED(status))
 		p->shell->exit_status = WEXITSTATUS(status);
-	else
-		p->shell->exit_status = 0;
 }

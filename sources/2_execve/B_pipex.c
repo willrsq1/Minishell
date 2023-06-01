@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 00:13:01 by root              #+#    #+#             */
-/*   Updated: 2023/05/19 09:41:10 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/01 17:58:16 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,27 +56,24 @@ static void	ft_forking(t_pipex *p, char **envp)
 static void	ft_fork_loop(t_pipex *p, char **envp, int i)
 {
 	ft_check_for_redirections(p, i);
-	if (p->fds[i][0] == -1)
+	if (p->fds[i][0] == FAIL)
 	{
 		close(p->pipe[i - 1][1]);
 		p->fds[i][0] = p->pipe[i - 1][0];
 	}
-	if (dup2(p->fds[i][0], 0) < 0)
-		ft_end_program(p->shell, 1, errno);
-	if (p->fds[i][1] == -1)
+	if (dup2(p->fds[i][0], 0) == FAIL)
+		ft_end_program(p->shell, ERROR, errno);
+	if (p->fds[i][1] == FAIL)
 	{
 		close(p->pipe[i][0]);
 		p->fds[i][1] = p->pipe[i][1];
 	}
-	if (dup2(p->fds[i][1], 1) < 0)
-		ft_end_program(p->shell, 1, errno);
+	if (dup2(p->fds[i][1], 1) == FAIL)
+		ft_end_program(p->shell, ERROR, errno);
 	if (!ft_strcmp(p->cmd, "exit"))
 		ft_exit(p->shell);
-	if (execve(p->cmd, p->commands[i], envp) == -1)
-	{
-		ft_free_close_perror(p->shell, "execve fail", 1);
-		exit(COMMAND);
-	}
+	execve(p->cmd, p->commands[i], envp);
+	ft_end_program(p->shell, ERROR, errno);
 }
 
 static void	ft_check_for_redirections(t_pipex *p, int i)
@@ -87,15 +84,15 @@ static void	ft_check_for_redirections(t_pipex *p, int i)
 	shell->tab = p->commands[i];
 	shell->is_quoted = p->is_quoted[i];
 	shell->pipe_heredoc = NULL;
-	shell->infile = -1;
-	shell->outfile = -1;
+	shell->infile = FAIL;
+	shell->outfile = FAIL;
 	ft_get_redi(shell);
-	if (shell->infile != -1)
+	if (shell->infile != FAIL)
 		p->fds[i][0] = p->shell->infile;
 	if (shell->infile == -2)
 		p->fds[i][0] = p->heredoc_fds[i];
-	if (shell->outfile != -1)
+	if (shell->outfile != FAIL)
 		p->fds[i][1] = p->shell->outfile;
-	if (ft_get_cmd(p, i) != 0)
-		ft_end_program(shell, 0, COMMAND);
+	if (ft_get_cmd(p, i) == ERROR)
+		ft_end_program(shell, 0, COMMAND_ERROR);
 }

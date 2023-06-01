@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 03:34:10 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/11 17:49:04 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/01 18:23:47 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@ int	ft_strcmp(char *arg, char *checked)
 	int	i;
 
 	if (!arg && !checked)
-		return (0);
+		return (OK);
 	if (!arg || !checked)
-		return (1);
+		return (ERROR);
 	i = 0;
 	while (arg[i] && checked[i] && arg[i] == checked[i])
 	{
 		if (i == INT32_MAX)
-			return (write(2, "Arg is too long\n", 17), -1);
+			return (write(2, "Arg is too long\n", 17), ERROR);
 		i++;
 	}
 	return (arg[i] - checked[i]);
@@ -35,14 +35,14 @@ int	ft_strncmp(char *arg, char *checked, int n)
 	int	i;
 
 	if (!arg && !checked)
-		return (0);
+		return (OK);
 	if (!arg || !checked)
-		return (1);
+		return (ERROR);
 	i = 0;
 	while (arg[i] && checked[i] && arg[i] == checked[i] && i < n - 1)
 	{
 		if (i == INT32_MAX)
-			return (write(2, "Arg is too long\n", 17), -1);
+			return (write(2, "Arg is too long\n", 17), ERROR);
 		i++;
 	}
 	return (n - 1 - i);
@@ -83,8 +83,6 @@ char	*ft_strcat(char *s1, char *s2, t_shell *shell)
 	len1 = ft_strlen((char *) s1);
 	len2 = ft_strlen((char *) s2);
 	str = ft_calloc(len1 + len2 + 1, shell);
-	if (str == 0)
-		return (NULL);
 	i = -1;
 	while (s1 && s1[++i])
 		str[i] = s1[i];
@@ -103,8 +101,8 @@ int	arg_is_unquoted(char *arg, int *is_quoted)
 	while (arg[i])
 	{
 		if (is_quoted[i])
-			return (-1);
+			return (ERROR);
 		i++;
 	}
-	return (0);
+	return (OK);
 }

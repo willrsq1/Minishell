@@ -36,7 +36,7 @@ int	main(int argc, char **argv, char **envp)
 			exit(shell.exit_status);
 		free(buff);
 	}
-	return (0);
+	return (OK);
 }
 
 static void	ft_init_shell(t_shell *shell)

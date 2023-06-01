@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 14:24:40 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/01 10:16:29 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/01 18:39:22 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	ft_do_the_execve_thing(t_shell *shell, char **envp)
 	shell->infile = -1;
 	shell->outfile = -1;
 	init.shell = shell;
-	if (ft_find_exit_status(shell) || ft_operands(shell, envp, -1))
+	if (ft_find_exit_status(shell) || ft_no_operands(shell, envp, -1))
 		return ;
 	ft_find_wildcard(shell, shell->tab);
 	init.pipes_number = ft_count_pipes(shell);
@@ -43,7 +43,7 @@ static void	exec_no_pipes(t_shell *shell, char **envp)
 	pid_t	pid;
 	int		status;
 
-	if (ft_strcmp(shell->tab[0], "exit") == 0)
+	if (ft_strcmp(shell->tab[0], "exit") == OK)
 		ft_exit(shell);
 	pid = fork();
 	if (pid == 0)
@@ -55,7 +55,7 @@ static void	exec_no_pipes(t_shell *shell, char **envp)
 		execve(shell->no_pipes_cmd, shell->tab, envp);
 		ft_end_program(shell, 1, errno);
 	}
-	shell->exit_status = 0;
+	shell->exit_status = OK;
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
 		shell->exit_status = WEXITSTATUS(status);
@@ -78,20 +78,20 @@ static void	get_cmd_no_pipes(t_shell *shell, char **envp)
 	pipex->commands = ft_calloc(sizeof(char **), shell);
 	ft_get_envp_paths(pipex, envp);
 	pipex->commands[0] = ft_split(shell->tab[0], '\0', shell);
-	if (ft_get_cmd(pipex, 0) != 0)
-		ft_end_program(shell, 0, COMMAND);
+	if (ft_get_cmd(pipex, 0) == ERROR)
+		ft_end_program(shell, 0, COMMAND_ERROR);
 	shell->no_pipes_cmd = pipex->cmd;
 }
 
 static void	ft_dup2_exec_no_pipes(t_shell *shell)
 {
-	if (shell->infile == -1)
-		shell->infile = 0;
-	if (shell->outfile == -1)
-		shell->outfile = 1;
-	if (dup2(shell->infile, 0) == -1)
+	if (shell->infile == FAIL)
+		shell->infile = STDIN_FILENO;
+	if (shell->outfile == FAIL)
+		shell->outfile = STDOUT_FILENO;
+	if (dup2(shell->infile, 0) == FAIL)
 		ft_end_program(shell, 1, errno);
-	if (dup2(shell->outfile, 1) == -1)
+	if (dup2(shell->outfile, 1) == FAIL)
 		ft_end_program(shell, 1, errno);
 }
 

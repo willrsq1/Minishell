@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   D_heredoc.c                                        :+:      :+:    :+:   */
+/*   C_heredoc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 15:35:05 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/11 19:11:50 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/01 18:21:53 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,14 @@ void	ft_get_heredocs(t_shell *shell)
 	i = -1;
 	while (tab[++i])
 	{
-		if (ft_strcmp(tab[i], "<<") == 0 && \
-			shell->is_quoted[i][0] == 0 && shell->is_quoted[i][1] == 0)
+		if (ft_strcmp(tab[i], "<<") == OK && \
+			shell->is_quoted[i][0] == OK && shell->is_quoted[i][1] == OK)
 		{
 			shell->heredoc = ft_heredoc(ft_strcat(tab[i + 1], "\n", shell), shell);
 			shell->infile = shell->heredoc;
 			i = i + 1;
 		}
-		else if (!arg_is_unquoted(tab[i], shell->is_quoted[i]) && \
+		else if (arg_is_unquoted(tab[i], shell->is_quoted[i]) == OK && \
 			ft_find_redi_with_fd(tab[i], 0))
 			i = ft_dup_heredoc_pipex(tab, i, shell);
 	}
@@ -68,10 +68,10 @@ int	ft_dup_heredoc_pipex(char **tab, int i, t_shell *shell)
 	y = 0;
 	while (tab[i][y] && (tab[i][y] >= '0' && tab[i][y] <= '9'))
 		y++;
-	if (ft_strcmp(&tab[i][y], "<<") == 0)
+	if (ft_strcmp(&tab[i][y], "<<") == OK)
 	{
 		heredoc_dup_error(shell, tab, i, \
-			ft_atoi_redi(tab[i], shell, tab[i + 1], 4));
+			ft_atoi(tab[i], shell, tab[i + 1], 4));
 		return (i - 1);
 	}
 	return (i);

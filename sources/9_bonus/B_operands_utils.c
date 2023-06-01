@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 14:30:53 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/31 15:34:53 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/01 18:40:15 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	ft_is_it_operand(char *arg, int *is_quoted)
 		return (AND_OPERAND);
 	if (!ft_strcmp(arg, ";") && !is_quoted[0])
 		return (SEMICOLON);
-	return (0);
+	return (OK);
 }
 
 /**

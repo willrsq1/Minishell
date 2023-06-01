@@ -84,3 +84,4 @@ I"'"NF'"'"'"ILE truc I"'"NF'"'"'"ILE || IN"'"""F'IL'EI"'"NF'"'"'"ILE truc I"'"NF
 exit
 exit
  wc Makefile | ls |ls |cat | cat
+./l

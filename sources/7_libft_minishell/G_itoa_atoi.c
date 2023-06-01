@@ -6,14 +6,14 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 16:58:46 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/31 15:17:32 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/01 18:27:33 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 static int	len_nb(unsigned int nb);
-static void	ft_atoi_redi_error(int result, char *str, t_shell *shell);
+static void	ft_atoi_error(int result, char *str, t_shell *shell);
 
 char	*ft_itoa(int nb, t_shell *shell)
 {
@@ -48,7 +48,7 @@ static int	len_nb(unsigned int nb)
 	return (i);
 }
 
-int	ft_atoi_redi(char *str, t_shell *shell, char *file, int mode)
+int	ft_atoi(char *str, t_shell *shell, char *file, int mode)
 {
 	int					i;
 	unsigned long long	result;
@@ -60,19 +60,15 @@ int	ft_atoi_redi(char *str, t_shell *shell, char *file, int mode)
 	if (result > 1023)
 	{
 		if (mode == 4)
-			return (result);
-		if (mode == 1 && file && file[0])
-			ft_open(file, shell, RDONLY);
-		if (mode == 2 && file && file[0])
-			ft_open(file, shell, APPEND);
-		if (mode == 3 && file && file[0])
-			ft_open(file, shell, TRUNC);
-		ft_atoi_redi_error(result, str, shell);
+			return ((int)result);
+		if (file && file[0])
+			ft_open(file, shell, mode);
+		ft_atoi_error(result, str, shell);
 	}
 	return ((int)result);
 }
 
-static void	ft_atoi_redi_error(int result, char *str, t_shell *shell)
+static void	ft_atoi_error(int result, char *str, t_shell *shell)
 {
 	int	i;
 
@@ -82,5 +78,5 @@ static void	ft_atoi_redi_error(int result, char *str, t_shell *shell)
 		i++;
 	str[i] = '\0';
 	perror(ft_strcat("Minishell: ", str, shell));
-	ft_end_program(shell, 0, 1);
+	ft_end_program(shell, OK, ERROR);
 }
