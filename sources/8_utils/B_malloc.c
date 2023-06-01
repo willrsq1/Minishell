@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 08:10:57 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/11 17:51:05 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/05/31 15:40:31 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	*ft_calloc(size_t nmemb, t_shell *shell)
 	ptr = malloc(nmemb);
 	if (!ptr)
 	{
-		write(1, "Malloc failed !!\n", 18);
+		write(1, "Malloc failed !\n", 17);
 		ft_free_everything_lol(shell);
 		exit (1);
 	}
@@ -42,7 +42,7 @@ static void	ft_ptr_list(t_shell *shell, void *ptr)
 	to_be_freed_lst = malloc(sizeof(t_to_be_freed));
 	if (!to_be_freed_lst)
 	{
-		write(2, "Eroor calloc\n", 14);
+		write(2, "Error calloc\n", 14);
 		ft_free_everything_lol(shell);
 		exit (1);
 	}

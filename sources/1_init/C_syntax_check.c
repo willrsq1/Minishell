@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 02:33:08 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/12 02:42:18 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/05/31 15:38:26 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static int	ft_is_token_redi_tokens(char **tab, t_shell *shell, int i);
 static int	ft_check_pipes_tokens(char **tab, t_shell *shell);
+static int	ft_check_parenthesis_tokens(char **tab, t_shell *shell);
 static int	no_token_after_last_pipe(int i, char *s, t_shell *shell);
 
 int	ft_syntax_error(char **tab, t_shell *shell)
@@ -21,6 +22,8 @@ int	ft_syntax_error(char **tab, t_shell *shell)
 	if (ft_is_token_redi_tokens(tab, shell, -1) == 1)
 		return (shell->exit_status = 2, 1);
 	if (ft_check_pipes_tokens(tab, shell) == 1)
+		return (shell->exit_status = 2, 1);
+	if (ft_check_parenthesis_tokens(tab, shell) == 1)
 		return (shell->exit_status = 2, 1);
 	return (0);
 }
@@ -77,6 +80,33 @@ static int	ft_check_pipes_tokens(char **tab, t_shell *shell)
 			if (!tab[i + 1])
 				return (no_token_after_last_pipe(i, NULL, shell));
 		}
+		i++;
+	}
+	return (0);
+}	
+	
+static int	ft_check_parenthesis_tokens(char **tab, t_shell *shell)
+{
+	int		i;
+	i = 0;
+	while (tab[i])
+	{
+		if (tab[i][0] == '(' && !shell->is_quoted[i][0])
+		{
+			if (!(tab[i][ft_strlen(tab[i]) - 1] == ')' && \
+				!shell->is_quoted[i][ft_strlen(tab[i])]))
+			{
+				write(2, "Minishell: syntax error near", 29);
+				write(2, " unexpected token `", 20);
+				if (i > 0)
+					write(2, tab[i + 1], ft_strlen(tab[i + 1]));
+				else
+					write(2, tab[i], ft_strlen(tab[i]));
+				return (write(2, "'\n", 3), 1);
+				return (1);
+			}
+		}
+		//upgrade this
 		i++;
 	}
 	return (0);

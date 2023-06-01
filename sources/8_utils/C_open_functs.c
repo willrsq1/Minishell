@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 16:49:53 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/11 18:52:02 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/05/31 15:15:27 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,39 +32,18 @@ void	ft_add_tbc_list(int fd, t_shell *shell)
 	temp->next = lst;
 }
 
-int	ft_open_rdonly(char *file, t_shell *shell)
+int	ft_open(char *file, t_shell *shell, int option)
 {
 	int	fd;
 
-	fd = open(file, O_RDONLY);
-	if (fd == -1)
-	{
-		perror(ft_strcat("Minishell: ", file, shell));
-		ft_end_program(shell, 0, 1);
-	}
-	ft_add_tbc_list(fd, shell);
-	return (fd);
-}
-
-int	ft_open_append(char *file, t_shell *shell)
-{
-	int	fd;
-
-	fd = open(file, O_CREAT | O_WRONLY | O_APPEND, 000644);
-	if (fd == -1)
-	{
-		perror(ft_strcat("Minishell: ", file, shell));
-		ft_end_program(shell, 0, 1);
-	}
-	ft_add_tbc_list(fd, shell);
-	return (fd);
-}
-
-int	ft_open_trunc(char *file, t_shell *shell)
-{
-	int	fd;
-
-	fd = open(file, O_CREAT | O_WRONLY | O_TRUNC, 000644);
+	if (option == RDONLY)
+		fd = open(file, O_RDONLY);
+	else if (option == TRUNC)
+		fd = open(file, O_CREAT | O_WRONLY | O_TRUNC, 000644);
+	else if (option == APPEND)
+		fd = open(file, O_CREAT | O_WRONLY | O_APPEND, 000644);
+	else
+		return (perror("Bad open option"), ft_end_program(shell, 0, 1), -1);
 	if (fd == -1)
 	{
 		perror(ft_strcat("Minishell: ", file, shell));

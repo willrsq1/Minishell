@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   G_atoi_redi.c                                      :+:      :+:    :+:   */
+/*   G_itoa_atoi.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 16:58:46 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/11 17:50:42 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/05/31 15:17:32 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,11 @@ int	ft_atoi_redi(char *str, t_shell *shell, char *file, int mode)
 		if (mode == 4)
 			return (result);
 		if (mode == 1 && file && file[0])
-			ft_open_rdonly(file, shell);
+			ft_open(file, shell, RDONLY);
 		if (mode == 2 && file && file[0])
-			ft_open_append(file, shell);
+			ft_open(file, shell, APPEND);
 		if (mode == 3 && file && file[0])
-			ft_open_trunc(file, shell);
+			ft_open(file, shell, TRUNC);
 		ft_atoi_redi_error(result, str, shell);
 	}
 	return ((int)result);

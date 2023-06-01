@@ -70,7 +70,7 @@ all: $(NAME)
 
 $(NAME): $(OBJS)
 	$(CC) $(FLAGS) -o $@ $^ -lreadline
-	@echo "$(GREEN)Project successfully compiled"
+	@echo "$(GREEN)Project successfully compiled\nRun ./minishell --help for help menu\n"
 
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c $(HEADER)/*.h Makefile
 	@$(CC) $(FLAGS) -c -o $@ $< 

@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 20:56:19 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/12 03:14:42 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/01 10:13:17 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	tab_creation(t_shell *shell, char *buff)
 	if (tab == NULL)
 		return (1);
 	tab = fix_tab(shell, tab);
-	tab = trim_and_is_quoted(shell, tab);
+	tab = quotes_management(shell, tab);
 	shell->tab = tab;
 	shell->buff = buff;
 	if (ft_syntax_error(tab, shell) == 1)

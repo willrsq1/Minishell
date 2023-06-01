@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 14:24:40 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/13 11:55:01 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/01 10:16:29 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,10 @@ static void	exec_no_pipes(t_shell *shell, char **envp)
 		execve(shell->no_pipes_cmd, shell->tab, envp);
 		ft_end_program(shell, 1, errno);
 	}
-	if (pid != 0)
-		waitpid(pid, &status, 0);
+	shell->exit_status = 0;
+	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
 		shell->exit_status = WEXITSTATUS(status);
-	else
-		shell->exit_status = 0;
 }
 
 static void	get_cmd_no_pipes(t_shell *shell, char **envp)

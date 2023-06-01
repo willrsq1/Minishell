@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 09:34:25 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/13 12:25:15 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/05/31 15:26:35 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,17 +73,17 @@ void	ft_initializing_options(t_shell *shell, int argc, char **argv)
 			shell->show_exit_status = 1;
 			printf("The exit status will be shown at exit.\n");
 		}
-		if (!ft_strcmp(argv[argc - 1], "--show-tokens"))
+		else if (!ft_strcmp(argv[argc - 1], "--show-tokens"))
 		{
 			printf("The Tokens will be showned.\n");
 			shell->show_tokens = 1;
 		}
-		if (!ft_strcmp(argv[argc - 1], "--exit"))
+		else if (!ft_strcmp(argv[argc - 1], "--exit"))
 		{
 			printf("The args will be showned.\n");
 			shell->exit_after_first_input = 1;
 		}
-		if (!ft_strcmp(argv[argc - 1], "--help"))
+		else if (!ft_strcmp(argv[argc - 1], "--help"))
 			ft_print_help_menu();
 		argc--;
 	}

@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 18:56:00 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/11 19:31:27 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/05/31 15:20:01 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ void	ft_get_redi(t_shell *shell)
 			ft_infile(shell, i--);
 		else if (ft_strcmp(tab[i], ">>") == 0 && \
 			shell->is_quoted[i][0] == 0 && shell->is_quoted[i][1] == 0)
-			ft_outfile_append(shell, i--);
+			ft_outfile(shell, i--, APPEND);
 		else if (ft_strcmp(tab[i], ">") == 0 && shell->is_quoted[i][0] == 0)
-			ft_outfile_trunc(shell, i--);
+			ft_outfile(shell, i--, TRUNC);
 	}
 }
 
@@ -56,9 +56,9 @@ static int	ft_file_redirection(char *arg, int i, t_shell *shell)
 	else if (ft_strcmp(&arg[y], "<") == 0)
 		ft_fd_redi_infile(shell, i, ft_atoi_redi(arg, shell, next, 1));
 	else if (ft_strcmp(&arg[y], ">>") == 0)
-		ft_fd_redi_outfile_append(shell, i, ft_atoi_redi(arg, shell, next, 2));
+		ft_fd_redi_outfile(shell, i, ft_atoi_redi(arg, shell, next, 2), APPEND);
 	else if (ft_strcmp(&arg[y], ">") == 0)
-		ft_fd_redi_outfile_trunc(shell, i, ft_atoi_redi(arg, shell, next, 3));
+		ft_fd_redi_outfile(shell, i, ft_atoi_redi(arg, shell, next, 3), TRUNC);
 	return (0);
 }
 

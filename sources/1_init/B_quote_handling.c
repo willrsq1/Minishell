@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 03:44:56 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/12 00:44:26 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/01 10:13:17 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	**is_quoted_int_tab_creation(char **tab, t_shell *shell);
 static char	**fill_is_quoted(char **tab, int **is_quoted);
 static void	fill_is_quoted_loop(char **tab, int **is_quoted, int i, char c);
 
-char	**trim_and_is_quoted(t_shell *shell, char **tab)
+char	**quotes_management(t_shell *shell, char **tab)
 {
 	char	**new_tab;
 

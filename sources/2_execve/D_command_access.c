@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 12:52:01 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/12 03:08:38 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/01 10:17:57 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@ void	ft_get_envp_paths(t_pipex *p, char **envp)
 	char	*envp2;
 
 	i = 0;
-	if (!envp)
+	while (envp && envp[i] && ft_strncmp(envp[i], "PATH=", 5))
+		i++;
+	if (!envp || !envp[i])
 	{
 		p->paths = NULL;
 		return ;
 	}
-	while (envp[i] && ft_strncmp(envp[i], "PATH=", 5))
-		i++;
 	envp2 = envp[i] + 5;
 	p->paths = ft_split(envp2, ':', p->shell);
 }

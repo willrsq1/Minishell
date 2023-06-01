@@ -17,7 +17,9 @@
 # define OR_OPERAND 401
 # define AND_OPERAND 402
 # define SEMICOLON 403
-// # define APPEND 801
+# define RDONLY 801
+# define TRUNC 802
+# define APPEND 803
 
 typedef struct s_shell			t_shell;
 typedef struct s_pipex			t_pipex;

@@ -42,7 +42,7 @@ int		tab_creation(t_shell *shell, char *buff);
 
 /*		B_QUOTE_HANDLING.C */
 
-char	**trim_and_is_quoted(t_shell *shell, char **tab);
+char	**quotes_management(t_shell *shell, char **tab);
 char	ft_which_quote(char *str);
 
 /*		C_SYNTAX_CHECK.C */
@@ -82,19 +82,14 @@ int		ft_get_cmd(t_pipex *p, int i);
 void	ft_get_redi(t_shell *shell);
 void	ft_remove_redi_ligns(t_shell *shell, int i);
 
-/*		B_INFILE.C */
+/*		B_REDIRECTIONS.C */
 
 void	ft_infile(t_shell *shell, int i);
+void	ft_outfile(t_shell *shell, int i, int option);
 void	ft_fd_redi_infile(t_shell *shell, int i, int file_fd);
+void	ft_fd_redi_outfile(t_shell *shell, int i, int file_fd, int option);
 
-/*		C_OUTFILE.C */
-
-void	ft_outfile_append(t_shell *shell, int i);
-void	ft_outfile_trunc(t_shell *shell, int i);
-void	ft_fd_redi_outfile_append(t_shell *shell, int i, int file_fd);
-void	ft_fd_redi_outfile_trunc(t_shell *shell, int i, int file_fd);
-
-/*		D_HEREDOC.C */
+/*		C_HEREDOC.C */
 
 void	ft_get_heredocs(t_shell *shell);
 int		ft_heredoc(char *delimiter, t_shell *shell);
@@ -186,9 +181,7 @@ void	*ft_calloc(size_t nmemb, t_shell *shell);
 /*		OPEN_CLOSE.C */
 
 void	ft_add_tbc_list(int fd, t_shell *shell);
-int		ft_open_rdonly(char *file, t_shell *shell);
-int		ft_open_trunc(char *file, t_shell *shell);
-int		ft_open_append(char *file, t_shell *shell);
+int		ft_open(char *file, t_shell *shell, int option);
 void	ft_pipe(int *tab, t_shell *shell);
 
 /*		SYNTAX_CHECK_UTILS.C */
