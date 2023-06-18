@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 15:35:05 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/01 18:21:53 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/17 12:12:29 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ void	ft_get_heredocs(t_shell *shell)
 	i = -1;
 	while (tab[++i])
 	{
-		if (ft_strcmp(tab[i], "<<") == OK && \
-			shell->is_quoted[i][0] == OK && shell->is_quoted[i][1] == OK)
+		if (ft_strcmp_unquoted(tab[i], "<<", shell->is_quoted[i]) == OK)
 		{
-			shell->heredoc = ft_heredoc(ft_strcat(tab[i + 1], "\n", shell), shell);
+			shell->heredoc = ft_heredoc(ft_strcat(tab[i + 1], "\n", shell), \
+				shell);
 			shell->infile = shell->heredoc;
 			i = i + 1;
 		}
@@ -89,12 +89,12 @@ void	heredoc_dup_error(t_shell *shell, char **tab, int i, int file_fd)
 		write(2, "Minishell: ", 12);
 		ft_putnbr_error(file_fd);
 		write(2, ": Bad file descriptor\n", 23);
-		ft_remove_redi_ligns(shell, i);
-		ft_end_program(shell, 0, 1);
+		ft_remove_two_tokens(shell, i);
+		ft_end_program(shell, OK, EXIT_FAILURE);
 	}
 	write(2, "Minishell: Unallowed option: ", 30);
 	write(2, tab[i], ft_strlen(tab[i]) - 2);
 	write(2, ": No heredoc redirections are allowed.\n", 40);
-	ft_remove_redi_ligns(shell, i);
+	ft_remove_two_tokens(shell, i);
 	return ;
 }

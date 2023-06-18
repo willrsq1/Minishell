@@ -48,7 +48,8 @@ int	ft_is_token_operand(char *arg, int *is_quoted)
 {
 	if (!is_quoted[0])
 	{
-		if (!ft_strcmp(arg, "|") || !ft_strcmp(arg, "&") || !ft_strcmp(arg, ";"))
+		if (!ft_strcmp(arg, "|") || !ft_strcmp(arg, "&") || \
+			!ft_strcmp(arg, ";"))
 			return (ERROR);
 	}
 	if (!is_quoted[0] && !is_quoted[1])

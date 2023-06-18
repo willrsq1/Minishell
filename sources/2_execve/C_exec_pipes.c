@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   B_pipex.c                                          :+:      :+:    :+:   */
+/*   C_exec_pipes.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 00:13:01 by root              #+#    #+#             */
-/*   Updated: 2023/06/01 17:58:16 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/17 11:41:18 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static void	ft_forking(t_pipex *p, char **envp)
 			ft_pipe(p->pipe[i], p->shell);
 		p->forks_id[i] = fork();
 		if (p->forks_id[i] == -1)
-			ft_end_program(p->shell, 1, errno);
+			ft_end_program(p->shell, ERROR, EXIT_FAILURE);
 		if (p->forks_id[i] == 0)
 			ft_fork_loop(p, envp, i);
 		if (i < p->nb_cmds - 1)
@@ -62,18 +62,18 @@ static void	ft_fork_loop(t_pipex *p, char **envp, int i)
 		p->fds[i][0] = p->pipe[i - 1][0];
 	}
 	if (dup2(p->fds[i][0], 0) == FAIL)
-		ft_end_program(p->shell, ERROR, errno);
+		ft_end_program(p->shell, ERROR, EXIT_FAILURE);
 	if (p->fds[i][1] == FAIL)
 	{
 		close(p->pipe[i][0]);
 		p->fds[i][1] = p->pipe[i][1];
 	}
 	if (dup2(p->fds[i][1], 1) == FAIL)
-		ft_end_program(p->shell, ERROR, errno);
+		ft_end_program(p->shell, ERROR, EXIT_FAILURE);
 	if (!ft_strcmp(p->cmd, "exit"))
 		ft_exit(p->shell);
 	execve(p->cmd, p->commands[i], envp);
-	ft_end_program(p->shell, ERROR, errno);
+	ft_end_program(p->shell, ERROR, EXIT_FAILURE);
 }
 
 static void	ft_check_for_redirections(t_pipex *p, int i)
@@ -94,5 +94,5 @@ static void	ft_check_for_redirections(t_pipex *p, int i)
 	if (shell->outfile != FAIL)
 		p->fds[i][1] = p->shell->outfile;
 	if (ft_get_cmd(p, i) == ERROR)
-		ft_end_program(shell, 0, COMMAND_ERROR);
+		ft_end_program(shell, OK, COMMAND_ERROR);
 }

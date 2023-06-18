@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 08:10:57 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/02 00:10:52 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/17 11:36:57 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	*ft_calloc(size_t nmemb, t_shell *shell)
 	ptr = NULL;
 	ptr = malloc(nmemb);
 	if (!ptr)
-		ft_end_program(shell, ERROR, errno);
+		ft_end_program(shell, ERROR, EXIT_FAILURE);
 	ft_ptr_list(shell, ptr);
 	ft_bzero(ptr, nmemb);
 	return (ptr);
@@ -39,7 +39,7 @@ static void	ft_ptr_list(t_shell *shell, void *ptr)
 	if (!to_be_freed_lst)
 	{
 		free (ptr);
-		ft_end_program(shell, ERROR, errno);
+		ft_end_program(shell, ERROR, EXIT_FAILURE);
 	}
 	to_be_freed_lst->to_be_freed = NULL;
 	to_be_freed_lst->to_be_freed = ptr;

@@ -48,13 +48,14 @@ int	ft_find_redi_with_fd(char *s, int i)
 	return (OK);
 }
 
-char *ft_join_tab(char **tab, t_shell *shell)
+char	*ft_join_tab(char **tab, t_shell *shell)
 {
-	char *new;
-	int i;
+	char	*new;
+	int		i;
+	int		y;
+	int		w;
+
 	i = -1;
-	int y;
-	int w;
 	shell->buff = ft_calloc(ft_lenght_join_tab(tab, shell, -1, -1) + 1, shell);
 	new = shell->buff;
 	w = -1;
@@ -75,10 +76,10 @@ char *ft_join_tab(char **tab, t_shell *shell)
 
 static int	ft_join_tab_quoting(int *y_add, int i, t_shell *shell, int w)
 {
-	int	y;
-	int	quote;
-	char *new;
-	char **tab;
+	int		y;
+	int		quote;
+	char	*new;
+	char	**tab;
 
 	tab = shell->tab;
 	new = shell->buff;

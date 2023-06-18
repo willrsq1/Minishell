@@ -26,15 +26,15 @@ SOURCES =     		main.c \
 					3_redirections/C_heredoc.c \
 					4_builtins/exit_status.c \
 					4_builtins/exit.c \
+					7_libft_minishell/gnl/get_next_line.c \
+					7_libft_minishell/gnl/get_next_line_utils.c \
 					7_libft_minishell/A_ft_split_minishell.c \
 					7_libft_minishell/B_ft_split_minishell_utils.c \
 					7_libft_minishell/C_functs.c \
 					7_libft_minishell/D_functs_2.c \
 					7_libft_minishell/E_functs_3.c \
-					7_libft_minishell/F_ft_split.c \
-					7_libft_minishell/G_itoa_atoi.c \
-					7_libft_minishell/gnl/get_next_line.c \
-					7_libft_minishell/gnl/get_next_line_utils.c \
+					7_libft_minishell/F_functs_4.c \
+					7_libft_minishell/G_ft_split.c \
 					8_utils/A_free_exit.c \
 					8_utils/B_malloc.c \
 					8_utils/C_open_functs.c \

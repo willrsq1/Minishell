@@ -46,8 +46,10 @@ int	ft_get_cmd(t_pipex *p, int i)
 	return_value = ft_get_cmd_p2(p, i);
 	if (return_value == ERROR)
 	{
-		write(2, ft_strcat(p->commands[i][0], ": command not found\n", \
-			p->shell), ft_strlen(p->commands[i][0]) + 21);
+		write(2, \
+			ft_strcat(p->commands[i][0], \
+				": \033[0;31mcommand not found\033[0m\n", p->shell), \
+					ft_strlen(p->commands[i][0]) + 32);
 		return (ERROR);
 	}
 	else if (return_value < OK)

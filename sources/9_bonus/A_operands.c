@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 23:05:03 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/01 18:39:22 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/17 12:42:44 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,17 @@
 static char	***ft_create_operands_tab(t_shell *shell, char **tab, int count);
 static int	***ft_create_op_is_quoted(t_shell *shell, char **tab, int count);
 static int	*ft_get_op_options(t_shell *shell, char **tab, int count);
-static int	ft_no_operands_actions(int *options, int w, t_shell *shell);
+static int	ft_special_operands_actions(int *options, int w, t_shell *shell);
 
 /**
- * ft_no_operands
+ * ft_special_operands
  * WILL EXECUTE THE INPUT AND STOP ALL OTHER EXECUTION IF OPERANDS ARE FOUND
  * CREATES AS MANY **CHAR AS THERE ARE OPERANDS
  * EXECUTE THEM ACCORDINGLY TO THE && AND || RULES
  * RETURN 1 IF OPERANDS ARE FOUD
 */
 
-int	ft_no_operands(t_shell *shell, char **envp, int w)
+int	ft_special_operands(t_shell *shell, char **envp, int w)
 {
 	int		count;
 	char	***operands_tab;
@@ -45,8 +45,8 @@ int	ft_no_operands(t_shell *shell, char **envp, int w)
 		shell->is_quoted = operands_is_quoted[w];
 		shell->buff = ft_join_tab(operands_tab[w], shell);
 		ft_do_the_execve_thing(shell, envp);
-		ft_close_everything_lol(shell);
-		w = ft_no_operands_actions(options, w, shell);
+		ft_close_all_fds(shell);
+		w = ft_special_operands_actions(options, w, shell);
 	}
 	return (ERROR);
 }
@@ -117,7 +117,7 @@ static int	*ft_get_op_options(t_shell *shell, char **tab, int count)
 	return (options);
 }
 
-static int	ft_no_operands_actions(int *options, int w, t_shell *shell)
+static int	ft_special_operands_actions(int *options, int w, t_shell *shell)
 {
 	if (options[w] == OR_OPERAND && !shell->exit_status)
 	{
@@ -130,8 +130,8 @@ static int	ft_no_operands_actions(int *options, int w, t_shell *shell)
 			w++;
 	}
 	if (options[w] == AND_OPERAND && shell->exit_status)
-		return (-42);
+		return (IS_QUOTED_END);
 	if (options[w] == OR_OPERAND && !shell->exit_status)
-		return (-42);
+		return (IS_QUOTED_END);
 	return (w);
 }

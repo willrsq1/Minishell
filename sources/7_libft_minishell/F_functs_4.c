@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   G_itoa_atoi.c                                      :+:      :+:    :+:   */
+/*   F_functs_4.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 16:58:46 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/01 18:27:33 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/17 12:42:44 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,26 @@
 
 static int	len_nb(unsigned int nb);
 static void	ft_atoi_error(int result, char *str, t_shell *shell);
+
+int	ft_strcmp_unquoted(char *arg, char *checked, int *is_quoted)
+{
+	int	i;
+
+	if (!arg && !checked)
+		return (OK);
+	if (!arg || !checked)
+		return (ERROR);
+	i = 0;
+	while (arg[i] && checked[i] && arg[i] == checked[i] && is_quoted[i] == OK)
+	{
+		if (i == INT32_MAX)
+			return (write(2, "Arg is too long\n", 17), ERROR);
+		i++;
+	}
+	if (is_quoted[i] == IS_QUOTED_END)
+		return (arg[i] - checked[i]);
+	return (arg[i] - checked[i] - is_quoted[i]);
+}
 
 char	*ft_itoa(int nb, t_shell *shell)
 {
@@ -78,5 +98,5 @@ static void	ft_atoi_error(int result, char *str, t_shell *shell)
 		i++;
 	str[i] = '\0';
 	perror(ft_strcat("Minishell: ", str, shell));
-	ft_end_program(shell, OK, ERROR);
+	ft_end_program(shell, OK, EXIT_FAILURE);
 }

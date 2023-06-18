@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 02:17:31 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/01 18:40:37 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/17 11:21:54 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	**ft_wildcard_loop(t_shell *shell, char **tab, int i, char **new_args)
 	return (new_args);
 }
 
-int	ft_find_wildcard(t_shell *shell, char **tab)
+int	ft_wildcards_handling(t_shell *shell, char **tab)
 {
 	int		i;
 	char	**new_args;

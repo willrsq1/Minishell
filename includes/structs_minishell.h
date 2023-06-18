@@ -25,6 +25,7 @@
 # define RDONLY 801
 # define TRUNC 802
 # define APPEND 803
+# define IS_QUOTED_END -42
 
 typedef struct s_shell			t_shell;
 typedef struct s_pipex			t_pipex;

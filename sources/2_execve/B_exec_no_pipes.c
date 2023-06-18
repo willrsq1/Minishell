@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 00:14:46 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/02 00:14:52 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/18 10:16:55 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	exec_no_pipes(t_shell *shell, char **envp)
 		get_cmd_no_pipes(shell, envp);
 		ft_dup2_exec_no_pipes(shell);
 		execve(shell->no_pipes_cmd, shell->tab, envp);
-		ft_end_program(shell, 1, errno);
+		ft_end_program(shell, ERROR, EXIT_FAILURE);
 	}
 	shell->exit_status = OK;
 	waitpid(pid, &status, 0);
@@ -45,18 +45,13 @@ static void	get_cmd_no_pipes(t_shell *shell, char **envp)
 	pipex = ft_calloc(sizeof(t_pipex), shell);
 	pipex->nb_cmds = 1;
 	pipex->shell = shell;
-	pipex->forks_id = NULL;
-	pipex->commands = NULL;
-	pipex->pipe = NULL;
-	pipex->paths = NULL;
 	pipex->is_quoted = ft_calloc(sizeof(int **) * 2, shell);
 	pipex->is_quoted[0] = shell->is_quoted;
-	pipex->forks_id = ft_calloc(sizeof(int), shell);
-	pipex->commands = ft_calloc(sizeof(char **), shell);
+	pipex->commands = ft_calloc(sizeof(char **) * 2, shell);
 	ft_get_envp_paths(pipex, envp);
 	pipex->commands[0] = ft_split(shell->tab[0], '\0', shell);
 	if (ft_get_cmd(pipex, 0) == ERROR)
-		ft_end_program(shell, 0, COMMAND_ERROR);
+		ft_end_program(shell, OK, COMMAND_ERROR);
 	shell->no_pipes_cmd = pipex->cmd;
 }
 
@@ -66,8 +61,8 @@ static void	ft_dup2_exec_no_pipes(t_shell *shell)
 		shell->infile = STDIN_FILENO;
 	if (shell->outfile == FAIL)
 		shell->outfile = STDOUT_FILENO;
-	if (dup2(shell->infile, 0) == FAIL)
-		ft_end_program(shell, 1, errno);
-	if (dup2(shell->outfile, 1) == FAIL)
-		ft_end_program(shell, 1, errno);
+	if (dup2(shell->infile, STDIN_FILENO) == FAIL)
+		ft_end_program(shell, ERROR, EXIT_FAILURE);
+	if (dup2(shell->outfile, STDOUT_FILENO) == FAIL)
+		ft_end_program(shell, ERROR, EXIT_FAILURE);
 }

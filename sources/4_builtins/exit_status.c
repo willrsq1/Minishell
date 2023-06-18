@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 14:41:12 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/10 02:21:39 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/17 12:42:44 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	ft_dollar_sign(t_shell *shell, int i, int y)
 			// shell->is_quoted[i] = ft_calloc(sizeof(int) * (ft_strlen(new)))
 			// int	z;
 			// z = -1;
-			// while (shell->is_quoted[i][++z] != -42)
+			// while (shell->is_quoted[i][++z] != IS_QUOTED_END)
 			// 	printf("%d\n", shell->is_quoted[i][++z]);
 			
 		}

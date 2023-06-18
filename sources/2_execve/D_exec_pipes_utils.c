@@ -70,10 +70,12 @@ static int	get_size_until_pipe(t_shell *shell, int lign)
 	int	nb;
 
 	nb = 0;
-	while (shell->tab[++lign] && \
-		!(ft_strcmp(shell->tab[lign], "|") == OK && \
-		shell->is_quoted[lign][0] == OK))
+	while (shell->tab[++lign])
+	{
+		if (ft_strcmp_unquoted(shell->tab[lign], "|", shell->is_quoted[lign]) == OK)
+			break ;
 		nb++;
+	}
 	return (nb);
 }
 
@@ -111,7 +113,7 @@ void	ft_close_pipes(int i, t_pipex *p)
 	int	status;
 
 	y = -1;
-	ft_close_everything_lol(p->shell);
+	ft_close_all_fds(p->shell);
 	while (++y < i)
 	{	
 		if (p->forks_id[y] != -1)

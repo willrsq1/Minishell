@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 18:29:00 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/01 19:51:48 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/17 19:41:10 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,22 +19,23 @@ void	ft_free_close_perror(t_shell *shell, char *description, int mode)
 		description = ft_strcat("Minishell", description, shell);
 		perror(description);
 	}
-	ft_close_everything_lol(shell);
-	ft_free_everything_lol(shell);
+	ft_close_all_fds(shell);
+	ft_clear_memory(shell);
 }
 
 void	ft_end_program(t_shell *shell, int mode, int err)
 {
 	if (err == FAIL)
-		err = errno;
+		err = EXIT_FAILURE;
 	if (mode == ERROR)
 		perror("Minishell");
-	ft_close_everything_lol(shell);
-	ft_free_everything_lol(shell);
+	rl_clear_history();
+	ft_close_all_fds(shell);
+	ft_clear_memory(shell);
 	exit(err);
 }
 
-void	ft_free_everything_lol(t_shell *shell)
+void	ft_clear_memory(t_shell *shell)
 {
 	t_to_be_freed	*lst;
 	t_to_be_freed	*temp;
@@ -55,7 +56,7 @@ void	ft_free_everything_lol(t_shell *shell)
 	shell->to_be_freed_list = NULL;
 }
 
-void	ft_close_everything_lol(t_shell *shell)
+void	ft_close_all_fds(t_shell *shell)
 {
 	t_to_be_closed	*lst;
 

@@ -41,14 +41,14 @@ static int	ft_check_redi_tokenss(char **tab, t_shell *shell, int i)
 			s = tab[i + 1];
 			if (s && ft_is_token_meta(s, shell->is_quoted[i + 1]))
 			{
-				write(2, "Minishell: syntax error near", 29);
+				write(2, "Minishell: \033[0;31msyntax error\033[0m near", 40);
 				write(2, " unexpected token `", 20);
 				write(2, s, ft_strlen(s));
 				return (write(2, "'\n", 3), ERROR);
 			}
 			if (!s)
 			{
-				write(2, "Minishell: syntax error near", 29);
+				write(2, "Minishell: \033[0;31msyntax error\033[0m near", 40);
 				write(2, " unexpected token `newline'\n", 29);
 				return (ERROR);
 			}
@@ -60,6 +60,7 @@ static int	ft_check_redi_tokenss(char **tab, t_shell *shell, int i)
 static int	ft_check_pipes_tokens(char **tab, t_shell *shell)
 {
 	int		i;
+
 	i = 0;
 	while (tab[i])
 	{
@@ -68,7 +69,7 @@ static int	ft_check_pipes_tokens(char **tab, t_shell *shell)
 			if ((tab[i + 1] && ft_is_token_operand(tab[i + 1], \
 				shell->is_quoted[i + 1])) || i == 0)
 			{
-				write(2, "Minishell: syntax error near", 29);
+				write(2, "Minishell: \033[0;31msyntax error\033[0m near", 40);
 				write(2, " unexpected token `", 20);
 				if (i > 0)
 					write(2, tab[i + 1], ft_strlen(tab[i + 1]));
@@ -83,10 +84,11 @@ static int	ft_check_pipes_tokens(char **tab, t_shell *shell)
 	}
 	return (OK);
 }	
-	
+
 static int	ft_check_parenthesis_tokens(char **tab, t_shell *shell)
 {
 	int		i;
+
 	i = 0;
 	while (tab[i])
 	{
@@ -95,7 +97,7 @@ static int	ft_check_parenthesis_tokens(char **tab, t_shell *shell)
 			if (!(tab[i][ft_strlen(tab[i]) - 1] == ')' && \
 				!shell->is_quoted[i][ft_strlen(tab[i])]))
 			{
-				write(2, "Minishell: syntax error near", 29);
+				write(2, "Minishell: \033[0;31msyntax error\033[0m near", 40);
 				write(2, " unexpected token `", 20);
 				if (i > 0)
 					write(2, tab[i + 1], ft_strlen(tab[i + 1]));
