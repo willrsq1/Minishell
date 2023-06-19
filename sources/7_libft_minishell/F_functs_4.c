@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 16:58:46 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/17 12:42:44 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/19 02:39:21 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,9 @@ int	ft_strcmp_unquoted(char *arg, char *checked, int *is_quoted)
 	}
 	if (is_quoted[i] == IS_QUOTED_END)
 		return (arg[i] - checked[i]);
-	return (arg[i] - checked[i] - is_quoted[i]);
+	if (is_quoted[i])
+		return (1);
+	return (arg[i] - checked[i]);
 }
 
 char	*ft_itoa(int nb, t_shell *shell)

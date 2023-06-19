@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 00:13:01 by root              #+#    #+#             */
-/*   Updated: 2023/06/17 11:41:18 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/19 02:48:42 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ static void	ft_check_for_redirections(t_pipex *p, int i)
 	shell->pipe_heredoc = NULL;
 	shell->infile = FAIL;
 	shell->outfile = FAIL;
+	ft_open("/", shell, RDONLY);
 	ft_get_redi(shell);
 	if (shell->infile != FAIL)
 		p->fds[i][0] = p->shell->infile;
