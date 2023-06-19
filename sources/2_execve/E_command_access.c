@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 12:52:01 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/19 02:57:06 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/19 03:05:03 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	ft_get_cmd(t_pipex *p, int i)
 		write(2, \
 			ft_strcat(p->commands[i][0], \
 				": command not found\n", p->shell), \
-					ft_strlen(p->commands[i][0]) + 32);
+					ft_strlen(p->commands[i][0]) + 21);
 		return (ERROR);
 	}
 	else if (return_value < OK)
