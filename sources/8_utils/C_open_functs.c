@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 16:49:53 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/17 22:28:43 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/19 02:57:40 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ int	ft_open(char *file, t_shell *shell, int option)
 		ft_end_program(shell, ERROR, EXIT_FAILURE);
 	if (fd == FAIL)
 	{
-		file = ft_strcat(file, "\033[0m", shell);
-		perror(ft_strcat("Minishell: \033[0;31m", file, shell));
+		// file = ft_strcat(file, "\033[0m", shell);
+		perror(ft_strcat("Minishell: ", file, shell));
 		ft_end_program(shell, OK, EXIT_FAILURE);
 	}
 	ft_add_tbc_list(fd, shell);

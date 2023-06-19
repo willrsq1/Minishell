@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   D_command_access.c                                 :+:      :+:    :+:   */
+/*   E_command_access.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 12:52:01 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/01 18:03:24 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/19 02:57:06 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	ft_get_cmd(t_pipex *p, int i)
 	int	return_value;
 
 	if (!p->commands[i] || (!p->commands[i][0] && !p->is_quoted[i][0]))
-		return (ERROR);
+		ft_end_program(p->shell, OK, OK);
 	if (!p->commands[i][0] || !p->commands[i][0][0])
 	{
 		write(2, "'': command not found\n", 23);
@@ -48,7 +48,7 @@ int	ft_get_cmd(t_pipex *p, int i)
 	{
 		write(2, \
 			ft_strcat(p->commands[i][0], \
-				": \033[0;31mcommand not found\033[0m\n", p->shell), \
+				": command not found\n", p->shell), \
 					ft_strlen(p->commands[i][0]) + 32);
 		return (ERROR);
 	}
