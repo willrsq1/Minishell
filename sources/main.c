@@ -14,11 +14,18 @@
 
 static void	ft_reset_shell(t_shell *shell);
 static void	ft_create_prompt(t_shell *shell);
+static void	ft_shlvl(char **envp);
+
+int	exit_true_status;
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_shell		shell;
 
+	ft_reset_shell(&shell);
+	ft_signal(&shell);
+	exit_true_status = 0;
+	ft_shlvl(envp);
 	ft_initializing_options(&shell, argc, argv);
 	while (1)
 	{
@@ -29,9 +36,9 @@ int	main(int argc, char **argv, char **envp)
 		ft_close_all_fds(&shell);
 		ft_clear_memory(&shell);
 		if (shell.show_exit_status)
-			printf("		The exit status is = %d\n", shell.exit_status);
+			printf("		The exit status is = %d\n", exit_true_status);
 		if (shell.exit_after_first_input)
-			exit(shell.exit_status);
+			exit(exit_true_status);
 	}
 	return (OK);
 }
@@ -59,22 +66,29 @@ static void	ft_reset_shell(t_shell *shell)
 
 static void	ft_create_prompt(t_shell *shell)
 {
-	// char	path[1024];
-
-	// if (getcwd(path, sizeof(path)) != NULL)
-	// {
-	// 	write(2, "\033[1;36m(", 9);
-	// 	write(2, path, ft_strlen(path));
-	// }
-	// if (shell->exit_status)
-	// 	write(2, "\033[1;31m>\033[0m ", 14);
-	// else
-	// {
-	// 	write(2, "\033[1;32m", 8);
-	// 	write(2, ">", 1);
-	// 	write(2, "\033[0m ", 6);
-	// }
-	shell->exit_status = 0;
 	shell->buff = readline("Minishell d'Arbesa > ");
 	add_history(shell->buff);
+}
+
+static void	ft_shlvl(char **envp)
+{
+	int				i;
+	int				y;
+	unsigned int	level;
+	char			*new_lvl;
+
+	i = 0;
+	while (envp && ft_strncmp(envp[i], "SHLVL=", 7))
+		i++;
+	if (!envp[i])
+		return ;
+	level = ft_atoi(&envp[i][6], NULL, NULL, OK);
+	new_lvl = ft_itoa(level + 1, NULL);
+	if (!new_lvl)
+		exit(EXIT_FAILURE);
+	y = -1;
+	while (new_lvl[++y])
+		envp[i][6 + y] = new_lvl[y];
+	envp[i][6 + y] = '\0';
+	free(new_lvl);
 }

@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 00:13:01 by root              #+#    #+#             */
-/*   Updated: 2023/06/19 03:02:07 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/22 01:05:48 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,11 @@ void	ft_pipex(int argc, t_init *init, char **envp)
 	ft_pipex_initialisation(p);
 	ft_get_envp_paths(p, envp);
 	p->commands = init->args;
+	exit_true_status = 0;
 	p->is_quoted = init->is_quoted;
 	ft_get_heredocs_pipex(p, 0);
+	if (exit_true_status == SIGINT_EXITVALUE)
+		return ;
 	ft_forking(p, envp);
 }
 
@@ -55,6 +58,10 @@ static void	ft_forking(t_pipex *p, char **envp)
 
 static void	ft_fork_loop(t_pipex *p, char **envp, int i)
 {
+	p->shell->tab = p->commands[i];
+	p->shell->is_quoted = p->is_quoted[i];
+	if (ft_special_operands(p->shell, envp, -1))
+		exit(exit_true_status);
 	ft_check_for_redirections(p, i);
 	if (p->fds[i][0] == FAIL)
 	{

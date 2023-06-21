@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 16:58:46 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/19 02:39:21 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/19 13:08:02 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ char	*ft_itoa(int nb, t_shell *shell)
 
 	i = len_nb(nb);
 	str = ft_calloc(i + 2, shell);
+	if (!str)
+		return (NULL);
 	i--;
 	if (nb == 0)
 	{
@@ -79,7 +81,7 @@ int	ft_atoi(char *str, t_shell *shell, char *file, int mode)
 	result = 0;
 	while (str[++i] && str[i] >= '0' && str[i] <= '9')
 		result = result * 10 + (str[i] - 48);
-	if (result > 1023)
+	if (result > 1023 && shell)
 	{
 		if (mode == 4)
 			return ((int)result);
@@ -87,7 +89,7 @@ int	ft_atoi(char *str, t_shell *shell, char *file, int mode)
 			ft_open(file, shell, mode);
 		ft_atoi_error(result, str, shell);
 	}
-	return ((int)result);
+	return ((unsigned int)result);
 }
 
 static void	ft_atoi_error(int result, char *str, t_shell *shell)

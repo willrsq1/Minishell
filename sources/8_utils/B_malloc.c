@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 08:10:57 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/17 11:36:57 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/19 13:12:56 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,14 @@ void	*ft_calloc(size_t nmemb, t_shell *shell)
 		return (NULL);
 	ptr = NULL;
 	ptr = malloc(nmemb);
-	if (!ptr)
+	if (shell && !ptr)
 		ft_end_program(shell, ERROR, EXIT_FAILURE);
-	ft_ptr_list(shell, ptr);
+	if (!ptr)
+		return (NULL);
 	ft_bzero(ptr, nmemb);
+	if (!shell)
+		return (ptr);
+	ft_ptr_list(shell, ptr);
 	return (ptr);
 }
 

@@ -19,6 +19,7 @@
 # define SYNTAX_ERROR 2
 # define DIRECTORY_ERROR 126
 # define COMMAND_ERROR 127
+# define SIGINT_EXITVALUE 130
 # define OR_OPERAND 401
 # define AND_OPERAND 402
 # define SEMICOLON 403
@@ -54,7 +55,6 @@ typedef struct s_shell
 	int				exit;
 	int				id_pipe;
 	int				i;
-	int				exit_status;
 	int				show_tokens;
 	int				show_exit_status;
 	int				exit_after_first_input;

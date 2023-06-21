@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 00:14:46 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/18 10:16:55 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/22 01:05:35 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,22 +20,31 @@ void	exec_no_pipes(t_shell *shell, char **envp)
 	pid_t	pid;
 	int		status;
 
+	if (ft_special_operands(shell, envp, -1))
+		return ;
 	if (ft_strcmp(shell->tab[0], "exit") == OK)
 		ft_exit(shell);
+	exit_true_status = 0;
+	ft_get_heredocs(shell);
+	if (exit_true_status == 130)
+		return ;
 	pid = fork();
 	if (pid == 0)
 	{
-		ft_get_heredocs(shell);
 		ft_get_redi(shell);
 		get_cmd_no_pipes(shell, envp);
 		ft_dup2_exec_no_pipes(shell);
 		execve(shell->no_pipes_cmd, shell->tab, envp);
 		ft_end_program(shell, ERROR, EXIT_FAILURE);
 	}
-	shell->exit_status = OK;
-	waitpid(pid, &status, 0);
-	if (WIFEXITED(status))
-		shell->exit_status = WEXITSTATUS(status);
+	status = 0;
+	if (waitpid(pid, &status, WUNTRACED) == -1)
+	{
+		printf("EXIT CHILD FAIL WAITPID\n");
+		exit_true_status = SIGINT_EXITVALUE;
+	}
+	else if (WIFEXITED(status))
+		exit_true_status = WEXITSTATUS(status);
 }
 
 static void	get_cmd_no_pipes(t_shell *shell, char **envp)

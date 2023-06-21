@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 15:35:05 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/17 12:12:29 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/22 00:35:33 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	ft_get_heredocs(t_shell *shell)
 
 	tab = shell->tab;
 	i = -1;
-	while (tab[++i])
+	while (tab[++i] && exit_true_status != SIGINT_EXITVALUE)
 	{
 		if (ft_strcmp_unquoted(tab[i], "<<", shell->is_quoted[i]) == OK)
 		{
@@ -37,28 +37,34 @@ void	ft_get_heredocs(t_shell *shell)
 int	ft_heredoc(char *delimiter, t_shell *shell)
 {
 	char	*buffer;
+	// pid_t	pid;
 
 	shell->pipe_heredoc = ft_calloc(sizeof(int) * 2, shell);
 	ft_pipe(shell->pipe_heredoc, shell);
+	// pid = fork();
+	// if (pid == 0){
 	while (write(1, "heredoc > ", 11))
 	{
 		buffer = get_next_line(0);
-		if (!buffer)
-		{
-			write(2, "\nMinishell: warning: here-document delimited", 45);
-			write(2, " by end-of-file (wanted `", 26);
-			delimiter[ft_strlen(delimiter) - 1] = '\0';
-			write(2, delimiter, ft_strlen(delimiter));
-			write(2, "')\n", 4);
-			break ;
-		}
-		if (!ft_strcmp(buffer, delimiter))
+		// if (!buffer)
+		// {
+		// 	// write(2, "\nMinishell: warning: here-document delimited", 45);
+		// 	// write(2, " by end-of-file (wanted `", 26);
+		// 	// delimiter[ft_strlen(delimiter) - 1] = '\0';
+		// 	// write(2, delimiter, ft_strlen(delimiter));
+		// 	// write(2, "')\n", 4);
+		// 	break ;
+		// }
+		if (!buffer || !ft_strcmp(buffer, delimiter))
 			break ;
 		write(shell->pipe_heredoc[1], buffer, ft_strlen(buffer));
 		free(buffer);
 	}
+	// }
+	// if (pid)
+	// 	waitpid(pid, NULL, 0);
 	close(shell->pipe_heredoc[1]);
-	return (free(buffer), shell->pipe_heredoc[0]);
+	return (shell->pipe_heredoc[0]);
 }
 
 int	ft_dup_heredoc_pipex(char **tab, int i, t_shell *shell)

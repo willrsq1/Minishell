@@ -13,6 +13,7 @@ SRC_PATH  = sources
 
 ### SOURCE FILES ###
 SOURCES =     		main.c \
+					signal.c \
 					1_init/A_tab_creation.c \
 					1_init/B_quote_handling.c \
 					1_init/C_syntax_check.c \

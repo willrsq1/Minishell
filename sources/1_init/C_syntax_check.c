@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 02:33:08 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/02 00:03:24 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/21 21:16:05 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ static int	no_token_after_last_pipe(int i, char *s, t_shell *shell);
 int	ft_syntax_error(char **tab, t_shell *shell)
 {
 	if (ft_check_redi_tokenss(tab, shell, -1) == ERROR)
-		return (shell->exit_status = SYNTAX_ERROR, ERROR);
+		return (exit_true_status = SYNTAX_ERROR, ERROR);
 	if (ft_check_pipes_tokens(tab, shell) == ERROR)
-		return (shell->exit_status = SYNTAX_ERROR, ERROR);
+		return (exit_true_status = SYNTAX_ERROR, ERROR);
 	if (ft_check_parenthesis_tokens(tab, shell) == ERROR)
-		return (shell->exit_status = SYNTAX_ERROR, ERROR);
+		return (exit_true_status = SYNTAX_ERROR, ERROR);
 	return (OK);
 }
 

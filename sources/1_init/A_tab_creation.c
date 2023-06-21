@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 20:56:19 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/01 17:40:32 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/21 21:15:51 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static char	**ft_create_tab(t_shell *shell, char *buff)
 	if (!buff || !buff[0])
 		return (NULL);
 	if (!buff || ft_count_quotes(buff))
-		return (shell->exit_status = ERROR, NULL);
+		return (exit_true_status = SYNTAX_ERROR, NULL);
 	tab = ft_split_minishell(buff, ' ', shell);
 	return (tab);
 }

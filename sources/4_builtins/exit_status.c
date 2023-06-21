@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 14:41:12 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/17 12:42:44 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/21 21:16:36 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	ft_dollar_sign(t_shell *shell, int i, int y)
 	{
 		if (y == 0)
 		{
-			new = ft_strcat(ft_itoa(shell->exit_status, shell), \
+			new = ft_strcat(ft_itoa(exit_true_status, shell), \
 				&tab[i][y + 2], shell);
 			// printf("cc %s\n", new);
 			shell->tab[i] = new;

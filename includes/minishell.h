@@ -24,10 +24,13 @@
 # include <sys/wait.h> //waitpid
 # include <fcntl.h>
 # include <dirent.h>
+# include <signal.h>
 
 /*		MAIN.C */
+extern int	exit_true_status;
 
 // int		main(int argc, char **argv, char **envp);
+void	ft_signal(t_shell *shell);
 
 /* ------------------------------------------------------------------------- */
 /* -------------------------- 1_INIT --------------------------------------- */

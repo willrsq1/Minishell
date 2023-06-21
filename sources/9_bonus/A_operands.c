@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 23:05:03 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/19 02:32:36 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/22 01:07:56 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static char	***ft_create_operands_tab(t_shell *shell, char **tab, int count);
 static int	***ft_create_op_is_quoted(t_shell *shell, char **tab, int count);
 static int	*ft_get_op_options(t_shell *shell, char **tab, int count);
-static int	ft_special_operands_actions(int *options, int w, t_shell *shell);
+static int	ft_special_operands_actions(int *options, int w);
 
 /**
  * ft_special_operands
@@ -39,14 +39,14 @@ int	ft_special_operands(t_shell *shell, char **envp, int w)
 	operands_is_quoted = ft_create_op_is_quoted(shell, shell->tab, count);
 	options = ft_get_op_options(shell, shell->tab, count);
 	// print_tokens_operands(operands_tab, operands_is_quoted, options);
-	while (w > -10 && operands_tab[++w])
+	while (w > -10 && operands_tab[++w] && exit_true_status != SIGINT_EXITVALUE)
 	{
 		shell->tab = operands_tab[w];
 		shell->is_quoted = operands_is_quoted[w];
 		shell->buff = ft_join_tab(operands_tab[w], shell);
 		ft_do_the_execve_thing(shell, envp);
 		ft_close_all_fds(shell);
-		w = ft_special_operands_actions(options, w, shell);
+		w = ft_special_operands_actions(options, w);
 	}
 	return (ERROR);
 }
@@ -117,21 +117,21 @@ static int	*ft_get_op_options(t_shell *shell, char **tab, int count)
 	return (options);
 }
 
-static int	ft_special_operands_actions(int *options, int w, t_shell *shell)
+static int	ft_special_operands_actions(int *options, int w)
 {
-	if (options[w] == OR_OPERAND && !shell->exit_status)
+	if (options[w] == OR_OPERAND && !exit_true_status)
 	{
 		while (options[w] == OR_OPERAND && options[w + 1])
 			w++;
 	}	
-	else if (options[w] == AND_OPERAND && shell->exit_status)
+	else if (options[w] == AND_OPERAND && exit_true_status)
 	{
 		while (options[w] == AND_OPERAND && options[w + 1])
 			w++;
 	}
-	if (options[w] == AND_OPERAND && shell->exit_status)
+	if (options[w] == AND_OPERAND && exit_true_status)
 		return (IS_QUOTED_END);
-	if (options[w] == OR_OPERAND && !shell->exit_status)
+	if (options[w] == OR_OPERAND && !exit_true_status)
 		return (IS_QUOTED_END);
 	return (w);
 }
