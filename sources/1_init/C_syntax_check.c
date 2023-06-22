@@ -6,29 +6,33 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 02:33:08 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/21 21:16:05 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/22 01:27:38 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static int	ft_check_redi_tokenss(char **tab, t_shell *shell, int i);
+static int	ft_check_redi_tokens(char **tab, t_shell *shell, int i);
 static int	ft_check_pipes_tokens(char **tab, t_shell *shell);
 static int	ft_check_parenthesis_tokens(char **tab, t_shell *shell);
 static int	no_token_after_last_pipe(int i, char *s, t_shell *shell);
 
 int	ft_syntax_error(char **tab, t_shell *shell)
 {
-	if (ft_check_redi_tokenss(tab, shell, -1) == ERROR)
+	int	return_value;
+	if (ft_check_redi_tokens(tab, shell, -1) == ERROR)
 		return (exit_true_status = SYNTAX_ERROR, ERROR);
-	if (ft_check_pipes_tokens(tab, shell) == ERROR)
+	return_value = ft_check_pipes_tokens(tab, shell);
+	if (return_value == ERROR)
 		return (exit_true_status = SYNTAX_ERROR, ERROR);
+	if (return_value == SIGINT_EXITVALUE)
+		return (exit_true_status = SIGINT_EXITVALUE, ERROR);
 	if (ft_check_parenthesis_tokens(tab, shell) == ERROR)
 		return (exit_true_status = SYNTAX_ERROR, ERROR);
 	return (OK);
 }
 
-static int	ft_check_redi_tokenss(char **tab, t_shell *shell, int i)
+static int	ft_check_redi_tokens(char **tab, t_shell *shell, int i)
 {
 	char	*s;
 
@@ -119,6 +123,8 @@ static int	no_token_after_last_pipe(int i, char *s, t_shell *shell)
 	write(2, "> ", 3);
 	temp = get_next_line(0);
 	i = 0;
+	if (!temp)
+		return (SIGINT_EXITVALUE);
 	while (temp[i])
 		i++;
 	if (i > 0)

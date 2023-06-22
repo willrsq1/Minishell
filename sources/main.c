@@ -31,7 +31,7 @@ int	main(int argc, char **argv, char **envp)
 	{
 		ft_reset_shell(&shell);
 		ft_create_prompt(&shell);
-		if (shell.buff && shell.buff[0])
+		if (shell.buff[0])
 			ft_do_the_execve_thing(&shell, envp);
 		ft_close_all_fds(&shell);
 		ft_clear_memory(&shell);
@@ -67,6 +67,8 @@ static void	ft_reset_shell(t_shell *shell)
 static void	ft_create_prompt(t_shell *shell)
 {
 	shell->buff = readline("Minishell d'Arbesa > ");
+	if (!shell->buff)
+		ft_exit(shell);
 	add_history(shell->buff);
 }
 
