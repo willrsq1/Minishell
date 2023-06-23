@@ -6,13 +6,14 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:37:03 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/23 02:01:42 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/23 17:15:36 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 static void	ft_export_no_args(char **envp);
+static int	ft_export_check_arg(char *arg);
 static int	ft_export_var_location(char **envp, t_shell *shell, char *arg);
 
 int	ft_export(t_shell *shell, char **tab, char **envp)
@@ -30,22 +31,17 @@ int	ft_export(t_shell *shell, char **tab, char **envp)
 	{
 		i = -1;
 		y = -1;
-		if (tab[z][0] == '=')
-		{
-			write(2, "Minishell: export: `", 21);
-			write(2, tab[z], ft_strlen(tab[z]));
-			write(2, "': not a valid identifier\n", 27);
+		if (ft_export_check_arg(tab[z]) == ERROR)
 			return (OK);
-		}
 		i = ft_export_var_location(envp, shell, tab[z]);
 		if (i == FAIL)
 			return (0);
-		y = -1;
-		while (tab[z][++y])
+		while (tab[z][++y] && y < 1024)
 			envp[i][y] = tab[z][y];
 		envp[i][y] = '\0';
 	}
-	return (0);
+	exit_true_status = OK;
+	return (OK);
 }
 
 static void	ft_export_no_args(char **envp)
@@ -55,6 +51,34 @@ static void	ft_export_no_args(char **envp)
 	i = -1;
 	while (envp[++i])
 		printf("declare -x %s\n", envp[i]);
+	exit_true_status = OK;
+}
+
+static int	ft_export_check_arg(char *arg)
+{
+	int	y;
+	
+	y = -1;
+	if (arg[0] == '=' || arg[0] == 0 || arg[0] == '$')
+	{
+		write(2, "Minishell: export: `", 21);
+		write(2, arg, ft_strlen(arg));
+		write(2, "': not a valid identifier\n", 27);
+		exit_true_status = ERROR;
+		return (ERROR);
+	}
+	while (arg[++y])
+	{
+		if ( arg[y] == ' ')
+		{
+			write(2, "Minishell: export: `", 21);
+			write(2, arg, ft_strlen(arg));
+			write(2, "': not a valid identifier\n", 27);
+			exit_true_status = ERROR;
+			return (ERROR);
+		}
+	}
+	return (OK);
 }
 
 static int	ft_export_get_envp_lign(char **envp, char *var_name)
@@ -68,7 +92,7 @@ static int	ft_export_get_envp_lign(char **envp, char *var_name)
 		y = 0;
 		while (var_name[y] && envp[i][y] && var_name[y] == envp[i][y])
 		{
-			if (var_name[y] == '=')
+			if (var_name[y] == '=' || var_name[y + 1] == '=')
 				return (i);
 			y++;
 		}
@@ -98,9 +122,9 @@ static int	ft_export_var_location(char **envp, t_shell *shell, char *arg)
 	{
 		envp[i + 1] = NULL;
 		if (!shell->pipex)
-			envp[i] = malloc(sizeof(char) * (ft_strlen(arg) + 1));
+			envp[i] = malloc(sizeof(char) * 1024);
 		else
-			envp[i] = ft_calloc(sizeof(char) * (ft_strlen(arg) + 1), shell);
+			envp[i] = ft_calloc(sizeof(char) * 1024, shell);
 		if (!envp[i])
 			ft_end_program(shell, ERROR, ERROR);
 	}

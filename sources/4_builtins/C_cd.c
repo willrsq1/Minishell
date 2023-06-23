@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 02:30:12 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/22 16:50:44 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/23 17:04:16 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static void ft_cd_too_many_args_error(void)
 static void	ft_cd_one_arg(char **tab, t_shell *shell)
 {
 	exit_true_status = OK;
-	if (chdir(tab[1]) == FAIL)
+	if (tab[1][0] && chdir(tab[1]) == FAIL)
 	{
 		perror(ft_strcat("Minishell: cd: ", tab[1], shell));
 		exit_true_status = ERROR;
