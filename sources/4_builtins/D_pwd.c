@@ -1,20 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   D_pwd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/23 13:07:00 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/22 01:37:06 by wruet-su         ###   ########.fr       */
+/*   Created: 2023/06/22 16:36:59 by wruet-su          #+#    #+#             */
+/*   Updated: 2023/06/22 16:39:40 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	ft_exit(t_shell *shell)
+int	ft_pwd(void)
 {
-	if (!shell->pipex)
-		write(2, "exit\n", 6);
-	ft_end_program(shell, OK, exit_true_status);
+	char	*buf;
+
+	buf = NULL;
+	buf = getcwd(buf, 1024);
+	if (!buf)
+		return (perror("Minishell: "), exit_true_status = ERROR, OK);
+	printf("%s\n", buf);
+	exit_true_status = OK;
+	free(buf);
+	return (0);
 }

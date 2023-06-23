@@ -25,8 +25,15 @@ SOURCES =     		main.c \
 					3_redirections/A_dispatch_redi.c \
 					3_redirections/B_redi_in_and_out.c \
 					3_redirections/C_heredoc.c \
-					4_builtins/exit_status.c \
-					4_builtins/exit.c \
+					4_builtins/A_builtins_dispatch.c \
+					4_builtins/B_echo.c \
+					4_builtins/C_cd.c \
+					4_builtins/D_pwd.c \
+					4_builtins/E_export.c \
+					4_builtins/F_unset.c \
+					4_builtins/G_env.c \
+					4_builtins/H_exit.c \
+					4_builtins/I_exit_status.c \
 					7_libft_minishell/gnl/get_next_line.c \
 					7_libft_minishell/gnl/get_next_line_utils.c \
 					7_libft_minishell/A_ft_split_minishell.c \

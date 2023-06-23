@@ -30,6 +30,7 @@
 extern int	exit_true_status;
 
 // int		main(int argc, char **argv, char **envp);
+void	ft_free_envp(char **envp, int i);
 void	ft_signal(t_shell *shell);
 
 /* ------------------------------------------------------------------------- */
@@ -106,8 +107,37 @@ int		ft_dup_heredoc_pipex(char **tab, int i, t_shell *shell);
 
 /*		EXIT.C */
 
-void	ft_exit(t_shell *shell);
+int		ft_exit(t_shell *shell, char **envp);
 int		ft_find_exit_status(t_shell *shell);
+
+/*		A_BUILTINS_DISPATCH.C */
+
+int		ft_builtins_in_child(t_shell *shell, char **tab, char **envp);
+int		ft_builtins(t_shell *shell, char **tab, char **envp);
+
+/*		B_ECHO.C */
+
+int		ft_echo(char **tab);
+
+/*		C_CD.C */
+
+int		ft_cd(t_shell *shell, char **tab);
+
+/*		D_PWD.C */
+
+int		ft_pwd(void);
+
+/*		E_EXPORT.C */
+
+int		ft_export(t_shell *shell, char **tab, char **envp);
+
+/*		F_UNSET.C */
+
+/*		G_ENV.C */
+
+int		ft_env(char **envp);
+
+
 
 /* ------------------------------------------------------------------------- */
 /* -------------------------- 7_LIBFT_MINISHELL ---------------------------- */

@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 00:13:01 by root              #+#    #+#             */
-/*   Updated: 2023/06/22 01:05:48 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/22 10:56:44 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,12 @@ static void	ft_fork_loop(t_pipex *p, char **envp, int i)
 	}
 	if (dup2(p->fds[i][1], 1) == FAIL)
 		ft_end_program(p->shell, ERROR, EXIT_FAILURE);
-	if (!ft_strcmp(p->cmd, "exit"))
-		ft_exit(p->shell);
+	if (ft_builtins_in_child(p->shell, p->commands[i], envp) == OK)
+		ft_end_program(p->shell, OK, exit_true_status);
+	if (ft_builtins(p->shell, p->commands[i], envp) == OK)
+		ft_end_program(p->shell, OK, exit_true_status);
+	if (ft_get_cmd(p, i) == ERROR)
+		ft_end_program(p->shell, OK, COMMAND_ERROR);
 	execve(p->cmd, p->commands[i], envp);
 	ft_end_program(p->shell, ERROR, EXIT_FAILURE);
 }
@@ -101,6 +105,4 @@ static void	ft_check_for_redirections(t_pipex *p, int i)
 		p->fds[i][0] = p->heredoc_fds[i];
 	if (shell->outfile != FAIL)
 		p->fds[i][1] = p->shell->outfile;
-	if (ft_get_cmd(p, i) == ERROR)
-		ft_end_program(shell, OK, COMMAND_ERROR);
 }

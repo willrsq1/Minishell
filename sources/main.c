@@ -13,16 +13,36 @@
 #include "../includes/minishell.h"
 
 static void	ft_reset_shell(t_shell *shell);
-static void	ft_create_prompt(t_shell *shell);
+static void	ft_create_prompt(t_shell *shell, char **envp);
 static void	ft_shlvl(char **envp);
 
 int	exit_true_status;
 
+void	ft_free_envp(char **envp, int i)
+{
+	while (envp[i])
+	{
+		free(envp[i]);
+		envp[i++] = NULL;
+	}
+}
+
+void	get_envp_size(char **envp, t_shell *shell)
+{
+	int	i;
+
+	i = -1;
+	while (envp[++i])
+		;
+	shell->initial_size_of_envp = i;
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_shell		shell;
-
+	
 	ft_reset_shell(&shell);
+	get_envp_size(envp, &shell);
 	ft_signal(&shell);
 	exit_true_status = 0;
 	ft_shlvl(envp);
@@ -30,7 +50,7 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		ft_reset_shell(&shell);
-		ft_create_prompt(&shell);
+		ft_create_prompt(&shell, envp);
 		if (shell.buff[0])
 			ft_do_the_execve_thing(&shell, envp);
 		ft_close_all_fds(&shell);
@@ -64,11 +84,11 @@ static void	ft_reset_shell(t_shell *shell)
 	shell->i = 0;
 }
 
-static void	ft_create_prompt(t_shell *shell)
+static void	ft_create_prompt(t_shell *shell, char **envp)
 {
 	shell->buff = readline("Minishell d'Arbesa > ");
 	if (!shell->buff)
-		ft_exit(shell);
+		ft_exit(shell, envp);
 	add_history(shell->buff);
 }
 

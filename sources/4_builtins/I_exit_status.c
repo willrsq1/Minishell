@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 14:41:12 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/21 21:16:36 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/22 16:41:02 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ static int	ft_dollar_sign(t_shell *shell, int i, int y)
 	
 	
 // }
-
 int	ft_find_exit_status(t_shell *shell)
 {
 	int	i;

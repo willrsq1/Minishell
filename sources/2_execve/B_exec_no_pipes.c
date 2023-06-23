@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 00:14:46 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/22 01:05:35 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/22 10:53:01 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ void	exec_no_pipes(t_shell *shell, char **envp)
 
 	if (ft_special_operands(shell, envp, -1))
 		return ;
-	if (ft_strcmp(shell->tab[0], "exit") == OK)
-		ft_exit(shell);
+	if (ft_builtins(shell, shell->tab, envp) == OK)
+		return ;
 	exit_true_status = 0;
 	ft_get_heredocs(shell);
 	if (exit_true_status == 130)
@@ -32,8 +32,10 @@ void	exec_no_pipes(t_shell *shell, char **envp)
 	if (pid == 0)
 	{
 		ft_get_redi(shell);
-		get_cmd_no_pipes(shell, envp);
 		ft_dup2_exec_no_pipes(shell);
+		if (ft_builtins_in_child(shell, shell->tab, envp) == OK)
+			ft_end_program(shell, OK, exit_true_status);
+		get_cmd_no_pipes(shell, envp);
 		execve(shell->no_pipes_cmd, shell->tab, envp);
 		ft_end_program(shell, ERROR, EXIT_FAILURE);
 	}
