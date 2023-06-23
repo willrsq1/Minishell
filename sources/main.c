@@ -43,7 +43,7 @@ int	main(int argc, char **argv, char **envp)
 	
 	ft_reset_shell(&shell);
 	get_envp_size(envp, &shell);
-	ft_signal(&shell);
+	// ft_signal(&shell);
 	exit_true_status = 0;
 	ft_shlvl(envp);
 	ft_initializing_options(&shell, argc, argv);
