@@ -6,14 +6,13 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 00:14:46 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/22 10:53:01 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/24 02:41:21 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 static void	get_cmd_no_pipes(t_shell *shell, char **envp);
-static void	ft_dup2_exec_no_pipes(t_shell *shell);
 
 void	exec_no_pipes(t_shell *shell, char **envp)
 {
@@ -22,10 +21,9 @@ void	exec_no_pipes(t_shell *shell, char **envp)
 
 	if (ft_special_operands(shell, envp, -1))
 		return ;
+	ft_get_heredocs(shell);
 	if (ft_builtins(shell, shell->tab, envp) == OK)
 		return ;
-	exit_true_status = 0;
-	ft_get_heredocs(shell);
 	if (exit_true_status == 130)
 		return ;
 	pid = fork();
@@ -66,7 +64,7 @@ static void	get_cmd_no_pipes(t_shell *shell, char **envp)
 	shell->no_pipes_cmd = pipex->cmd;
 }
 
-static void	ft_dup2_exec_no_pipes(t_shell *shell)
+void	ft_dup2_exec_no_pipes(t_shell *shell)
 {
 	if (shell->infile == FAIL)
 		shell->infile = STDIN_FILENO;

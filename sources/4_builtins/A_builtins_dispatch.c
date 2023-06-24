@@ -6,22 +6,61 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:37:23 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/23 02:26:09 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/24 02:47:28 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+int	ft_builtins_redirections(t_shell *shell, int i, int y, char **tab)
+{
+	pid_t	pid;
+
+	while (tab[i + y] && \
+		ft_is_token_redi(tab[i + y], shell->is_quoted[i + y]) == ERROR)
+	{
+		if (!tab[i + y])
+			return (ERROR);
+		if (ft_strcmp(tab[i + y], "exit") == OK || \
+			ft_strcmp(tab[i + y], "cd") == OK || \
+			ft_strcmp(tab[i + y], "export") == OK)
+			break ;
+		y += 2;
+	}
+	if (!tab[i + y])
+		return (ERROR);
+	pid = fork();
+	if (pid == FAIL)
+		ft_end_program(shell, ERROR, ERROR);
+	if (pid == 0)
+	{
+		ft_get_redi(shell);
+		ft_end_program(shell, OK, OK);
+	}
+	i = 0;
+	waitpid(pid, &i, 0);
+	if (WIFEXITED(i))
+		exit_true_status = WEXITSTATUS(i);
+	return (OK);
+}
 int	ft_builtins(t_shell *shell, char **tab, char **envp)
 {
-	if (ft_strcmp(shell->tab[0], "exit") == OK)
+	int	i;
+
+	i = 0;
+	exit_true_status = OK;
+	shell->no_exit = 1;
+	ft_get_redi(shell);
+	if (!shell->to_be_freed_list)
+		return (OK);
+	shell->no_exit = 0;
+	ft_dup2_exec_no_pipes(shell);
+	if (ft_strcmp(shell->tab[i], "exit") == OK)
 		return (ft_exit(shell, envp));
-	if (ft_strcmp(tab[0], "cd") == OK)
+	if (ft_strcmp(tab[i], "cd") == OK)
 		return (ft_cd(shell, tab));
-	if (ft_strcmp(tab[0], "export") == OK)
+	if (ft_strcmp(tab[i], "export") == OK)
 		return (ft_export(shell, tab, envp));
-	if (envp)
-		return (1);
 	return (1);
 }
 

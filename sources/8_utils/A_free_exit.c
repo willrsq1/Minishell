@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 18:29:00 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/23 17:44:21 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/24 02:48:12 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,12 @@ void	ft_end_program(t_shell *shell, int mode, int err)
 	if (mode == ERROR)
 		perror("Minishell");
 	exit_true_status = err;
-	rl_clear_history();
+	if (shell->no_exit == OK)
+		rl_clear_history();
 	ft_close_all_fds(shell);
 	ft_clear_memory(shell);
-	exit(err);
+	if (shell->no_exit == OK)
+		exit(err);
 }
 
 void	ft_clear_memory(t_shell *shell)
@@ -63,9 +65,9 @@ void	ft_close_all_fds(t_shell *shell)
 
 	if (!shell)
 		return ;
-	dup2(STDIN_FILENO, STDIN_FILENO);
-	dup2(STDOUT_FILENO, STDOUT_FILENO);
-	dup2(STDERR_FILENO, STDERR_FILENO);
+	dup2(STDOUT_FILENO, STDIN_FILENO);
+	dup2(STDIN_FILENO, STDOUT_FILENO);
+	dup2(STDIN_FILENO, STDERR_FILENO);
 	lst = shell->tbc_list;
 	if (!lst)
 		return ;

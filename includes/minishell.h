@@ -61,6 +61,7 @@ void	ft_do_the_execve_thing(t_shell *shell, char **envp);
 /*		B_EXEC_NO_PIPES.C */
 
 void	exec_no_pipes(t_shell *shell, char **envp);
+void	ft_dup2_exec_no_pipes(t_shell *shell);
 
 /*		C_EXEC_PIPES.C */
 

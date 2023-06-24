@@ -43,7 +43,7 @@ int	main(int argc, char **argv, char **envp)
 	
 	ft_reset_shell(&shell);
 	get_envp_size(envp, &shell);
-	// ft_signal(&shell);
+	ft_signal(&shell);
 	exit_true_status = 0;
 	ft_shlvl(envp);
 	ft_initializing_options(&shell, argc, argv);
@@ -66,6 +66,7 @@ int	main(int argc, char **argv, char **envp)
 static void	ft_reset_shell(t_shell *shell)
 {
 	shell->nb_of_double_quotes = 0;
+	shell->no_exit = 0;
 	shell->tab = NULL;
 	shell->pipex = NULL;
 	shell->infile = -1;

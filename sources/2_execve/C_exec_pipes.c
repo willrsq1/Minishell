@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 00:13:01 by root              #+#    #+#             */
-/*   Updated: 2023/06/23 18:20:21 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/23 18:29:14 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static void	ft_forking(t_pipex *p, char **envp);
 static void	ft_fork_loop(t_pipex *p, char **envp, int i);
 static void	ft_check_for_redirections(t_pipex *p, int i);
+static void	ft_dup2_exec_pipes(t_pipex *p, int i);
 
 void	ft_pipex(int argc, t_init *init, char **envp)
 {
@@ -60,35 +61,11 @@ static void	ft_fork_loop(t_pipex *p, char **envp, int i)
 {
 	p->shell->tab = p->commands[i];
 	p->shell->is_quoted = p->is_quoted[i];
-	if (p->fds[i][0] == FAIL)
-	{
-		close(p->pipe[i - 1][1]);
-		p->fds[i][0] = p->pipe[i - 1][0];
-	}
-	if (p->fds[i][1] == FAIL)
-	{
-		close(p->pipe[i][0]);
-		p->fds[i][1] = p->pipe[i][1];
-	}
-	if (dup2(p->fds[i][1], STDOUT_FILENO) == FAIL || \
-		dup2(p->fds[i][0], STDIN_FILENO) == FAIL)
-		ft_end_program(p->shell, ERROR, EXIT_FAILURE);
+	ft_dup2_exec_pipes(p, i);
 	if (ft_special_operands(p->shell, envp, -1))
 		ft_end_program(p->shell, OK, exit_true_status);
 	ft_check_for_redirections(p, i);
-	if (p->fds[i][0] == FAIL)
-	{
-		close(p->pipe[i - 1][1]);
-		p->fds[i][0] = p->pipe[i - 1][0];
-	}
-	if (p->fds[i][1] == FAIL)
-	{
-		close(p->pipe[i][0]);
-		p->fds[i][1] = p->pipe[i][1];
-	}
-	if (dup2(p->fds[i][1], STDOUT_FILENO) == FAIL || \
-		dup2(p->fds[i][0], STDIN_FILENO) == FAIL)
-		ft_end_program(p->shell, ERROR, EXIT_FAILURE);
+	ft_dup2_exec_pipes(p, i);
 	if (ft_builtins_in_child(p->shell, p->commands[i], envp) == OK || \
 		ft_builtins(p->shell, p->commands[i], envp) == OK || \
 		ft_get_cmd(p, i) == ERROR)
@@ -115,4 +92,22 @@ static void	ft_check_for_redirections(t_pipex *p, int i)
 		p->fds[i][0] = p->heredoc_fds[i];
 	if (shell->outfile != FAIL)
 		p->fds[i][1] = p->shell->outfile;
+}
+
+static void	ft_dup2_exec_pipes(t_pipex *p, int i)
+{
+	if (p->fds[i][0] == FAIL)
+	{
+		close(p->pipe[i - 1][1]);
+		p->fds[i][0] = p->pipe[i - 1][0];
+	}
+	if (p->fds[i][1] == FAIL)
+	{
+		close(p->pipe[i][0]);
+		p->fds[i][1] = p->pipe[i][1];
+	}
+	if (dup2(p->fds[i][0], STDIN_FILENO) == FAIL)
+		ft_end_program(p->shell, ERROR, EXIT_FAILURE);
+	if (dup2(p->fds[i][1], STDOUT_FILENO) == FAIL)
+		ft_end_program(p->shell, ERROR, EXIT_FAILURE);
 }

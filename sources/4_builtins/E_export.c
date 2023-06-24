@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:37:03 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/23 17:15:36 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/24 01:30:45 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int	ft_export(t_shell *shell, char **tab, char **envp)
 	int		z;
 
 	z = 0;
+	exit_true_status = OK;
 	if (!envp)
 		return (OK);
 	if (!tab[1])
@@ -40,7 +41,6 @@ int	ft_export(t_shell *shell, char **tab, char **envp)
 			envp[i][y] = tab[z][y];
 		envp[i][y] = '\0';
 	}
-	exit_true_status = OK;
 	return (OK);
 }
 

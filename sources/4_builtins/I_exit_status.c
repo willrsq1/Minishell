@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit_status.c                                      :+:      :+:    :+:   */
+/*   I_exit_status.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 14:41:12 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/22 16:41:02 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/24 03:10:39 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	ft_find_exit_status(t_shell *shell)
 		y = -1;
 		while (shell->tab[i][++y])
 		{
-			if (shell->tab[i][y] == '$' && !shell->is_quoted[i][y])
+			if (shell->tab[i][y] == '$' && shell->is_quoted[i][y] != 2)
 				y = ft_dollar_sign(shell, i, y);
 			if (y == -1)
 				return (1);
@@ -71,3 +71,8 @@ int	ft_find_exit_status(t_shell *shell)
 	}
 	return (0);
 }
+
+//remplacer $XXX par la var d'env
+//si la var n'exite pas, supprimer $XXX et remplacer par '\0'
+//si le token est mtn token[0] = '\0', supprimer le token du tableau, enlever la ligne
+//appliquer tous ces changements à isquoted!

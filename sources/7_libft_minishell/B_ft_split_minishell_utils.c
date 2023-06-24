@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 16:12:41 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/23 17:13:38 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/24 03:02:05 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	ft_break_split_loop(char *s, int i)
 		s[i] == '>'))
 		return (OK);
 	if (s[i] == '|' || s[i] == '<' || s[i] == '>' || s[i] == '&' \
-		|| s[i] == ';' || (s[i] == '$' && s[i - 1] != '\''))
+		|| s[i] == ';')
 		return (OK);
 	return (ERROR);
 }

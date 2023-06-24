@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 18:56:00 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/17 12:01:31 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/24 01:50:30 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	ft_get_redi(t_shell *shell)
 	tab = shell->tab;
 	is_quoted = shell->is_quoted;
 	i = -1;
-	while (tab[++i])
+	while (shell->to_be_freed_list && tab[++i])
 	{
 		if (ft_redirection_with_fd(tab[i], i, shell) == OK)
 			i--;
