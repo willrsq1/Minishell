@@ -6,56 +6,93 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:37:23 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/24 11:36:48 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/25 10:41:08 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	ft_builtins_redirections(t_shell *shell, int i, int y, char **tab)
+int	ft_is_builtin_check(char **tab, int i)
 {
-	pid_t	pid;
-
-	while (tab[i + y] && \
-		ft_is_token_redi(tab[i + y], shell->is_quoted[i + y]) == ERROR)
-	{
-		if (!tab[i + y])
-			return (ERROR);
-		if (ft_strcmp(tab[i + y], "exit") == OK || \
-			ft_strcmp(tab[i + y], "cd") == OK || \
-			ft_strcmp(tab[i + y], "export") == OK)
-			break ;
-		y += 2;
-	}
-	if (!tab[i + y])
-		return (ERROR);
-	pid = fork();
-	if (pid == FAIL)
-		ft_end_program(shell, ERROR, ERROR);
-	if (pid == 0)
-	{
-		ft_get_redi(shell);
-		ft_end_program(shell, OK, OK);
-	}
-	i = 0;
-	waitpid(pid, &i, 0);
-	if (WIFEXITED(i))
-		exit_true_status = WEXITSTATUS(i);
-	return (OK);
+	
+	if (ft_strcmp(tab[i], "exit") == OK)
+		return (OK);
+	if (ft_strcmp(tab[i], "cd") == OK)
+		return (OK);
+	if (ft_strcmp(tab[i], "export") == OK)
+		return (OK);
+	if (ft_strcmp(tab[i], "unset") == OK)
+		return (OK);
+	return (ERROR);
 }
+
+int	ft_builtin_redirection_with_fd(char *arg, int i, t_shell *shell)
+{
+	int		y;
+
+	if (arg_is_unquoted(arg, shell->is_quoted[i]) == ERROR || \
+		ft_find_redi_with_fd(arg, 0) == OK)
+		return (FAIL);
+	y = 0;
+	while (arg[y] && (arg[y] >= '0' && arg[y] <= '9'))
+		y++;
+	if (ft_strcmp(&arg[y], "<<") == OK)
+		return (OK);
+	else if (ft_strcmp(&arg[y], "<") == OK)
+		return (OK);
+	else if (ft_strcmp(&arg[y], ">>") == OK)
+		return (OK);
+	else if (ft_strcmp(&arg[y], ">") == OK)
+		return (OK);
+	return (ERROR);
+}
+
+int	ft_is_a_builtin_redirection(t_shell *shell)
+{
+	int		i;
+	char	**tab;
+	int		**is_quoted;
+
+	tab = shell->tab;
+	is_quoted = shell->is_quoted;
+	i = -1;
+	while (tab[++i])
+	{
+		if (ft_builtin_redirection_with_fd(tab[i], i, shell) == OK)
+			i += 1;
+		else if (ft_strcmp_unquoted(tab[i], "<<", is_quoted[i]) == OK)
+			i += 1;
+		else if (ft_strcmp_unquoted(tab[i], "<", is_quoted[i]) == OK)
+			i += 1;
+		else if (ft_strcmp_unquoted(tab[i], ">>", is_quoted[i]) == OK)
+			i += 1;
+		else if (ft_strcmp_unquoted(tab[i], ">", is_quoted[i]) == OK)
+			i += 1;
+		else if (ft_is_builtin_check(tab, i) == OK)
+			return (OK);
+		else
+			return (ERROR);
+	}
+	return (ERROR);
+}
+
 int	ft_builtins(t_shell *shell, char **tab, char **envp)
 {
 	int	i;
 
 	i = 0;
+	
 	exit_true_status = OK;
-	shell->no_exit = 1;
-	ft_get_redi(shell);
-	if (!shell->to_be_freed_list)
-		return (OK);
-	shell->no_exit = 0;
-	ft_dup2_exec_no_pipes(shell);
-	if (ft_strcmp(shell->tab[i], "exit") == OK)
+	if (ft_is_a_builtin_redirection(shell) == OK)
+	{
+		shell->no_exit = 1;
+		ft_get_redi(shell);
+		if (!shell->to_be_freed_list)
+			return (OK);
+		shell->no_exit = 0;
+		ft_dup2_exec_no_pipes(shell);
+	}
+	if (ft_strcmp(tab[i], "exit") == OK)
 		return (ft_exit(shell, envp));
 	if (ft_strcmp(tab[i], "cd") == OK)
 		return (ft_cd(shell, tab));

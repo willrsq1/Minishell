@@ -25,6 +25,7 @@
 # include <fcntl.h>
 # include <dirent.h>
 # include <signal.h>
+# include <limits.h>
 
 /*		MAIN.C */
 extern int	exit_true_status;

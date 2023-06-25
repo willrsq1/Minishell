@@ -6,14 +6,14 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 13:07:00 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/24 12:09:39 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/25 11:28:57 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static int	ft_exit_arg_handling(char **tab);
-static void	ft_exit_syntax_error(char **tab);
+static int	ft_exit_arg_handling(char **tab, t_shell *shell);
+static void	ft_exit_syntax_error(char **tab, t_shell *shell);
 
 int	ft_exit(t_shell *shell, char **envp)
 {
@@ -24,7 +24,7 @@ int	ft_exit(t_shell *shell, char **envp)
 	exit_true_status = OK;
 	if (shell->tab && shell->tab[1])
 	{
-		return_value = ft_exit_arg_handling(shell->tab);
+		return_value = ft_exit_arg_handling(shell->tab, shell);
 		if (return_value == ERROR)
 		{
 			exit_true_status = ERROR;
@@ -38,7 +38,24 @@ int	ft_exit(t_shell *shell, char **envp)
 	return (OK);
 }
 
-static int	ft_exit_arg_handling(char **tab)
+long long int	ft_exit_arg_handling_error(unsigned long long result, int digit, int sign, t_shell *shell)
+{
+	if (result * 10 + digit > LLONG_MAX)
+	{
+		if (sign == 1)
+		{
+			ft_exit_syntax_error(shell->tab, shell);
+		}
+		else if (sign == -1)
+		{
+			if ((result * 10) + digit - 1 > LLONG_MAX)
+				ft_exit_syntax_error(shell->tab, shell);
+		}
+	}
+	return ((result * 10) + digit);
+}
+
+static int	ft_exit_arg_handling(char **tab, t_shell *shell)
 {
 	int			i;
 	int			sign;
@@ -51,8 +68,13 @@ static int	ft_exit_arg_handling(char **tab)
 	result = 0;
 	while (tab[1][++i])
 	{
-		if (!(tab[1][i] >= '0' && tab[1][i] <= '9') || i > 15)
-			return (ft_exit_syntax_error(tab), SYNTAX_ERROR);
+		if (!(tab[1][i] >= '0' && tab[1][i] <= '9'))
+			ft_exit_syntax_error(tab, shell);
+		if (result >= LLONG_MAX / 10)
+		{
+			result = ft_exit_arg_handling_error(result, tab[1][i] - 48, sign, shell);
+			break ;
+		}
 		else
 			result = result * 10 + (tab[1][i] - 48);
 	}
@@ -62,10 +84,11 @@ static int	ft_exit_arg_handling(char **tab)
 	return (OK);	
 }
 
-static void	ft_exit_syntax_error(char **tab)
+static void	ft_exit_syntax_error(char **tab, t_shell *shell)
 {
 	exit_true_status = SYNTAX_ERROR;
 	write(2, "Minishell: exit: ", 18);
 	write(2, tab[1], ft_strlen(tab[1]));
 	write(2, ": numeric argument required\n", 29);
+	ft_end_program(shell, OK, SYNTAX_ERROR);
 }

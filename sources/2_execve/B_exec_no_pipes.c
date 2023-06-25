@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 00:14:46 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/24 02:41:21 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/25 10:47:47 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static void	get_cmd_no_pipes(t_shell *shell, char **envp)
 	ft_get_envp_paths(pipex, envp);
 	pipex->commands[0] = ft_split(shell->tab[0], '\0', shell);
 	if (ft_get_cmd(pipex, 0) == ERROR)
-		ft_end_program(shell, OK, COMMAND_ERROR);
+		ft_end_program(shell, OK, exit_true_status);
 	shell->no_pipes_cmd = pipex->cmd;
 }
 

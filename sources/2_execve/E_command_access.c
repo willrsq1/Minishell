@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 12:52:01 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/23 17:55:02 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/25 10:49:30 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	ft_get_cmd(t_pipex *p, int i)
 	if (!p->commands[i][0] || !p->commands[i][0][0])
 	{
 		write(2, "'': command not found\n", 23);
-		return (exit_true_status = ERROR, ERROR);
+		return (exit_true_status = COMMAND_ERROR, ERROR);
 	}
 	return_value = ft_get_cmd_p2(p, i);
 	if (return_value == ERROR)
@@ -50,7 +50,7 @@ int	ft_get_cmd(t_pipex *p, int i)
 			ft_strcat(p->commands[i][0], \
 				": command not found\n", p->shell), \
 					ft_strlen(p->commands[i][0]) + 21);
-		return (exit_true_status = ERROR, ERROR);
+		return (exit_true_status = COMMAND_ERROR, ERROR);
 	}
 	else if (return_value < OK)
 		return (exit_true_status = ERROR, ERROR);
@@ -106,6 +106,6 @@ static int	ft_get_cmd_error_check(t_pipex *p, t_shell *shell, char *cmd)
 		return (p->cmd = cmd, OK);
 	if (cmd[0] == '.' && cmd[1] != '/')
 		return (42);
-	perror(ft_strcat("Minishell: ", cmd, shell));
+	ft_end_program(shell, ERROR, PERMISSION_ERROR);
 	return (FAIL);
 }
