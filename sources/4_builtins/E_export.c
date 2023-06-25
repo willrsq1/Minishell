@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:37:03 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/25 14:54:56 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/25 16:46:31 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	ft_export(t_shell *shell, char **tab, char **envp)
 		i = ft_export_var_location(envp, shell, tab[z]);
 		if (i == FAIL)
 			return (0);
-		while (tab[z][++y] && y < 1024)
+		while (tab[z][++y] && y < PATH_MAX)
 			envp[i][y] = tab[z][y];
 		envp[i][y] = '\0';
 	}
@@ -46,27 +46,21 @@ int	ft_export(t_shell *shell, char **tab, char **envp)
 
 static void	ft_export_no_args(char **envp, t_shell *shell)
 {
-	int	i;
-	int	y;
+	int		i;
+	int		y;
 	char	*temp;
 
 	i = -1;
 	while (envp[++i])
 	{
 		y = -1;
-		// write(1, "declare -x", 11);
 		temp = ft_calloc(ft_strlen(envp[i]), shell);
 		printf("declare -x ");
 		while (envp[i][++y] && envp[i][y] != '=')
 			temp[y] = envp[i][y];
 		printf("%s", temp);
 		if (envp[i][y])
-		{
 			printf("=\"%s\"", &envp[i][y + 1]);
-			// write(1, "=\"", 3);
-			// write(1, &envp[i][y + 1], ft_strlen(&envp[i][y + 1]));
-			// write(1, "\"", 2);
-		}
 		if (envp[i + 1])
 			printf("\n");
 	}
@@ -76,7 +70,7 @@ static void	ft_export_no_args(char **envp, t_shell *shell)
 static int	ft_export_check_arg(char *arg)
 {
 	int	y;
-	
+
 	y = 0;
 	if (arg[0] == '=' || arg[0] == 0 || (arg[0] >= '0' && arg[0] <= '9'))
 	{
@@ -144,9 +138,9 @@ static int	ft_export_var_location(char **envp, t_shell *shell, char *arg)
 	{
 		envp[i + 1] = NULL;
 		if (!shell->pipex)
-			envp[i] = malloc(sizeof(char) * 1024);
+			envp[i] = malloc(sizeof(char) * PATH_MAX);
 		else
-			envp[i] = ft_calloc(sizeof(char) * 1024, shell);
+			envp[i] = ft_calloc(sizeof(char) * PATH_MAX, shell);
 		if (!envp[i])
 			ft_end_program(shell, ERROR, ERROR);
 	}

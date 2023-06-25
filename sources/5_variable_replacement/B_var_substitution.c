@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   B_file2.c                                          :+:      :+:    :+:   */
+/*   B_var_substitution.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/25 15:18:53 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/25 15:22:52 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/25 16:39:10 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,14 @@ typedef struct s_replace_chars
 
 static void	ft_substitute_var_part2(t_replace_chars r, char *var, \
 	char *new_arg, int *new_is_quoted);
-static int		ft_get_lenght_replace_chars(char *var, char *arg, int *is_quoted);
-
+static int	ft_get_lenght_replace_chars(char *var, char *arg, int *is_quoted);
 
 void	ft_substitute_var(t_shell *shell, char *var, char *arg, int *is_quoted)
 {
 	t_replace_chars	r;
-	int		len;
-	char	*new_arg;
-	int		*new_is_quoted;
+	int				len;
+	char			*new_arg;
+	int				*new_is_quoted;
 
 	len = ft_get_lenght_replace_chars(var, arg, is_quoted);
 	new_arg = ft_calloc(sizeof(char) * (len + 1), shell);
@@ -69,7 +68,7 @@ static void	ft_substitute_var_part2(t_replace_chars r, char *var, \
 	}
 }
 
-static int		ft_get_lenght_replace_chars(char *var, char *arg, int *is_quoted)
+static int	ft_get_lenght_replace_chars(char *var, char *arg, int *is_quoted)
 {
 	int	i;
 	int	len1;

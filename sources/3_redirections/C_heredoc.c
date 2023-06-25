@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 15:35:05 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/25 12:10:08 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/25 16:49:33 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,9 @@ int	ft_heredoc(char *delimiter, t_shell *shell)
 		write(shell->pipe_heredoc[1], buffer, ft_strlen(buffer));
 		free(buffer);
 	}
+	//check for signals, builtins outside of fork ect ITS BAD
 	close(shell->pipe_heredoc[1]);
-	return(free(buffer), shell->pipe_heredoc[0]);
+	return (free(buffer), shell->pipe_heredoc[0]);
 }
 
 int	ft_dup_heredoc_pipex(char **tab, int i, t_shell *shell)

@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 18:29:00 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/24 12:05:49 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/25 16:45:49 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,9 @@ void	ft_free_close_perror(t_shell *shell, char *description, int mode)
 
 void	ft_end_program(t_shell *shell, int mode, int err)
 {
+	int		i;
+	char	**envp;
+
 	if (err == FAIL)
 		err = EXIT_FAILURE;
 	if (mode == ERROR)
@@ -34,8 +37,7 @@ void	ft_end_program(t_shell *shell, int mode, int err)
 		rl_clear_history();
 	ft_close_all_fds(shell);
 	ft_clear_memory(shell);
-	int	i;
-	char	**envp = shell->envp;
+	envp = shell->envp;
 	i = -1;
 	while (envp && envp[++i])
 		free(envp[i]);
@@ -79,7 +81,7 @@ void	ft_close_all_fds(t_shell *shell)
 		return ;
 	while (lst)
 	{
-		if (lst->fd > 2 && lst->fd < 1024)
+		if (lst->fd > 2 && lst->fd < PATH_MAX)
 			close(lst->fd);
 		lst = lst->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:37:23 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/25 12:15:12 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/25 16:44:56 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 int	ft_is_builtin_check(char **tab, int i)
 {
-	
 	if (ft_strcmp(tab[i], "exit") == OK)
 		return (OK);
 	if (ft_strcmp(tab[i], "cd") == OK)
@@ -81,7 +80,6 @@ int	ft_builtins(t_shell *shell, char **tab, char **envp)
 	int	i;
 
 	i = 0;
-	
 	exit_true_status = OK;
 	if (ft_is_a_builtin_redirection(shell) == OK)
 	{

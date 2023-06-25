@@ -65,14 +65,14 @@ void	ft_pipex_big_tab(int pipes_number, t_init *init, t_shell *shell)
 	init->args = args;
 }
 
-static int	get_size_until_pipe(t_shell *shell, int lign)
+static int	get_size_until_pipe(t_shell *shell, int i)
 {
 	int	nb;
 
 	nb = 0;
-	while (shell->tab[++lign])
+	while (shell->tab[++i])
 	{
-		if (ft_strcmp_unquoted(shell->tab[lign], "|", shell->is_quoted[lign]) == OK)
+		if (ft_strcmp_unquoted(shell->tab[i], "|", shell->is_quoted[i]) == OK)
 			break ;
 		nb++;
 	}

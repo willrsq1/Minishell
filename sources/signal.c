@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 20:56:20 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/22 13:01:09 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/25 16:23:24 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,12 @@ void	sig_int_handler(int signum, siginfo_t *siginfo, void *context)
 
 void	ft_signal(t_shell *shell)
 {
-	struct sigaction signal_int;
+	struct sigaction	signal_int;
 
 	sigemptyset(&signal_int.sa_mask);
 	signal_int.sa_sigaction = sig_int_handler;
 	signal_int.sa_flags = 23;
-	//error when shlvl = 3 + ctrc C
+	//error when shlvl = 3 + ctrc C BAAAAAD
 	signal(SIGTERM, SIG_IGN);
 	sigaction(SIGINT, &signal_int, NULL);
 	if (shell)

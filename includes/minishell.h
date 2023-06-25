@@ -28,7 +28,7 @@
 # include <limits.h>
 
 /*		MAIN.C */
-extern int	exit_true_status;
+extern int	g_exit_true_status;
 
 // int		main(int argc, char **argv, char **envp);
 void	ft_signal(t_shell *shell);
@@ -134,18 +134,30 @@ int		ft_export(t_shell *shell, char **tab, char **envp);
 
 /*		F_UNSET.C */
 
-int	ft_unset(t_shell *shell, char **tab, char **envp);
-int	ft_unset_get_envp_lign(char **envp, char *var_name);
+int		ft_unset(t_shell *shell, char **tab, char **envp);
+int		ft_unset_get_envp_lign(char **envp, char *var_name);
 
 /*		G_ENV.C */
 
 int		ft_env(char **envp);
 
-//5
+/* ------------------------------------------------------------------------- */
+/* -------------------------- 5_VARIABLE_REPLACEMENT ----------------------- */
+/* ------------------------------------------------------------------------- */
 
-void	ft_dollar_question_mark(t_shell *shell, int z, int y, int len);
+/*		A_VAR_SEARCH.C */
+
+int		ft_variables_substitution(t_shell *shell);
+
+/*		B_VAR_SUBSTITUTION.C */
 
 void	ft_substitute_var(t_shell *shell, char *var, char *arg, int *is_quoted);
+
+/*		C_EXIT_VALUE_VAR.C */
+
+void	ft_exit_value_sub(t_shell *shell, int z, int y, int len);
+
+/*		D_VAR_UTILS.C */
 
 char	*ft_get_var_name(t_shell *shell, char *arg, int *is_quoted);
 int		ft_var_get_envp_lign(char **envp, char *var_name);

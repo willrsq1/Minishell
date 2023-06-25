@@ -6,26 +6,24 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 13:07:00 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/25 11:52:05 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/25 16:44:32 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static int	ft_exit_arg_handling(char **tab, t_shell *shell);
+static void	ft_exit_arg_handling(char **tab, t_shell *shell);
 static void	ft_exit_syntax_error(char **tab, t_shell *shell);
 
 int	ft_exit(t_shell *shell, char **envp)
 {
-	int	return_value;
-
 	if (!shell->pipex)
 		write(2, "exit\n", 6);
 	exit_true_status = OK;
 	if (shell->tab && shell->tab[1])
 	{
-		return_value = ft_exit_arg_handling(shell->tab, shell);
-		if (return_value == ERROR)
+		ft_exit_arg_handling(shell->tab, shell);
+		if (shell->tab[2])
 		{
 			exit_true_status = ERROR;
 			write(2, "Minishell: exit: too many arguments\n", 37);
@@ -38,7 +36,8 @@ int	ft_exit(t_shell *shell, char **envp)
 	return (OK);
 }
 
-long long int	ft_exit_arg_handling_error(unsigned long long result, int digit, int sign, t_shell *shell)
+long long int	ft_exit_arg_handling_error(unsigned long long result, \
+	int digit, int sign, t_shell *shell)
 {
 	if (result * 10 + digit > LLONG_MAX)
 	{
@@ -55,10 +54,10 @@ long long int	ft_exit_arg_handling_error(unsigned long long result, int digit, i
 	return ((result * 10) + digit);
 }
 
-static int	ft_exit_arg_handling(char **tab, t_shell *shell)
+static void	ft_exit_arg_handling(char **tab, t_shell *shell)
 {
-	int			i;
-	int			sign;
+	int					i;
+	int					sign;
 	unsigned long long	result;
 
 	i = -1;
@@ -74,16 +73,14 @@ static int	ft_exit_arg_handling(char **tab, t_shell *shell)
 			ft_exit_syntax_error(tab, shell);
 		if (result >= LLONG_MAX / 10)
 		{
-			result = ft_exit_arg_handling_error(result, tab[1][i] - 48, sign, shell);
+			result = ft_exit_arg_handling_error(result, \
+				tab[1][i] - 48, sign, shell);
 			break ;
 		}
 		else
 			result = result * 10 + (tab[1][i] - 48);
 	}
 	exit_true_status = (result * sign) % 256;
-	if (tab[2])
-		return (ERROR);
-	return (OK);	
 }
 
 static void	ft_exit_syntax_error(char **tab, t_shell *shell)

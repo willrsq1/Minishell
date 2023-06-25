@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 14:41:12 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/25 15:36:16 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/25 15:47:58 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	ft_variables_substitution(t_shell *shell)
 			if (shell->tab[i][y] == '$' && shell->is_quoted[i][y] != 2)
 			{
 				if (shell->tab[i][y + 1] == '?')
-					ft_dollar_question_mark(shell, i, y, ft_strlen(shell->tab[i]));
+					ft_exit_value_sub(shell, i, y, ft_strlen(shell->tab[i]));
 				else
 				{
 					shell->i = i;
@@ -47,7 +47,7 @@ static int	ft_var(t_shell *shell, char *arg, int *is_quoted, int y)
 	char	*var;
 	int		envp_lign;
 	int		i;
-	
+
 	var = ft_get_var_name(shell, &arg[y], &is_quoted[y]);
 	if (!var)
 		return (y);
