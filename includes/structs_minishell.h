@@ -38,8 +38,8 @@ typedef struct s_wildc			t_wildc;
 
 typedef struct s_shell
 {
-	int				initial_size_of_envp;
 	int				no_exit;
+	char			**envp;
 	int				nb_of_double_quotes;
 	char			**tab;
 	t_pipex			*pipex;

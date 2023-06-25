@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 13:07:00 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/24 01:22:31 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/24 12:09:39 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,9 @@ int	ft_exit(t_shell *shell, char **envp)
 			return (OK);
 		}
 	}
-	ft_free_envp(envp, shell->initial_size_of_envp);
 	ft_end_program(shell, OK, exit_true_status);
+	if (envp)
+		return (OK);
 	return (OK);
 }
 

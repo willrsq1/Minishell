@@ -134,6 +134,9 @@ int		ft_export(t_shell *shell, char **tab, char **envp);
 
 /*		F_UNSET.C */
 
+int	ft_unset(t_shell *shell, char **tab, char **envp);
+int	ft_unset_get_envp_lign(char **envp, char *var_name);
+
 /*		G_ENV.C */
 
 int		ft_env(char **envp);

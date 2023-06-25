@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:37:03 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/24 01:30:45 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/24 12:21:55 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,12 +92,14 @@ static int	ft_export_get_envp_lign(char **envp, char *var_name)
 		y = 0;
 		while (var_name[y] && envp[i][y] && var_name[y] == envp[i][y])
 		{
-			if (var_name[y] == '=' || var_name[y + 1] == '=')
+			if (var_name[y] == '=')
 				return (i);
 			y++;
 		}
-		if (!var_name[y] && envp[i][y])
-			return (FAIL);
+		if (var_name[y] && var_name[y] == '=' && !envp[i][y])
+			return (i);
+		if (!var_name[y] && envp[i][y] == '=')
+			return (i);
 		if (!var_name[y] && !envp[i][y])
 			return (i);
 	}

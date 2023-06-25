@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 18:29:00 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/24 02:48:12 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/24 12:05:49 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,12 @@ void	ft_end_program(t_shell *shell, int mode, int err)
 		rl_clear_history();
 	ft_close_all_fds(shell);
 	ft_clear_memory(shell);
+	int	i;
+	char	**envp = shell->envp;
+	i = -1;
+	while (envp && envp[++i])
+		free(envp[i]);
+	free(envp);
 	if (shell->no_exit == OK)
 		exit(err);
 }
