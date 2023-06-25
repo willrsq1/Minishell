@@ -6,14 +6,14 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 12:52:01 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/25 22:43:03 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/25 23:30:38 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 static int	ft_get_cmd_p2(t_pipex *p, int index);
-static int	ft_get_cmd_error_check(t_pipex *p, t_shell *shell, char *cmd);
+static int	ft_get_cmd_err_check(t_pipex *p, t_shell *shell, char *cmd, int fd);
 
 void	ft_get_envp_paths(t_pipex *p, char **envp)
 {
@@ -50,8 +50,6 @@ int	ft_get_cmd(t_pipex *p, int i)
 			ft_strcat(p->commands[i][0], \
 				": command not found\n", p->shell), \
 					ft_strlen(p->commands[i][0]) + 21);
-		char c = 26;
-		write(2, &c, ft_strlen(&c));
 		return (g_exit_code = COMMAND_ERROR, ERROR);
 	}
 	else if (return_value < OK)
@@ -67,7 +65,7 @@ static int	ft_get_cmd_p2(t_pipex *p, int index)
 
 	i = 42;
 	if (p->commands[index][0][0] == '.' || p->commands[index][0][0] == '/')
-		i = ft_get_cmd_error_check(p, p->shell, p->commands[index][0]);
+		i = ft_get_cmd_err_check(p, p->shell, p->commands[index][0], 0);
 	if (i != 42)
 		return (i);
 	i = -1;
@@ -86,10 +84,8 @@ static int	ft_get_cmd_p2(t_pipex *p, int index)
 	return (ERROR);
 }
 
-static int	ft_get_cmd_error_check(t_pipex *p, t_shell *shell, char *cmd)
+static int	ft_get_cmd_err_check(t_pipex *p, t_shell *shell, char *cmd, int fd)
 {
-	int	fd;
-
 	if (cmd[0] == '.' && cmd[1] == '\0')
 	{
 		write(2, "Minishell: .: filename argument required\n", 42);
@@ -101,8 +97,7 @@ static int	ft_get_cmd_error_check(t_pipex *p, t_shell *shell, char *cmd)
 	{
 		ft_add_tbc_list(fd, shell);
 		open(cmd, O_CREAT);
-		perror(cmd);
-		ft_end_program(shell, OK, DIRECTORY_ERROR);
+		ft_end_program(shell, ERROR, DIRECTORY_ERROR);
 	}
 	if (access(cmd, X_OK) != FAIL)
 		return (p->cmd = cmd, OK);
@@ -114,6 +109,5 @@ static int	ft_get_cmd_error_check(t_pipex *p, t_shell *shell, char *cmd)
 		ft_end_program(shell, OK, COMMAND_ERROR);
 	}
 	access(cmd, X_OK);
-	ft_end_program(shell, ERROR, PERMISSION_ERROR);
-	return (FAIL);
+	return (ft_end_program(shell, ERROR, PERMISSION_ERROR), FAIL);
 }

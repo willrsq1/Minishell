@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:37:03 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/25 19:07:13 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/25 23:33:37 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,10 +136,7 @@ static int	ft_export_var_location(char **envp, t_shell *shell, char *arg)
 	if (i != FAIL && envp[i] == NULL)
 	{
 		envp[i + 1] = NULL;
-		if (!shell->pipex)
-			envp[i] = malloc(sizeof(char) * PATH_MAX);
-		else
-			envp[i] = ft_calloc(sizeof(char) * PATH_MAX, shell);
+		envp[i] = malloc(sizeof(char) * PATH_MAX);
 		if (!envp[i])
 			ft_end_program(shell, ERROR, ERROR);
 	}

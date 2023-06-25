@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 00:13:01 by root              #+#    #+#             */
-/*   Updated: 2023/06/25 22:46:13 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/25 23:31:02 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	ft_pipex(int argc, t_init *init, char **envp)
 		return ;
 	ft_forking(p, envp);
 }
+
 static void	ft_forking(t_pipex *p, char **envp)
 {
 	int	i;
@@ -62,6 +63,7 @@ static void	ft_fork_loop(t_pipex *p, char **envp, int i)
 	p->shell->is_quoted = p->is_quoted[i];
 	if (ft_special_operands(p->shell, envp, -1))
 		ft_end_program(p->shell, OK, g_exit_code);
+	ft_dup2_exec_pipes(p, i);
 	ft_check_for_redirections(p, i);
 	ft_dup2_exec_pipes(p, i);
 	if (ft_builtins_in_child(p->shell, p->commands[i], envp) == OK || \

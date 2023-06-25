@@ -130,10 +130,8 @@ void	ft_close_pipes(int i, t_pipex *p, int x)
 			p->forks_id[y] = -1;
 		}
 	}
-	y = 3;
-	if (x == 1 && ++y < i - 10)
-	{
-		close(p->pipe[i][0]);
-		close(p->pipe[i][1]);
-	}
+	if (x == OK)
+		return ;
+	close(p->pipe[i][0]);
+	close(p->pipe[i][1]);
 }

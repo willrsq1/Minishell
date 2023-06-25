@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 02:33:08 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/25 18:24:12 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/25 23:25:56 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,8 @@ static int	ft_check_pipes_tokens(char **tab, t_shell *shell)
 					write(2, tab[i], ft_strlen(tab[i]));
 				return (write(2, "'\n", 3), ERROR);
 			}
-			if (!tab[i + 1])
+			if (!tab[i + 1] && ft_strcmp_unquoted(tab[i], ";", \
+				shell->is_quoted[i]))
 				return (no_token_after_last_pipe(i, NULL, shell));
 		}
 		i++;
@@ -111,7 +112,7 @@ static int	ft_check_parenthesis_tokens(char **tab, t_shell *shell)
 				return (write(2, "'\n", 3), ERROR);
 			}
 		}
-		//upgrade this
+		//upgrade this  (ls || ls &&ls) ls
 		i++;
 	}
 	return (OK);
