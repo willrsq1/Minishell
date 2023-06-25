@@ -15,29 +15,9 @@
 static void	ft_reset_shell(t_shell *shell);
 static void	ft_create_prompt(t_shell *shell, char **envp);
 static void	ft_shlvl(char **envp);
+static char	**ft_new_envp(t_shell *shell, char **envp);
 
 int	exit_true_status;
-
-void	ft_free_envp(char **envp, int i)
-{
-	while (envp[i])
-	{
-		free(envp[i]);
-		envp[i++] = NULL;
-	}
-}
-
-char	**ft_new_envp(t_shell *shell, char **envp)
-{
-	char	**new_envp;
-	int		i;
-
-	new_envp = calloc(sizeof(char *) * 1024, 1);
-	i = -1;
-	while (envp && envp[++i] && shell)
-		new_envp[i] = strdup(envp[i]);
-	return (new_envp);
-}
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -50,6 +30,7 @@ int	main(int argc, char **argv, char **envp)
 	exit_true_status = 0;
 	ft_shlvl(envp);
 	ft_initializing_options(&shell, argc, argv);
+	shell.exit_after_first_input = 1;
 	while (1)
 	{
 		ft_reset_shell(&shell);
@@ -61,7 +42,7 @@ int	main(int argc, char **argv, char **envp)
 		if (shell.show_exit_status)
 			printf("		The exit status is = %d\n", exit_true_status);
 		if (shell.exit_after_first_input)
-			exit(exit_true_status);
+			ft_end_program(&shell, OK, exit_true_status);
 	}
 	return (OK);
 }
@@ -117,4 +98,16 @@ static void	ft_shlvl(char **envp)
 		envp[i][6 + y] = new_lvl[y];
 	envp[i][6 + y] = '\0';
 	free(new_lvl);
+}
+
+static char	**ft_new_envp(t_shell *shell, char **envp)
+{
+	char	**new_envp;
+	int		i;
+
+	new_envp = calloc(sizeof(char *) * 1024, 1);
+	i = -1;
+	while (envp && envp[++i] && shell)
+		new_envp[i] = strdup(envp[i]);
+	return (new_envp);
 }

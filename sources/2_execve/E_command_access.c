@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 12:52:01 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/25 10:49:30 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/25 11:49:02 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,9 @@ static int	ft_get_cmd_error_check(t_pipex *p, t_shell *shell, char *cmd)
 		return (p->cmd = cmd, OK);
 	if (cmd[0] == '.' && cmd[1] != '/')
 		return (42);
+	if (access(cmd, F_OK) == FAIL)
+		ft_end_program(shell, ERROR, COMMAND_ERROR);
+	access(cmd, X_OK);
 	ft_end_program(shell, ERROR, PERMISSION_ERROR);
 	return (FAIL);
 }

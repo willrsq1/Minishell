@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 13:07:00 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/25 11:28:57 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/25 11:52:05 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ static int	ft_exit_arg_handling(char **tab, t_shell *shell)
 	sign = 1;
 	if (tab[1][0] == '-' && i++)
 		sign = -1;
+	if (tab[1][0] == '+' && i++)
+		sign = 1;
 	result = 0;
 	while (tab[1][++i])
 	{

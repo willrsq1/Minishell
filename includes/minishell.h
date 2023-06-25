@@ -31,7 +31,6 @@
 extern int	exit_true_status;
 
 // int		main(int argc, char **argv, char **envp);
-void	ft_free_envp(char **envp, int i);
 void	ft_signal(t_shell *shell);
 
 /* ------------------------------------------------------------------------- */
@@ -110,7 +109,7 @@ int		ft_dup_heredoc_pipex(char **tab, int i, t_shell *shell);
 /*		EXIT.C */
 
 int		ft_exit(t_shell *shell, char **envp);
-int		ft_find_exit_status(t_shell *shell);
+int		ft_variables_substitution(t_shell *shell);
 
 /*		A_BUILTINS_DISPATCH.C */
 
@@ -142,7 +141,16 @@ int	ft_unset_get_envp_lign(char **envp, char *var_name);
 
 int		ft_env(char **envp);
 
+//5
 
+void	ft_dollar_question_mark(t_shell *shell, int z, int y, int len);
+
+void	ft_substitute_var(t_shell *shell, char *var, char *arg, int *is_quoted);
+
+char	*ft_get_var_name(t_shell *shell, char *arg, int *is_quoted);
+int		ft_var_get_envp_lign(char **envp, char *var_name);
+void	ft_remove_one_token(t_shell *shell, int i);
+int		ft_var_not_found(char *arg, int *is_quoted);
 
 /* ------------------------------------------------------------------------- */
 /* -------------------------- 7_LIBFT_MINISHELL ---------------------------- */
