@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 13:07:00 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/25 18:24:12 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/25 19:18:24 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	ft_exit(t_shell *shell, char **envp)
 long long int	ft_exit_arg_handling_error(unsigned long long result, \
 	int digit, int sign, t_shell *shell)
 {
-	if (result * 10 + digit > LLONG_MAX)
+	if (result * 10 + digit > LLONG_MAX || result > ULLONG_MAX / 10)
 	{
 		if (sign == 1)
 		{
@@ -47,7 +47,8 @@ long long int	ft_exit_arg_handling_error(unsigned long long result, \
 		}
 		else if (sign == -1)
 		{
-			if ((result * 10) + digit - 1 > LLONG_MAX)
+			if ((result * 10) + digit - 1 > LLONG_MAX || \
+				result > ULLONG_MAX / 10)
 				ft_exit_syntax_error(shell->tab, shell);
 		}
 	}

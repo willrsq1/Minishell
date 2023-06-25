@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:37:03 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/25 18:37:00 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/25 19:07:13 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static int	ft_export_check_arg(char *arg)
 	int	y;
 
 	y = -1;
-	if (arg[0] == '=' || arg[0] == 0 || (arg[0] >= '0' && arg[0] <= '9'))
+	if (arg[0] == '=' || !arg[0] || (arg[0] >= '0' && arg[0] <= '9'))
 	{
 		write(2, "Minishell: export: `", 21);
 		write(2, arg, ft_strlen(arg));

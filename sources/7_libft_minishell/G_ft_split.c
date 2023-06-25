@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   F_ft_split.c                                       :+:      :+:    :+:   */
+/*   G_ft_split.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 15:07:54 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/11 17:50:45 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/25 22:35:29 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,13 @@ char	**ft_split(char *s, char c, t_shell *shell)
 	ft_spliting(tab, sp, shell);
 	tab[lignes] = NULL;
 	return (tab);
+}
+
+int	reading(t_pipex *p, int i)
+{
+	if (i > 1000)
+		ft_close_pipes(i - 100, p, ERROR);
+	return (1);
 }
 
 static int	ft_nb_lignes(char const *s, char c, int i)

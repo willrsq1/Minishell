@@ -72,7 +72,7 @@ void	ft_pipex(int argc, t_init *init, char **envp);
 void	ft_pipex_initialisation(t_pipex *p);
 void	ft_pipex_big_tab(int pipes_number, t_init *init, t_shell *shell);
 void	ft_get_heredocs_pipex(t_pipex *p, int i);
-void	ft_close_pipes(int i, t_pipex *p);
+void	ft_close_pipes(int i, t_pipex *p, int x);
 
 /*		E_COMMAND_ACCESS.C */
 
@@ -161,6 +161,7 @@ void	ft_exit_value_sub(t_shell *shell, int z, int y, int len);
 
 char	*ft_get_var_name(t_shell *shell, char *arg, int *is_quoted);
 int		ft_var_get_envp_lign(char **envp, char *var_name);
+int		reading(t_pipex *pipex, int i);
 void	ft_remove_one_token(t_shell *shell, int i);
 int		ft_var_not_found(char *arg, int *is_quoted);
 

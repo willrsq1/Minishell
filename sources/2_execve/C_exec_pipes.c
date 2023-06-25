@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 00:13:01 by root              #+#    #+#             */
-/*   Updated: 2023/06/25 18:24:12 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/25 22:46:13 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	ft_pipex(int argc, t_init *init, char **envp)
 		return ;
 	ft_forking(p, envp);
 }
-
 static void	ft_forking(t_pipex *p, char **envp)
 {
 	int	i;
@@ -51,17 +50,16 @@ static void	ft_forking(t_pipex *p, char **envp)
 			ft_end_program(p->shell, ERROR, EXIT_FAILURE);
 		if (p->forks_id[i] == 0)
 			ft_fork_loop(p, envp, i);
-		if (i < p->nb_cmds - 1)
+		if (i < p->nb_cmds - 1 && reading(p, i))
 			close(p->pipe[i][1]);
 	}
-	ft_close_pipes(i, p);
+	ft_close_pipes(i, p, OK);
 }
 
 static void	ft_fork_loop(t_pipex *p, char **envp, int i)
 {
 	p->shell->tab = p->commands[i];
 	p->shell->is_quoted = p->is_quoted[i];
-	ft_dup2_exec_pipes(p, i);
 	if (ft_special_operands(p->shell, envp, -1))
 		ft_end_program(p->shell, OK, g_exit_code);
 	ft_check_for_redirections(p, i);
@@ -84,7 +82,6 @@ static void	ft_check_for_redirections(t_pipex *p, int i)
 	shell->pipe_heredoc = NULL;
 	shell->infile = FAIL;
 	shell->outfile = FAIL;
-	ft_open("/", shell, RDONLY);
 	ft_get_redi(shell);
 	if (shell->infile != FAIL)
 		p->fds[i][0] = p->shell->infile;

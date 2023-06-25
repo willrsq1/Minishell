@@ -107,24 +107,33 @@ void	ft_get_heredocs_pipex(t_pipex *p, int i)
 	}
 }
 
-void	ft_close_pipes(int i, t_pipex *p)
+void	ft_close_pipes(int i, t_pipex *p, int x)
 {
 	int	y;
 	int	status;
 
 	y = -1;
-	ft_close_all_fds(p->shell);
+	status = 0;
+	if (x == OK)
+		ft_close_all_fds(p->shell);
 	while (++y < i)
 	{	
 		if (p->forks_id[y] != -1)
 		{
-			if (waitpid(p->forks_id[y], &status, 0) == 1)
+			if (waitpid(p->forks_id[y], &status, 0) == -1)
 			{
-				printf("EXIT CHILD FAIL WAITPID\n");
+				// printf("EXIT CHILD FAIL WAITPID\n");
 				g_exit_code = SIGINT_EXITVALUE;
 			}
-			else if (WIFEXITED(status))
+			if (WIFEXITED(status))
 				g_exit_code = WEXITSTATUS(status);
+			p->forks_id[y] = -1;
 		}
+	}
+	y = 3;
+	if (x == 1 && ++y < i - 10)
+	{
+		close(p->pipe[i][0]);
+		close(p->pipe[i][1]);
 	}
 }

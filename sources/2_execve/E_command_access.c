@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 12:52:01 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/25 18:24:12 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/25 22:43:03 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ int	ft_get_cmd(t_pipex *p, int i)
 			ft_strcat(p->commands[i][0], \
 				": command not found\n", p->shell), \
 					ft_strlen(p->commands[i][0]) + 21);
+		char c = 26;
+		write(2, &c, ft_strlen(&c));
 		return (g_exit_code = COMMAND_ERROR, ERROR);
 	}
 	else if (return_value < OK)
@@ -107,7 +109,10 @@ static int	ft_get_cmd_error_check(t_pipex *p, t_shell *shell, char *cmd)
 	if (cmd[0] == '.' && cmd[1] != '/')
 		return (42);
 	if (access(cmd, F_OK) == FAIL)
-		ft_end_program(shell, ERROR, COMMAND_ERROR);
+	{
+		perror(ft_strcat("Minishell: ", cmd, shell));
+		ft_end_program(shell, OK, COMMAND_ERROR);
+	}
 	access(cmd, X_OK);
 	ft_end_program(shell, ERROR, PERMISSION_ERROR);
 	return (FAIL);
