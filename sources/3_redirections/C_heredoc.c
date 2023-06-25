@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 15:35:05 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/25 16:49:33 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/25 18:24:12 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	ft_get_heredocs(t_shell *shell)
 
 	tab = shell->tab;
 	i = -1;
-	while (tab[++i] && exit_true_status != SIGINT_EXITVALUE)
+	while (tab[++i] && g_exit_code != SIGINT_EXITVALUE)
 	{
 		if (ft_strcmp_unquoted(tab[i], "<<", shell->is_quoted[i]) == OK)
 		{

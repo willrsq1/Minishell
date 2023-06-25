@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:36:59 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/25 16:45:49 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/25 18:24:12 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ int	ft_pwd(void)
 	buf = NULL;
 	buf = getcwd(buf, PATH_MAX);
 	if (!buf)
-		return (perror("Minishell: "), exit_true_status = ERROR, OK);
+		return (perror("Minishell: "), g_exit_code = ERROR, OK);
 	printf("%s\n", buf);
-	exit_true_status = OK;
+	g_exit_code = OK;
 	free(buf);
 	return (0);
 }

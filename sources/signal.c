@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 20:56:20 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/25 16:23:24 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/25 18:24:12 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	sig_int_handler(int signum, siginfo_t *siginfo, void *context)
 {
-	exit_true_status = SIGINT_EXITVALUE;
+	g_exit_code = SIGINT_EXITVALUE;
 	if (siginfo->si_code != 0)
 	{
 		write(2, "\n", 2);

@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 12:52:01 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/25 11:49:02 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/25 18:24:12 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	ft_get_cmd(t_pipex *p, int i)
 	if (!p->commands[i][0] || !p->commands[i][0][0])
 	{
 		write(2, "'': command not found\n", 23);
-		return (exit_true_status = COMMAND_ERROR, ERROR);
+		return (g_exit_code = COMMAND_ERROR, ERROR);
 	}
 	return_value = ft_get_cmd_p2(p, i);
 	if (return_value == ERROR)
@@ -50,10 +50,10 @@ int	ft_get_cmd(t_pipex *p, int i)
 			ft_strcat(p->commands[i][0], \
 				": command not found\n", p->shell), \
 					ft_strlen(p->commands[i][0]) + 21);
-		return (exit_true_status = COMMAND_ERROR, ERROR);
+		return (g_exit_code = COMMAND_ERROR, ERROR);
 	}
 	else if (return_value < OK)
-		return (exit_true_status = ERROR, ERROR);
+		return (g_exit_code = ERROR, ERROR);
 	return (OK);
 }
 

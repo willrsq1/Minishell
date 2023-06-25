@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 02:33:08 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/25 15:44:32 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/25 18:24:12 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,14 @@ int	ft_syntax_error(char **tab, t_shell *shell)
 	int	return_value;
 
 	if (ft_check_redi_tokens(tab, shell, -1) == ERROR)
-		return (exit_true_status = SYNTAX_ERROR, ERROR);
+		return (g_exit_code = SYNTAX_ERROR, ERROR);
 	return_value = ft_check_pipes_tokens(tab, shell);
 	if (return_value == ERROR)
-		return (exit_true_status = SYNTAX_ERROR, ERROR);
+		return (g_exit_code = SYNTAX_ERROR, ERROR);
 	if (return_value == SIGINT_EXITVALUE)
-		return (exit_true_status = SIGINT_EXITVALUE, ERROR);
+		return (g_exit_code = SIGINT_EXITVALUE, ERROR);
 	if (ft_check_parenthesis_tokens(tab, shell) == ERROR)
-		return (exit_true_status = SYNTAX_ERROR, ERROR);
+		return (g_exit_code = SYNTAX_ERROR, ERROR);
 	return (OK);
 }
 

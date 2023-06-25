@@ -15,19 +15,19 @@
 static void	ft_reset_shell(t_shell *shell);
 static void	ft_create_prompt(t_shell *shell, char **envp);
 static void	ft_shlvl(char **envp);
-static char	**ft_new_envp(t_shell *shell, char **envp);
+static char	**ft_new_envp(char **envp);
 
-int	exit_true_status;
+int	g_exit_code;
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_shell		shell;
 
 	ft_reset_shell(&shell);
-	envp = ft_new_envp(&shell, envp);
+	g_exit_code = 0;
+	envp = ft_new_envp(envp);
 	shell.envp = envp;
 	ft_signal(&shell);
-	exit_true_status = 0;
 	ft_shlvl(envp);
 	ft_initializing_options(&shell, argc, argv);
 	// shell.exit_after_first_input = 1;
@@ -40,9 +40,9 @@ int	main(int argc, char **argv, char **envp)
 		ft_close_all_fds(&shell);
 		ft_clear_memory(&shell);
 		if (shell.show_exit_status)
-			printf("		The exit status is = %d\n", exit_true_status);
+			printf("		The exit status is = %d\n", g_exit_code);
 		if (shell.exit_after_first_input)
-			ft_end_program(&shell, OK, exit_true_status);
+			ft_end_program(&shell, OK, g_exit_code);
 	}
 	return (OK);
 }
@@ -100,14 +100,29 @@ static void	ft_shlvl(char **envp)
 	free(new_lvl);
 }
 
-static char	**ft_new_envp(t_shell *shell, char **envp)
+static char	**ft_new_envp(char **envp)
 {
 	char	**new_envp;
 	int		i;
 
-	new_envp = calloc(sizeof(char *) * PATH_MAX, 1);
+	new_envp = ft_calloc(sizeof(char *) * PATH_MAX, NULL);
+	if (!new_envp)
+	{
+		perror("Malloc fail for new_envp");
+		return (new_envp);
+	}
 	i = -1;
-	while (envp && envp[++i] && shell)
-		new_envp[i] = strdup(envp[i]);
+	while (envp && envp[++i])
+	{
+		new_envp[i] = ft_strdup(envp[i], NULL);
+		if (!new_envp[i])
+		{
+			perror("Malloc fail for new_envp");
+			while (i >= 0)
+				free(new_envp[i--]);
+			free(new_envp);
+			return (envp);
+		}
+	}
 	return (new_envp);
 }

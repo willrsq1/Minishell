@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 09:34:25 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/21 21:16:53 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/25 18:24:12 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	print_tokens_operands(char ***operands_tab, int ***operands_is_quoted, \
 
 void	ft_initializing_options(t_shell *shell, int argc, char **argv)
 {
-	exit_true_status = 0;
+	g_exit_code = 0;
 	shell->show_exit_status = 0;
 	shell->show_tokens = 0;
 	shell->exit_after_first_input = 0;

@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:37:03 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/25 16:46:31 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/25 18:37:00 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	ft_export(t_shell *shell, char **tab, char **envp)
 	int		z;
 
 	z = 0;
-	exit_true_status = OK;
+	g_exit_code = OK;
 	if (!envp)
 		return (OK);
 	if (!tab[1])
@@ -54,30 +54,29 @@ static void	ft_export_no_args(char **envp, t_shell *shell)
 	while (envp[++i])
 	{
 		y = -1;
-		temp = ft_calloc(ft_strlen(envp[i]), shell);
+		temp = ft_calloc(ft_strlen(envp[i]) + 1, shell);
 		printf("declare -x ");
 		while (envp[i][++y] && envp[i][y] != '=')
 			temp[y] = envp[i][y];
 		printf("%s", temp);
 		if (envp[i][y])
 			printf("=\"%s\"", &envp[i][y + 1]);
-		if (envp[i + 1])
-			printf("\n");
+		printf("\n");
 	}
-	exit_true_status = OK;
+	g_exit_code = OK;
 }
 
 static int	ft_export_check_arg(char *arg)
 {
 	int	y;
 
-	y = 0;
+	y = -1;
 	if (arg[0] == '=' || arg[0] == 0 || (arg[0] >= '0' && arg[0] <= '9'))
 	{
 		write(2, "Minishell: export: `", 21);
 		write(2, arg, ft_strlen(arg));
 		write(2, "': not a valid identifier\n", 27);
-		exit_true_status = ERROR;
+		g_exit_code = ERROR;
 		return (ERROR);
 	}
 	while (arg[++y] && arg[y] != '=')
@@ -88,7 +87,7 @@ static int	ft_export_check_arg(char *arg)
 			write(2, "Minishell: export: `", 21);
 			write(2, arg, ft_strlen(arg));
 			write(2, "': not a valid identifier\n", 27);
-			exit_true_status = ERROR;
+			g_exit_code = ERROR;
 			return (ERROR);
 		}
 	}

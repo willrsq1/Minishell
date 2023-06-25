@@ -28,7 +28,7 @@
 # include <limits.h>
 
 /*		MAIN.C */
-extern int	g_exit_true_status;
+extern int	g_exit_code;
 
 // int		main(int argc, char **argv, char **envp);
 void	ft_signal(t_shell *shell);

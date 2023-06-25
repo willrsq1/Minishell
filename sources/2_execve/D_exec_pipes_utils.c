@@ -95,7 +95,7 @@ void	ft_get_heredocs_pipex(t_pipex *p, int i)
 	}
 	i = -1;
 	shell = p->shell;
-	while (++i < p->nb_cmds && exit_true_status != SIGINT_EXITVALUE)
+	while (++i < p->nb_cmds && g_exit_code != SIGINT_EXITVALUE)
 	{
 		p->heredoc_fds[i] = FAIL;
 		shell->tab = p->commands[i];
@@ -121,10 +121,10 @@ void	ft_close_pipes(int i, t_pipex *p)
 			if (waitpid(p->forks_id[y], &status, 0) == 1)
 			{
 				printf("EXIT CHILD FAIL WAITPID\n");
-				exit_true_status = SIGINT_EXITVALUE;
+				g_exit_code = SIGINT_EXITVALUE;
 			}
 			else if (WIFEXITED(status))
-				exit_true_status = WEXITSTATUS(status);
+				g_exit_code = WEXITSTATUS(status);
 		}
 	}
 }

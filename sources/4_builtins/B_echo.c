@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:36:55 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/25 12:14:25 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/25 18:24:12 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	ft_echo(char **tab)
 		ft_echo_option_no_new_line(tab);
 	else
 		ft_echo_no_option(tab);
-	exit_true_status = OK;
+	g_exit_code = OK;
 	return (0);
 }
 

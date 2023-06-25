@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 00:14:46 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/25 15:43:13 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/25 18:24:12 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	exec_no_pipes(t_shell *shell, char **envp)
 	if (ft_special_operands(shell, envp, -1))
 		return ;
 	ft_get_heredocs(shell);
-	if (ft_builtins(shell, shell->tab, envp) == OK || exit_true_status == 130)
+	if (ft_builtins(shell, shell->tab, envp) == OK || g_exit_code == 130)
 		return ;
 	pid = fork();
 	if (pid == 0)
@@ -30,16 +30,16 @@ void	exec_no_pipes(t_shell *shell, char **envp)
 		ft_get_redi(shell);
 		ft_dup2_exec_no_pipes(shell);
 		if (ft_builtins_in_child(shell, shell->tab, envp) == OK)
-			ft_end_program(shell, OK, exit_true_status);
+			ft_end_program(shell, OK, g_exit_code);
 		get_cmd_no_pipes(shell, envp);
 		execve(shell->no_pipes_cmd, shell->tab, envp);
 		ft_end_program(shell, ERROR, EXIT_FAILURE);
 	}
 	status = 0;
 	if (waitpid(pid, &status, WUNTRACED) == -1)
-		exit_true_status = SIGINT_EXITVALUE;
+		g_exit_code = SIGINT_EXITVALUE;
 	else if (WIFEXITED(status))
-		exit_true_status = WEXITSTATUS(status);
+		g_exit_code = WEXITSTATUS(status);
 }
 
 static void	get_cmd_no_pipes(t_shell *shell, char **envp)
@@ -55,7 +55,7 @@ static void	get_cmd_no_pipes(t_shell *shell, char **envp)
 	ft_get_envp_paths(pipex, envp);
 	pipex->commands[0] = ft_split(shell->tab[0], '\0', shell);
 	if (ft_get_cmd(pipex, 0) == ERROR)
-		ft_end_program(shell, OK, exit_true_status);
+		ft_end_program(shell, OK, g_exit_code);
 	shell->no_pipes_cmd = pipex->cmd;
 }
 

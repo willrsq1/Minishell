@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/25 15:16:29 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/25 16:36:59 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/25 18:24:12 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static int	ft_insert_exit_status(int i, char *new, int *new_is_quoted, \
 	char	*nb;
 	int		nb_len;
 
-	nb = ft_itoa(exit_true_status, shell);
+	nb = ft_itoa(g_exit_code, shell);
 	nb_len = -1;
 	while (nb[++nb_len])
 	{

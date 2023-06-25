@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 13:07:00 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/25 16:44:32 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/25 18:24:12 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,18 @@ int	ft_exit(t_shell *shell, char **envp)
 {
 	if (!shell->pipex)
 		write(2, "exit\n", 6);
-	exit_true_status = OK;
+	g_exit_code = OK;
 	if (shell->tab && shell->tab[1])
 	{
 		ft_exit_arg_handling(shell->tab, shell);
 		if (shell->tab[2])
 		{
-			exit_true_status = ERROR;
+			g_exit_code = ERROR;
 			write(2, "Minishell: exit: too many arguments\n", 37);
 			return (OK);
 		}
 	}
-	ft_end_program(shell, OK, exit_true_status);
+	ft_end_program(shell, OK, g_exit_code);
 	if (envp)
 		return (OK);
 	return (OK);
@@ -80,12 +80,12 @@ static void	ft_exit_arg_handling(char **tab, t_shell *shell)
 		else
 			result = result * 10 + (tab[1][i] - 48);
 	}
-	exit_true_status = (result * sign) % 256;
+	g_exit_code = (result * sign) % 256;
 }
 
 static void	ft_exit_syntax_error(char **tab, t_shell *shell)
 {
-	exit_true_status = SYNTAX_ERROR;
+	g_exit_code = SYNTAX_ERROR;
 	write(2, "Minishell: exit: ", 18);
 	write(2, tab[1], ft_strlen(tab[1]));
 	write(2, ": numeric argument required\n", 29);

@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:37:13 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/22 16:41:06 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/25 18:24:12 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,6 @@ int	ft_env(char **envp)
 	i = -1;
 	while (envp && envp[++i])
 		printf("%s\n", envp[i]);
-	exit_true_status = OK;
+	g_exit_code = OK;
 	return (0);
 }

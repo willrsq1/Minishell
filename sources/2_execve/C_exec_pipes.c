@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 00:13:01 by root              #+#    #+#             */
-/*   Updated: 2023/06/25 15:43:32 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/25 18:24:12 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ void	ft_pipex(int argc, t_init *init, char **envp)
 	ft_pipex_initialisation(p);
 	ft_get_envp_paths(p, envp);
 	p->commands = init->args;
-	exit_true_status = 0;
+	g_exit_code = 0;
 	p->is_quoted = init->is_quoted;
 	ft_get_heredocs_pipex(p, 0);
-	if (exit_true_status == SIGINT_EXITVALUE)
+	if (g_exit_code == SIGINT_EXITVALUE)
 		return ;
 	ft_forking(p, envp);
 }
@@ -63,13 +63,13 @@ static void	ft_fork_loop(t_pipex *p, char **envp, int i)
 	p->shell->is_quoted = p->is_quoted[i];
 	ft_dup2_exec_pipes(p, i);
 	if (ft_special_operands(p->shell, envp, -1))
-		ft_end_program(p->shell, OK, exit_true_status);
+		ft_end_program(p->shell, OK, g_exit_code);
 	ft_check_for_redirections(p, i);
 	ft_dup2_exec_pipes(p, i);
 	if (ft_builtins_in_child(p->shell, p->commands[i], envp) == OK || \
 		ft_builtins(p->shell, p->commands[i], envp) == OK || \
 		ft_get_cmd(p, i) == ERROR)
-		ft_end_program(p->shell, OK, exit_true_status);
+		ft_end_program(p->shell, OK, g_exit_code);
 	execve(p->cmd, p->commands[i], envp);
 	ft_end_program(p->shell, ERROR, EXIT_FAILURE);
 }

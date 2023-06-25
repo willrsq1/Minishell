@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 05:49:21 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/01 18:22:36 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/25 18:25:43 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ char	*ft_strdup(const char *s, t_shell *shell)
 		return (NULL);
 	size = ft_strlen(str);
 	str = ft_calloc(size + 1, shell);
+	if (!shell && !str)
+		return (NULL);
 	size = 0;
 	while (s[size])
 	{

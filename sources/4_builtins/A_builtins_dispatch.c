@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:37:23 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/25 16:44:56 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/25 18:24:12 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	ft_builtins(t_shell *shell, char **tab, char **envp)
 	int	i;
 
 	i = 0;
-	exit_true_status = OK;
+	g_exit_code = OK;
 	if (ft_is_a_builtin_redirection(shell) == OK)
 	{
 		shell->no_exit = 1;
