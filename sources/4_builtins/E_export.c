@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:37:03 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/25 23:33:37 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/26 03:13:50 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static void	ft_export_no_args(char **envp, t_shell *shell);
 static int	ft_export_check_arg(char *arg);
 static int	ft_export_var_location(char **envp, t_shell *shell, char *arg);
+static int	ft_export_get_envp_lign(char **envp, char *var_name);
 
 int	ft_export(t_shell *shell, char **tab, char **envp)
 {
@@ -94,6 +95,30 @@ static int	ft_export_check_arg(char *arg)
 	return (OK);
 }
 
+static int	ft_export_var_location(char **envp, t_shell *shell, char *arg)
+{
+	int		i;
+	char	*var_name;
+
+	var_name = ft_calloc(ft_strlen(arg) + 2, shell);
+	i = -1;
+	while (arg[++i] && arg[i] != '=')
+		var_name[i] = arg[i];
+	if (arg[i])
+		var_name[i] = '=';
+	i = ft_export_get_envp_lign(envp, var_name);
+	if (i == 936)
+		return (write(2, "Max exports allowed reached\n", 29), FAIL);
+	if (i != FAIL && envp[i] == NULL)
+	{
+		envp[i + 1] = NULL;
+		envp[i] = malloc(sizeof(char) * PATH_MAX);
+		if (!envp[i])
+			ft_end_program(shell, ERROR, ERROR);
+	}
+	return (i);
+}
+
 static int	ft_export_get_envp_lign(char **envp, char *var_name)
 {
 	int	i;
@@ -115,30 +140,6 @@ static int	ft_export_get_envp_lign(char **envp, char *var_name)
 			return (i);
 		if (!var_name[y] && !envp[i][y])
 			return (i);
-	}
-	return (i);
-}
-
-static int	ft_export_var_location(char **envp, t_shell *shell, char *arg)
-{
-	int		i;
-	char	*var_name;
-
-	var_name = ft_calloc(ft_strlen(arg) + 2, shell);
-	i = -1;
-	while (arg[++i] && arg[i] != '=')
-		var_name[i] = arg[i];
-	if (arg[i])
-		var_name[i] = '=';
-	i = ft_export_get_envp_lign(envp, var_name);
-	if (i == 936)
-		return (write(2, "Max exports allowed reached\n", 29), FAIL);
-	if (i != FAIL && envp[i] == NULL)
-	{
-		envp[i + 1] = NULL;
-		envp[i] = malloc(sizeof(char) * PATH_MAX);
-		if (!envp[i])
-			ft_end_program(shell, ERROR, ERROR);
 	}
 	return (i);
 }

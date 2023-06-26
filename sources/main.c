@@ -30,11 +30,11 @@ int	main(int argc, char **argv, char **envp)
 	ft_signal(&shell);
 	ft_shlvl(envp);
 	ft_initializing_options(&shell, argc, argv);
-	shell.exit_after_first_input = 1;
+	// shell.exit_after_first_input = 1;
 	while (1)
 	{
 		ft_reset_shell(&shell);
-		ft_create_prompt(&shell, envp);
+			ft_create_prompt(&shell, envp);
 		if (shell.buff[0])
 			ft_do_the_execve_thing(&shell, envp);
 		ft_close_all_fds(&shell);
@@ -104,6 +104,7 @@ static char	**ft_new_envp(char **envp)
 {
 	char	**new_envp;
 	int		i;
+	int		y;
 
 	new_envp = ft_calloc(sizeof(char *) * PATH_MAX, NULL);
 	if (!new_envp)
@@ -114,7 +115,8 @@ static char	**ft_new_envp(char **envp)
 	i = -1;
 	while (envp && envp[++i])
 	{
-		new_envp[i] = ft_strdup(envp[i], NULL);
+		y = -1;
+		new_envp[i] = ft_calloc(sizeof(char) * PATH_MAX, NULL);
 		if (!new_envp[i])
 		{
 			perror("Malloc fail for new_envp");
@@ -123,6 +125,8 @@ static char	**ft_new_envp(char **envp)
 			free(new_envp);
 			return (envp);
 		}
+		while (envp[i][++y])
+			new_envp[i][y] = envp[i][y];
 	}
 	return (new_envp);
 }
