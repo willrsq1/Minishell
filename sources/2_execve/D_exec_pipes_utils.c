@@ -111,24 +111,24 @@ void	ft_close_pipes(int i, t_pipex *p, int x)
 {
 	int	y;
 	int	status;
+	int	sigint_received;
 
 	y = -1;
+	sigint_received = 0;
 	status = 0;
-	if (x == OK)
-		ft_close_all_fds(p->shell);
 	while (++y < i)
 	{	
 		if (p->forks_id[y] != -1)
+			waitpid(p->forks_id[y], &status, 0);
+		if (WIFSIGNALED(status))
 		{
-			if (waitpid(p->forks_id[y], &status, 0) == -1)
-			{
-				// printf("EXIT CHILD FAIL WAITPID\n");
-				g_exit_code = SIGINT_EXITVALUE;
-			}
-			if (WIFEXITED(status))
-				g_exit_code = WEXITSTATUS(status);
-			p->forks_id[y] = -1;
+			if (sigint_received == 0 && ++sigint_received)
+				write(2, "\n", 2);
+			g_exit_code = SIGINT_EXITVALUE;
 		}
+		if (WIFEXITED(status))
+			g_exit_code = WEXITSTATUS(status);
+		p->forks_id[y] = -1;
 	}
 	if (x == OK)
 		return ;

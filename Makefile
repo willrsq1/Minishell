@@ -121,6 +121,6 @@ leaks:    all
 		echo "}" >> valgrind_ignore_leaks.txt
 		valgrind --suppressions=valgrind_ignore_leaks.txt --leak-check=full\
 			--show-leak-kinds=all --track-origins=yes --verbose --track-fds=yes\
-			--show-mismatched-frees=yes --read-var-info=yes ./${NAME}
+			--show-mismatched-frees=yes --read-var-info=yes ./${NAME} --show-exit-status
 
 .PHONY: leaks re fclean clean norminette bonus

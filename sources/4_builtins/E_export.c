@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:37:03 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/26 03:13:50 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/27 17:10:47 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@ int	ft_export(t_shell *shell, char **tab, char **envp)
 
 	z = 0;
 	g_exit_code = OK;
-	if (!envp)
-		return (OK);
 	if (!tab[1])
 		return (ft_export_no_args(envp, shell), OK);
 	while (tab[++z])
@@ -37,9 +35,11 @@ int	ft_export(t_shell *shell, char **tab, char **envp)
 			return (OK);
 		i = ft_export_var_location(envp, shell, tab[z]);
 		if (i == FAIL)
-			return (0);
-		while (tab[z][++y] && y < PATH_MAX)
+			return (OK);
+		while (tab[z][++y] && y < FILENAME_MAX)
 			envp[i][y] = tab[z][y];
+		if (y == FILENAME_MAX)
+			write(2, "Minishell: export: arg too long\n", 33);
 		envp[i][y] = '\0';
 	}
 	return (OK);
@@ -112,7 +112,7 @@ static int	ft_export_var_location(char **envp, t_shell *shell, char *arg)
 	if (i != FAIL && envp[i] == NULL)
 	{
 		envp[i + 1] = NULL;
-		envp[i] = malloc(sizeof(char) * PATH_MAX);
+		envp[i] = malloc(sizeof(char) * FILENAME_MAX);
 		if (!envp[i])
 			ft_end_program(shell, ERROR, ERROR);
 	}

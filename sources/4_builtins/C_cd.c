@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 02:30:12 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/26 03:20:52 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/27 00:23:34 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,17 +54,22 @@ static void	ft_cd_too_many_args_error(void)
 
 static void	ft_cd_one_arg(char **tab, t_shell *shell)
 {
-	char	old_pwd[FILENAME_MAX];
-	char	new_pwd[FILENAME_MAX];
+	char	*old_pwd;
+	char	*new_pwd;
 
 	g_exit_code = OK;
-	getcwd(old_pwd, FILENAME_MAX);
-	if (tab[1][0] && chdir(tab[1]) == FAIL)
+	old_pwd = ft_calloc(sizeof(char) * FILENAME_MAX, shell);
+	new_pwd = ft_calloc(sizeof(char) * FILENAME_MAX, shell);
+	if (!getcwd(old_pwd, FILENAME_MAX))
+		perror("Minishell: getcwd");
+	if (!tab[1][0] || chdir(tab[1]) == FAIL)
 	{
-		perror(ft_strcat("Minishell: cd: ", tab[1], shell));
+		perror(ft_strcat("Minishell: chdir: ", tab[1], shell));
 		g_exit_code = ERROR;
+		return ;
 	}
-	getcwd(new_pwd, FILENAME_MAX);
+	if (!getcwd(new_pwd, FILENAME_MAX))
+		perror("Minishell: getcwd");
 	shell->tab[1] = ft_strcat("OLDPWD=", old_pwd, shell);
 	shell->tab[2] = NULL;
 	ft_export(shell, shell->tab, shell->envp);

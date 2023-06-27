@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 20:56:20 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/25 18:24:12 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/27 18:38:39 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,8 @@
 void	sig_int_handler(int signum, siginfo_t *siginfo, void *context)
 {
 	g_exit_code = SIGINT_EXITVALUE;
-	if (siginfo->si_code != 0)
-	{
-		write(2, "\n", 2);
-		if (siginfo->si_pid)
-		{
-			close(STDIN_FILENO);
-		}
+	if (siginfo->si_pid == 0)
 		return ;
-	}
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	write(2, "\n", 2);
@@ -41,6 +34,7 @@ void	ft_signal(t_shell *shell)
 	signal_int.sa_flags = 23;
 	//error when shlvl = 3 + ctrc C BAAAAAD
 	signal(SIGTERM, SIG_IGN);
+	signal(SIGINT, SIG_IGN);
 	sigaction(SIGINT, &signal_int, NULL);
 	if (shell)
 		return ;

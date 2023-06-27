@@ -27,7 +27,6 @@
 # define RDONLY 801
 # define TRUNC 802
 # define APPEND 803
-# define PATH_MAX 1024
 # define IS_QUOTED_END -42
 
 typedef struct s_shell			t_shell;

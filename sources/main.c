@@ -106,7 +106,7 @@ static char	**ft_new_envp(char **envp)
 	int		i;
 	int		y;
 
-	new_envp = ft_calloc(sizeof(char *) * PATH_MAX, NULL);
+	new_envp = ft_calloc(sizeof(char *) * FILENAME_MAX, NULL);
 	if (!new_envp)
 	{
 		perror("Malloc fail for new_envp");
@@ -116,7 +116,7 @@ static char	**ft_new_envp(char **envp)
 	while (envp && envp[++i])
 	{
 		y = -1;
-		new_envp[i] = ft_calloc(sizeof(char) * PATH_MAX, NULL);
+		new_envp[i] = ft_calloc(sizeof(char) * FILENAME_MAX, NULL);
 		if (!new_envp[i])
 		{
 			perror("Malloc fail for new_envp");

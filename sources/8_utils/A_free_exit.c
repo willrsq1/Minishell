@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 18:29:00 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/25 23:15:11 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/27 17:10:47 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	ft_close_all_fds(t_shell *shell)
 		return ;
 	while (lst)
 	{
-		if (lst->fd > 2 && lst->fd < PATH_MAX)
+		if (lst->fd > 2 && lst->fd < FILENAME_MAX)
 			close(lst->fd);
 		lst = lst->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 00:13:01 by root              #+#    #+#             */
-/*   Updated: 2023/06/25 23:31:02 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/27 18:45:53 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,10 @@ static void	ft_forking(t_pipex *p, char **envp)
 		if (i < p->nb_cmds - 1 && reading(p, i))
 			close(p->pipe[i][1]);
 	}
+	signal(SIGINT, SIG_IGN);
+	ft_close_all_fds(p->shell);
 	ft_close_pipes(i, p, OK);
+	ft_signal(p->shell);
 }
 
 static void	ft_fork_loop(t_pipex *p, char **envp, int i)

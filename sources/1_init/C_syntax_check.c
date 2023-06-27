@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 02:33:08 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/25 23:25:56 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/27 02:05:21 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,38 @@ static int	ft_check_pipes_tokens(char **tab, t_shell *shell)
 		i++;
 	}
 	return (OK);
-}	
+}
+
+// static int	ft_check_parenthsesis_chars(char *arg, int *iq)
+// {
+// 	int	y;
+// 	int	check;
+// 	int	check2;
+// 	int	end;
+
+// 	y = -1;
+// 	end = ft_strlen(arg) - 1;
+// 	check = 0;
+// 	check2 = 0;
+// 	if (!arg[0])
+// 		return (OK);
+// 	while (arg[++y])
+// 	{
+// 		if ((arg[y] == '(' && iq[y] == 0 && check == 1) ||
+// 			(arg[end - y] == ')' && !iq[end - y] && check2))
+// 		{
+// 			write(2, "Minishell: \033[0;31msyntax error\033[0m near", 40);
+// 			write(2, " unexpected token `", 20);
+// 			write(2, &arg[y], 1);
+// 			return (write(2, "'\n", 3), ERROR);
+// 		}
+// 		if (!iq[y] && arg[y] != '(')
+// 			check = 1;
+// 		if (!iq[end - y] && arg[end - y] != ')')
+// 			check2 = 1;
+// 	}
+// 	return (OK);
+// }
 
 static int	ft_check_parenthesis_tokens(char **tab, t_shell *shell)
 {
@@ -98,14 +129,17 @@ static int	ft_check_parenthesis_tokens(char **tab, t_shell *shell)
 	i = 0;
 	while (tab[i])
 	{
+		// if (ft_check_parenthsesis_chars(tab[i], shell->is_quoted[i]) == ERROR)
+		// 	return (ERROR);
 		if (tab[i][0] == '(' && !shell->is_quoted[i][0])
 		{
 			if (!(tab[i][ft_strlen(tab[i]) - 1] == ')' && \
 				!shell->is_quoted[i][ft_strlen(tab[i])]))
+				// (i > 0 && 				!ft_is_token_operand(tab[i - 1], shell->is_quoted[i - 1])) || 				!ft_is_token_operand(tab[i + 1], shell->is_quoted[i + 1]))
 			{
 				write(2, "Minishell: \033[0;31msyntax error\033[0m near", 40);
 				write(2, " unexpected token `", 20);
-				if (i > 0)
+				if (tab[i + 1])
 					write(2, tab[i + 1], ft_strlen(tab[i + 1]));
 				else
 					write(2, tab[i], ft_strlen(tab[i]));
