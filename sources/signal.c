@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 20:56:20 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/27 18:38:39 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/28 17:44:00 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ void	ft_signal(t_shell *shell)
 	sigemptyset(&signal_int.sa_mask);
 	signal_int.sa_sigaction = sig_int_handler;
 	signal_int.sa_flags = 23;
-	//error when shlvl = 3 + ctrc C BAAAAAD
 	signal(SIGTERM, SIG_IGN);
 	signal(SIGINT, SIG_IGN);
 	sigaction(SIGINT, &signal_int, NULL);

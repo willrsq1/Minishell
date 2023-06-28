@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 14:24:40 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/25 15:24:49 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/28 23:24:23 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	ft_do_the_execve_thing(t_shell *shell, char **envp)
 {
 	t_init	init;
 
-	if (tab_creation(shell, shell->buff) == ERROR)
+	if (tab_creation(shell, shell->buff) != OK)
 		return ;
 	if (shell->show_tokens)
 		print_tokens(shell);

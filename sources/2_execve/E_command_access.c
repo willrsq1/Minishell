@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 12:52:01 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/25 23:30:38 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/29 00:34:04 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ int	ft_get_cmd(t_pipex *p, int i)
 {
 	int	return_value;
 
-	if (!p->commands[i] || (!p->commands[i][0] && !p->is_quoted[i][0]))
+	if (!p->commands[i] || !p->commands[i][0])
 		ft_end_program(p->shell, OK, OK);
-	if (!p->commands[i][0] || !p->commands[i][0][0])
+	if (!p->commands[i][0][0])
 	{
 		write(2, "'': command not found\n", 23);
 		return (g_exit_code = COMMAND_ERROR, ERROR);
@@ -97,7 +97,8 @@ static int	ft_get_cmd_err_check(t_pipex *p, t_shell *shell, char *cmd, int fd)
 	{
 		ft_add_tbc_list(fd, shell);
 		open(cmd, O_CREAT);
-		ft_end_program(shell, ERROR, DIRECTORY_ERROR);
+		perror(ft_strcat("Minishell: ", cmd, shell));
+		ft_end_program(shell, OK, DIRECTORY_ERROR);
 	}
 	if (access(cmd, X_OK) != FAIL)
 		return (p->cmd = cmd, OK);

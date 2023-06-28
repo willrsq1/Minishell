@@ -17,6 +17,8 @@ SOURCES =     		main.c \
 					1_init/A_tab_creation.c \
 					1_init/B_quote_handling.c \
 					1_init/C_syntax_check.c \
+					1_init/D_syntax_check_bonus.c \
+					1_init/E_syntax_check_utils.c \
 					2_execve/A_execution.c \
 					2_execve/B_exec_no_pipes.c \
 					2_execve/C_exec_pipes.c \
@@ -49,8 +51,7 @@ SOURCES =     		main.c \
 					8_utils/A_free_exit.c \
 					8_utils/B_malloc.c \
 					8_utils/C_open_functs.c \
-					8_utils/D_syntax_check_utils.c \
-					8_utils/E_print_functions.c \
+					8_utils/D_print_functions.c \
 					9_bonus/A_operands.c \
 					9_bonus/B_operands_utils.c \
 					9_bonus/C_wildcard.c \

@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:37:03 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/27 17:10:47 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/29 00:52:52 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,21 +50,24 @@ static void	ft_export_no_args(char **envp, t_shell *shell)
 	int		i;
 	int		y;
 	char	*temp;
+	char	**new_envp;
 
 	i = -1;
-	while (envp[++i])
+	if (!envp)
+		return ;
+	new_envp = ft_export_sorted_tab(shell, envp);
+	while (new_envp[++i])
 	{
 		y = -1;
-		temp = ft_calloc(ft_strlen(envp[i]) + 1, shell);
+		temp = ft_calloc(ft_strlen(new_envp[i]) + 1, shell);
 		printf("declare -x ");
-		while (envp[i][++y] && envp[i][y] != '=')
-			temp[y] = envp[i][y];
+		while (new_envp[i][++y] && new_envp[i][y] != '=')
+			temp[y] = new_envp[i][y];
 		printf("%s", temp);
-		if (envp[i][y])
-			printf("=\"%s\"", &envp[i][y + 1]);
+		if (new_envp[i][y])
+			printf("=\"%s\"", &new_envp[i][y + 1]);
 		printf("\n");
 	}
-	g_exit_code = OK;
 }
 
 static int	ft_export_check_arg(char *arg)
@@ -117,7 +120,7 @@ static int	ft_export_var_location(char **envp, t_shell *shell, char *arg)
 			ft_end_program(shell, ERROR, ERROR);
 	}
 	return (i);
-}
+}//SORT EXPORT NO ARG
 
 static int	ft_export_get_envp_lign(char **envp, char *var_name)
 {

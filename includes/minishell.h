@@ -50,6 +50,17 @@ char	ft_which_quote(char *str);
 
 int		ft_syntax_error(char **tab, t_shell *shell);
 
+/*		D_SYNTAX_CHECK_BONUS.C */
+
+int		ft_check_parenthesis_tokens(char **tab, t_shell *shell);
+int		ft_check_parenthesis_chars(char **tab, int **iq, int quote, int y);
+
+/*		E_SYNTAX_CHECK_UTILS.C */
+
+int		ft_is_token_operand(char *arg, int *is_quoted);
+int		ft_is_token_meta(char *arg, int *is_quoted);
+int		ft_is_token_redi(char *arg, int *is_quoted);
+
 /* ------------------------------------------------------------------------- */
 /* -------------------------- 2_EXECVE ------------------------------------- */
 /* ------------------------------------------------------------------------- */
@@ -164,6 +175,7 @@ int		ft_var_get_envp_lign(char **envp, char *var_name);
 int		reading(t_pipex *pipex, int i);
 void	ft_remove_one_token(t_shell *shell, int i);
 int		ft_var_not_found(char *arg, int *is_quoted);
+char	**ft_export_sorted_tab(t_shell *shell, char **envp);
 
 /* ------------------------------------------------------------------------- */
 /* -------------------------- 7_LIBFT_MINISHELL ---------------------------- */
@@ -228,30 +240,24 @@ char	**ft_split(char *s, char c, t_shell *shell);
 /* -------------------------- 8_UTILS -------------------------------------- */
 /* ------------------------------------------------------------------------- */
 
-/*		FREE_EXIT.C */
+/*		A_FREE_EXIT.C */
 
 void	ft_free_close_perror(t_shell *shell, char *description, int mode);
 void	ft_end_program(t_shell *shell, int mode, int err);
 void	ft_clear_memory(t_shell *shell);
 void	ft_close_all_fds(t_shell *shell);
 
-/*		MALLOC.C */
+/*		B_MALLOC.C */
 
 void	*ft_calloc(size_t nmemb, t_shell *shell);
 
-/*		OPEN_CLOSE.C */
+/*		C_OPEN_FUNCTS.C */
 
 void	ft_add_tbc_list(int fd, t_shell *shell);
 int		ft_open(char *file, t_shell *shell, int option);
 void	ft_pipe(int *tab, t_shell *shell);
 
-/*		SYNTAX_CHECK_UTILS.C */
-
-int		ft_is_token_operand(char *arg, int *is_quoted);
-int		ft_is_token_meta(char *arg, int *is_quoted);
-int		ft_is_token_redi(char *arg, int *is_quoted);
-
-/*		E_PRINT_FUNCTIONS.C */
+/*		D_PRINT_FUNCTIONS.C */
 
 void	print_tokens(t_shell *shell);
 void	print_tokens_operands(char ***operands_tab, int ***operands_is_quoted, \

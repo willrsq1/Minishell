@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   D_var_substitution_utils.c                         :+:      :+:    :+:   */
+/*   D_var_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/25 15:27:41 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/25 15:30:12 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/29 00:53:43 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ char	*ft_get_var_name(t_shell *shell, char *arg, int *is_quoted)
 	if (!arg[1])
 		return (NULL);
 	i = 1;
-	while (arg[i] && (arg[i] != '$' && is_quoted[i] != 2) && arg[i] != ' ')
+	while (arg[i] && (arg[i] != '$' && is_quoted[i] != 2) && \
+		arg[i] != ' ' && arg[i] != '=')
 		i++;
 	if (i == 1 && arg[1] == ' ')
 		return (NULL);
@@ -41,7 +42,7 @@ int	ft_var_get_envp_lign(char **envp, char *var_name)
 	int	y;
 
 	i = -1;
-	while (envp[++i])
+	while (envp && envp[++i])
 	{
 		y = 0;
 		while (var_name[y] && envp[i][y] && var_name[y] == envp[i][y])
@@ -77,7 +78,7 @@ int	ft_var_not_found(char *arg, int *is_quoted)
 		printf("PROGRAM ID COULDN'T BE FOUND !\n");
 		return (arg[0] = 'I', arg[1] = 'D', 1);
 	}
-	while (arg[i] && (arg[i] != '$' && is_quoted[i] != 2))
+	while (arg[i] && (arg[i] != '$' && is_quoted[i] != 2) && arg[i] != '=')
 		i++;
 	if (!arg[i])
 		return (arg[0] = '\0', is_quoted[0] = IS_QUOTED_END, 2);
@@ -88,4 +89,31 @@ int	ft_var_not_found(char *arg, int *is_quoted)
 		is_quoted[y] = is_quoted[i + y];
 	}
 	return (arg[y] = '\0', is_quoted[y] = IS_QUOTED_END, 0);
+}
+
+char	**ft_export_sorted_tab(t_shell *shell, char **envp)
+{
+	char	**tab;
+	char	*temp;
+	int		i;
+	int		y;
+
+	tab = ft_calloc(sizeof(char *) * FILENAME_MAX, shell);
+	i = -1;
+	while (envp[++i])
+		tab[i] = ft_strdup(envp[i], shell);
+	while (i-- > 0)
+	{
+		y = 0;
+		while (tab[++y])
+		{
+			if (tab[y - 1][0] > tab[y][0])
+			{
+				temp = tab[y - 1];
+				tab[y - 1] = tab[y];
+				tab[y] = temp;
+			}
+		}
+	}
+	return (tab);
 }

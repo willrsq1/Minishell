@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 23:05:03 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/25 18:24:12 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/28 20:30:51 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ int	ft_special_operands(t_shell *shell, char **envp, int w)
 	operands_tab = ft_create_operands_tab(shell, shell->tab, count);
 	operands_is_quoted = ft_create_op_is_quoted(shell, shell->tab, count);
 	options = ft_get_op_options(shell, shell->tab, count);
-	// print_tokens_operands(operands_tab, operands_is_quoted, options);
+	if (shell->show_tokens_operands)
+		print_tokens_operands(operands_tab, operands_is_quoted, options);
 	while (w > -10 && operands_tab[++w] && g_exit_code != SIGINT_EXITVALUE)
 	{
 		shell->tab = operands_tab[w];

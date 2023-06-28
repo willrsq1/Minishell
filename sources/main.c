@@ -21,7 +21,7 @@ int	g_exit_code;
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_shell		shell;
+	t_shell	shell;
 
 	ft_reset_shell(&shell);
 	g_exit_code = 0;
@@ -30,11 +30,10 @@ int	main(int argc, char **argv, char **envp)
 	ft_signal(&shell);
 	ft_shlvl(envp);
 	ft_initializing_options(&shell, argc, argv);
-	// shell.exit_after_first_input = 1;
 	while (1)
 	{
 		ft_reset_shell(&shell);
-			ft_create_prompt(&shell, envp);
+		ft_create_prompt(&shell, envp);
 		if (shell.buff[0])
 			ft_do_the_execve_thing(&shell, envp);
 		ft_close_all_fds(&shell);
@@ -108,10 +107,7 @@ static char	**ft_new_envp(char **envp)
 
 	new_envp = ft_calloc(sizeof(char *) * FILENAME_MAX, NULL);
 	if (!new_envp)
-	{
-		perror("Malloc fail for new_envp");
-		return (new_envp);
-	}
+		return (perror("Malloc fail for new_envp"), NULL);
 	i = -1;
 	while (envp && envp[++i])
 	{

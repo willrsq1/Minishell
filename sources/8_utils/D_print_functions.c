@@ -1,17 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   E_print_functions.c                                :+:      :+:    :+:   */
+/*   D_print_functions.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 09:34:25 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/25 18:24:12 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/28 20:46:52 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+static void	ft_initializing_options_2(t_shell *shell, int argc, char **argv);
 static void	ft_print_help_menu(void);
 
 void	print_tokens(t_shell *shell)
@@ -62,9 +63,9 @@ void	print_tokens_operands(char ***operands_tab, int ***operands_is_quoted, \
 
 void	ft_initializing_options(t_shell *shell, int argc, char **argv)
 {
-	g_exit_code = 0;
 	shell->show_exit_status = 0;
 	shell->show_tokens = 0;
+	shell->show_tokens_operands = 0;
 	shell->exit_after_first_input = 0;
 	while (argc > 0)
 	{
@@ -83,9 +84,20 @@ void	ft_initializing_options(t_shell *shell, int argc, char **argv)
 			printf("The args will be showned.\n");
 			shell->exit_after_first_input = 1;
 		}
-		else if (!ft_strcmp(argv[argc - 1], "--help"))
-			ft_print_help_menu();
+		else
+			ft_initializing_options_2(shell, argc, argv);
 		argc--;
+	}
+}
+
+static void	ft_initializing_options_2(t_shell *shell, int argc, char **argv)
+{
+	if (!ft_strcmp(argv[argc - 1], "--help"))
+		ft_print_help_menu();
+	else if (!ft_strcmp(argv[argc - 1], "--show-tokens-operands"))
+	{
+		printf("The Operands Tokens will be showned.\n");
+		shell->show_tokens_operands = 1;
 	}
 }
 
@@ -98,5 +110,7 @@ static void	ft_print_help_menu(void)
 	printf("\t--show-exit-status: The Minishell will display ");
 	printf("the exit status of the input.\n");
 	printf("\t--show-tokens: The Minishell will display the tokens obtained ");
-	printf("from the input.\n\n");
+	printf("from the input.\n");
+	printf("\t--show-tokens-operands: The Minishell will display the ");
+	printf("tokens obtained when operands are used.\n\n");
 }

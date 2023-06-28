@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 14:41:12 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/25 15:47:58 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/29 00:34:29 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	ft_variables_substitution(t_shell *shell)
 	while (shell->tab[++i])
 	{
 		y = -1;
-		while (shell->tab[i][++y])
+		while (shell->tab[i] && shell->tab[i][0] && shell->tab[i][++y])
 		{
 			if (shell->tab[i][y] == '$' && shell->is_quoted[i][y] != 2)
 			{
@@ -33,11 +33,11 @@ int	ft_variables_substitution(t_shell *shell)
 				{
 					shell->i = i;
 					y = ft_var(shell, shell->tab[i], shell->is_quoted[i], y);
+					if (y == -1 && !shell->tab[i][0])
+						ft_remove_one_token(shell, i);
 				}
 			}
 		}
-		if (y == 0)
-			ft_remove_one_token(shell, i--);
 	}
 	return (0);
 }

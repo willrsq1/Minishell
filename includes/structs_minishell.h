@@ -59,6 +59,7 @@ typedef struct s_shell
 	int				id_pipe;
 	int				i;
 	int				show_tokens;
+	int				show_tokens_operands;
 	int				show_exit_status;
 	int				exit_after_first_input;
 }		t_shell;
