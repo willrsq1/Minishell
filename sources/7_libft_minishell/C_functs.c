@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 03:34:10 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/23 01:18:16 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/28 04:07:48 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,9 @@ char	*ft_strcat(char *s1, char *s2, t_shell *shell)
 	int		y;
 
 	if (s2 == NULL)
-		return (s1);
+		return (ft_strdup(s1, shell));
+	if (s1 == NULL)
+		return (ft_strdup(s2, shell));
 	len1 = ft_strlen((char *) s1);
 	len2 = ft_strlen((char *) s2);
 	str = ft_calloc(len1 + len2 + 1, shell);

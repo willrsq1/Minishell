@@ -30,7 +30,7 @@ int	main(int argc, char **argv, char **envp)
 	ft_signal(&shell);
 	ft_shlvl(envp);
 	ft_initializing_options(&shell, argc, argv);
-	shell.exit_after_first_input = 1;
+	// shell.exit_after_first_input = 1;
 	while (1)
 	{
 		ft_reset_shell(&shell);

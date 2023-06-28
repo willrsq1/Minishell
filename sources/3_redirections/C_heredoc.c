@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 15:35:05 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/25 18:24:12 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/28 04:02:57 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,13 @@ int	ft_heredoc(char *delimiter, t_shell *shell)
 		buffer = get_next_line(0);
 		if (!buffer)
 		{
-			write(2, "\n", 2);
+			if (write(2, "\n", 2) && g_exit_code == SIGINT_EXITVALUE)
+				break ;
+			write(2, "Minishell: warning: here-document delimited by ", 47);
+			write(2, "end-of-file (wanted `", 22);
+			delimiter[ft_strlen(delimiter) - 1] = '\0';
+			write(2, delimiter, ft_strlen(delimiter));
+			write(2, "')\n", 4);
 			break ;
 		}
 		if (!ft_strcmp(buffer, delimiter))
@@ -53,7 +59,6 @@ int	ft_heredoc(char *delimiter, t_shell *shell)
 		write(shell->pipe_heredoc[1], buffer, ft_strlen(buffer));
 		free(buffer);
 	}
-	//check for signals, builtins outside of fork ect ITS BAD
 	close(shell->pipe_heredoc[1]);
 	return (free(buffer), shell->pipe_heredoc[0]);
 }

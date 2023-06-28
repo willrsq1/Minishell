@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 18:29:00 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/27 17:10:47 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/28 03:55:27 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ void	ft_close_all_fds(t_shell *shell)
 		return ;
 	dup2(STDOUT_FILENO, STDIN_FILENO);
 	dup2(STDIN_FILENO, STDOUT_FILENO);
-	// dup2(STDIN_FILENO, STDERR_FILENO);
 	lst = shell->tbc_list;
 	if (!lst)
 		return ;
