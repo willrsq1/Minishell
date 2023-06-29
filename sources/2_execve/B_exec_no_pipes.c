@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 00:14:46 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/28 23:20:45 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/29 22:35:38 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	exec_no_pipes(t_shell *shell, char **envp)
 {
 	pid_t	pid;
 
-	if (ft_special_operands(shell, envp, -1))
+	if (ft_special_operands(shell, envp) || ft_variables_substitution(shell))
 		return ;
 	g_exit_code = 0;
 	ft_get_heredocs(shell);
@@ -33,6 +33,7 @@ void	exec_no_pipes(t_shell *shell, char **envp)
 		if (ft_builtins_in_child(shell, shell->tab, envp) == OK)
 			ft_end_program(shell, OK, g_exit_code);
 		get_cmd_no_pipes(shell, envp);
+		write(1, "\x1b[32m", 6);
 		execve(shell->no_pipes_cmd, shell->tab, envp);
 		ft_end_program(shell, ERROR, EXIT_FAILURE);
 	}
@@ -75,7 +76,7 @@ static void	ft_waitpid_no_pipes(t_shell *shell, pid_t pid)
 	signal(SIGINT, SIG_IGN);
 	status = 0;
 	waitpid(pid, &status, 0);
-	if (WIFSIGNALED(status) && write(2, "\n", 2))
+	if (WIFSIGNALED(status) && status == 2 && write(2, "\n", 2))
 		g_exit_code = SIGINT_EXITVALUE;
 	if (WIFEXITED(status))
 		g_exit_code = WEXITSTATUS(status);

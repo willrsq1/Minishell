@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:37:03 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/29 00:52:52 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/29 03:49:37 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,19 +80,19 @@ static int	ft_export_check_arg(char *arg)
 		write(2, "Minishell: export: `", 21);
 		write(2, arg, ft_strlen(arg));
 		write(2, "': not a valid identifier\n", 27);
-		g_exit_code = ERROR;
-		return (ERROR);
+		return (g_exit_code = ERROR, ERROR);
 	}
 	while (arg[++y] && arg[y] != '=')
 	{
 		if (arg[y] == ' ' || arg[y] == '$' || arg[y] == '-' || \
-			arg[y] == '+' || arg[y] == '*')
+			arg[y] == '+' || arg[y] == '*' || arg[y] == '@' || \
+			arg[y] == '"' || arg[y] == '\'' || arg[y] == '!' || \
+			arg[y] == '|' || arg[y] == '&')
 		{
 			write(2, "Minishell: export: `", 21);
 			write(2, arg, ft_strlen(arg));
 			write(2, "': not a valid identifier\n", 27);
-			g_exit_code = ERROR;
-			return (ERROR);
+			return (g_exit_code = ERROR, ERROR);
 		}
 	}
 	return (OK);

@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:36:55 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/25 18:24:12 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/29 04:15:28 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,19 +27,34 @@ int	ft_echo(char **tab)
 	else
 		ft_echo_no_option(tab);
 	g_exit_code = OK;
-	return (0);
+	return (OK);
 }
 
 static void	ft_echo_option_no_new_line(char **tab)
 {
 	int	i;
+	int	y;
 
 	i = 2;
 	while (tab[i])
 	{
-		printf("%s", tab[i]);
-		if (tab[++i])
-			printf(" ");
+		if (y != -42)
+			y = 0;
+		if (y != -42 && tab[i][0] == '-')
+		{
+			while (tab[i][++y] && tab[i][y] == 'n')
+				;
+			if (!tab[i][y])
+				y = FAIL;
+		}
+		if (y != FAIL)
+		{
+			printf("%s", tab[i]);
+			if (tab[i + 1])
+				printf(" ");
+			y = -42;
+		}
+		i++;
 	}
 }
 

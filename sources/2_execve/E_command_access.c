@@ -6,14 +6,15 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 12:52:01 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/29 00:34:04 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/29 22:32:45 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 static int	ft_get_cmd_p2(t_pipex *p, int index);
-static int	ft_get_cmd_err_check(t_pipex *p, t_shell *shell, char *cmd, int fd);
+static int	ft_get_cmd_err_check(t_pipex *p, t_shell *shell, char *cmd);
+static void	ft_get_cmd_error_check_special_cases(t_shell *shell, char *cmd);
 
 void	ft_get_envp_paths(t_pipex *p, char **envp)
 {
@@ -34,26 +35,26 @@ void	ft_get_envp_paths(t_pipex *p, char **envp)
 
 int	ft_get_cmd(t_pipex *p, int i)
 {
-	int	return_value;
+	int		return_value;
+	char	*buff;
 
 	if (!p->commands[i] || !p->commands[i][0])
 		ft_end_program(p->shell, OK, OK);
 	if (!p->commands[i][0][0])
 	{
-		write(2, "'': command not found\n", 23);
+		buff = ft_strdup("'': \033[0;31mcommand not found \U0001F621\n", \
+			p->shell);
+		write(2, buff, ft_strlen(buff));
 		return (g_exit_code = COMMAND_ERROR, ERROR);
 	}
 	return_value = ft_get_cmd_p2(p, i);
 	if (return_value == ERROR)
 	{
-		write(2, \
-			ft_strcat(p->commands[i][0], \
-				": command not found\n", p->shell), \
-					ft_strlen(p->commands[i][0]) + 21);
+		buff = ft_strcat(p->commands[i][0], \
+			": \033[0;31mcommand not found \U0001F621\n", p->shell);
+		write(2, buff, ft_strlen(buff));
 		return (g_exit_code = COMMAND_ERROR, ERROR);
 	}
-	else if (return_value < OK)
-		return (g_exit_code = ERROR, ERROR);
 	return (OK);
 }
 
@@ -65,7 +66,7 @@ static int	ft_get_cmd_p2(t_pipex *p, int index)
 
 	i = 42;
 	if (p->commands[index][0][0] == '.' || p->commands[index][0][0] == '/')
-		i = ft_get_cmd_err_check(p, p->shell, p->commands[index][0], 0);
+		i = ft_get_cmd_err_check(p, p->shell, p->commands[index][0]);
 	if (i != 42)
 		return (i);
 	i = -1;
@@ -84,31 +85,52 @@ static int	ft_get_cmd_p2(t_pipex *p, int index)
 	return (ERROR);
 }
 
-static int	ft_get_cmd_err_check(t_pipex *p, t_shell *shell, char *cmd, int fd)
+static int	ft_get_cmd_err_check(t_pipex *p, t_shell *shell, char *cmd)
 {
+	char	*buff;
+
 	if (cmd[0] == '.' && cmd[1] == '\0')
 	{
-		write(2, "Minishell: .: filename argument required\n", 42);
-		write(2, ".: usage: . filename [arguments]\n", 34);
+		buff = ft_strdup("Minishell: .: filename argument required\n", shell);
+		buff = ft_strcat(buff, ".: usage: . filename [arguments]\n", shell);
+		write(2, buff, ft_strlen(buff));
 		ft_end_program(shell, OK, SYNTAX_ERROR);
 	}
-	fd = open(cmd, O_DIRECTORY);
-	if (fd != FAIL)
-	{
-		ft_add_tbc_list(fd, shell);
-		open(cmd, O_CREAT);
-		perror(ft_strcat("Minishell: ", cmd, shell));
-		ft_end_program(shell, OK, DIRECTORY_ERROR);
-	}
+	ft_get_cmd_error_check_special_cases(shell, cmd);
 	if (access(cmd, X_OK) != FAIL)
 		return (p->cmd = cmd, OK);
 	if (cmd[0] == '.' && cmd[1] != '/')
 		return (42);
 	if (access(cmd, F_OK) == FAIL)
 	{
+		cmd = ft_strcat(cmd, "\033[0;31m", shell);
 		perror(ft_strcat("Minishell: ", cmd, shell));
 		ft_end_program(shell, OK, COMMAND_ERROR);
 	}
 	access(cmd, X_OK);
 	return (ft_end_program(shell, ERROR, PERMISSION_ERROR), FAIL);
+}
+
+static void	ft_get_cmd_error_check_special_cases(t_shell *shell, char *cmd)
+{
+	int		fd;
+	char	*buff;
+
+	if (cmd[0] == '.' && cmd[1] == '.' && cmd[2] == '\0')
+	{
+		buff = ft_strcat("..", ": \033[0;31mcommand not found \U0001F621\n", \
+		shell);
+		write(2, buff, ft_strlen(buff));
+		ft_end_program(shell, OK, COMMAND_ERROR);
+	}
+	fd = open(cmd, O_DIRECTORY);
+	if (fd != FAIL || (cmd[0] == '.' && ((cmd[1] == '.' && cmd[2] == '/') || \
+		cmd[1] == '/') && access(cmd, X_OK) == FAIL))
+	{
+		ft_add_tbc_list(fd, shell);
+		open(cmd, O_CREAT);
+		cmd = ft_strcat(cmd, "\x1b[0m", shell);
+		perror(ft_strcat("Minishell: \033[0;31m", cmd, shell));
+		ft_end_program(shell, OK, DIRECTORY_ERROR);
+	}
 }

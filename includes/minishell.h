@@ -134,6 +134,7 @@ int		ft_echo(char **tab);
 /*		C_CD.C */
 
 int		ft_cd(t_shell *shell, char **tab);
+char	*ft_getenv(char *var, t_shell *shell);
 
 /*		D_PWD.C */
 
@@ -173,7 +174,7 @@ void	ft_exit_value_sub(t_shell *shell, int z, int y, int len);
 char	*ft_get_var_name(t_shell *shell, char *arg, int *is_quoted);
 int		ft_var_get_envp_lign(char **envp, char *var_name);
 int		reading(t_pipex *pipex, int i);
-void	ft_remove_one_token(t_shell *shell, int i);
+void	ft_remove_one_token(t_shell *shell, int i, int y);
 int		ft_var_not_found(char *arg, int *is_quoted);
 char	**ft_export_sorted_tab(t_shell *shell, char **envp);
 
@@ -268,6 +269,10 @@ void	ft_initializing_options(t_shell *shell, int argc, char **argv);
 /* -------------------------- 9_BONUS -------------------------------------- */
 /* ------------------------------------------------------------------------- */
 
+/*		A_OPERANDS.C */
+
+int		ft_special_operands(t_shell *shell, char **envp);
+
 /*		E_WILDCARD_TAB_CREATION.C */
 
 char	**ft_wildc_new_init(int count, t_wildc *first, \
@@ -290,9 +295,5 @@ int		find_wildcard(char *arg, t_shell *shell, int i);
 int		ft_is_it_operand(char *arg, int *is_quoted);
 int		ft_count_operands(t_shell *shell);
 int		ft_find_op_lenght(char **tab, t_shell *shell, int i);
-
-/*		A_OPERANDS.C */
-
-int		ft_special_operands(t_shell *shell, char **envp, int w);
 
 #endif

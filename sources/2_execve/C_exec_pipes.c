@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 00:13:01 by root              #+#    #+#             */
-/*   Updated: 2023/06/28 03:41:33 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/29 22:35:13 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,8 @@ static void	ft_fork_loop(t_pipex *p, char **envp, int i)
 	p->shell->tab = p->commands[i];
 	p->shell->is_quoted = p->is_quoted[i];
 	ft_dup2_exec_pipes(p, i);
-	if (ft_special_operands(p->shell, envp, -1))
+	if (ft_special_operands(p->shell, envp) || \
+		ft_variables_substitution(p->shell))
 		ft_end_program(p->shell, OK, g_exit_code);
 	ft_check_for_redirections(p, i);
 	ft_dup2_exec_pipes(p, i);
@@ -73,6 +74,7 @@ static void	ft_fork_loop(t_pipex *p, char **envp, int i)
 		ft_builtins(p->shell, p->commands[i], envp) == OK || \
 		ft_get_cmd(p, i) == ERROR)
 		ft_end_program(p->shell, OK, g_exit_code);
+	write(1, "\x1b[32m", 6);
 	execve(p->cmd, p->commands[i], envp);
 	ft_end_program(p->shell, ERROR, EXIT_FAILURE);
 }

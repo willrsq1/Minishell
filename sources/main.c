@@ -13,7 +13,7 @@
 #include "../includes/minishell.h"
 
 static void	ft_reset_shell(t_shell *shell);
-static void	ft_create_prompt(t_shell *shell, char **envp);
+static void	ft_create_prompt(t_shell *shell, char **envp, char **argv);
 static void	ft_shlvl(char **envp);
 static char	**ft_new_envp(char **envp);
 
@@ -33,14 +33,14 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		ft_reset_shell(&shell);
-		ft_create_prompt(&shell, envp);
+		ft_create_prompt(&shell, envp, argv);
 		if (shell.buff[0])
 			ft_do_the_execve_thing(&shell, envp);
 		ft_close_all_fds(&shell);
 		ft_clear_memory(&shell);
 		if (shell.show_exit_status)
 			printf("		The exit status is = %d\n", g_exit_code);
-		if (shell.exit_after_first_input)
+		if (!shell.exit_after_first_input)
 			ft_end_program(&shell, OK, g_exit_code);
 	}
 	return (OK);
@@ -68,9 +68,34 @@ static void	ft_reset_shell(t_shell *shell)
 	shell->i = 0;
 }
 
-static void	ft_create_prompt(t_shell *shell, char **envp)
+static void	ft_create_prompt(t_shell *shell, char **envp, char **argv)
 {
-	shell->buff = readline("Minishell d'Arbesa > ");
+	char	*prompt;
+	char	*cwd;
+	int		i;
+
+	if (ft_strcmp(argv[1], "-c") == OK)
+	{
+		shell->buff = argv[2];
+		return ;
+	}
+	prompt = ft_strdup("\x1b[96mMinishell d'Arbesa \x1b[0m", shell);
+	cwd = ft_getenv("PWD", shell);
+	if (cwd)
+	{
+		i = ft_strlen(cwd);
+		while (--i > -1 && cwd[i] != '/')
+			;
+		cwd = ft_strcat("\033[38;5;207m~", &cwd[i], shell);
+	}
+	else
+		cwd = ft_strdup("\xF0\x9F\x98\x81", shell);
+	prompt = ft_strcat(prompt, cwd, shell);
+	if (!g_exit_code)
+		prompt = ft_strcat(prompt, " \x1b[32m> \x1b[0m", shell);
+	else
+		prompt = ft_strcat(prompt, " \x1b[31m> \x1b[0m", shell);
+	shell->buff = readline(prompt);
 	if (!shell->buff)
 		ft_exit(shell, envp);
 	add_history(shell->buff);

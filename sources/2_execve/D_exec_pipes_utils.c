@@ -120,7 +120,7 @@ void	ft_close_pipes(int i, t_pipex *p, int x)
 	{	
 		if (p->forks_id[y] != -1)
 			waitpid(p->forks_id[y], &status, 0);
-		if (WIFSIGNALED(status))
+		if (WIFSIGNALED(status) && status == 2)
 		{
 			if (sigint_received == 0 && ++sigint_received)
 				write(2, "\n", 2);

@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 23:05:03 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/28 20:30:51 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/29 22:34:19 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,15 @@ static int	ft_special_operands_actions(int *options, int w);
  * RETURN 1 IF OPERANDS ARE FOUD
 */
 
-int	ft_special_operands(t_shell *shell, char **envp, int w)
+int	ft_special_operands(t_shell *shell, char **envp)
 {
 	int		count;
 	char	***operands_tab;
 	int		***operands_is_quoted;
 	int		*options;
+	int		w;
 
+	w = -1;
 	count = ft_count_operands(shell);
 	if (!count)
 		return (OK);
@@ -40,7 +42,7 @@ int	ft_special_operands(t_shell *shell, char **envp, int w)
 	options = ft_get_op_options(shell, shell->tab, count);
 	if (shell->show_tokens_operands)
 		print_tokens_operands(operands_tab, operands_is_quoted, options);
-	while (w > -10 && operands_tab[++w] && g_exit_code != SIGINT_EXITVALUE)
+	while (w > -10 && operands_tab[++w])
 	{
 		shell->tab = operands_tab[w];
 		shell->is_quoted = operands_is_quoted[w];
@@ -133,6 +135,8 @@ static int	ft_special_operands_actions(int *options, int w)
 	if (options[w] == AND_OPERAND && g_exit_code)
 		return (IS_QUOTED_END);
 	if (options[w] == OR_OPERAND && !g_exit_code)
+		return (IS_QUOTED_END);
+	if (g_exit_code == SIGINT_EXITVALUE)
 		return (IS_QUOTED_END);
 	return (w);
 }

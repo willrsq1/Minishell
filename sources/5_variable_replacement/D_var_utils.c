@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/25 15:27:41 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/29 00:53:43 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/29 04:25:09 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,16 +55,19 @@ int	ft_var_get_envp_lign(char **envp, char *var_name)
 	return (FAIL);
 }
 
-void	ft_remove_one_token(t_shell *shell, int i)
+void	ft_remove_one_token(t_shell *shell, int i, int y)
 {
-	while (shell->tab[i + 1])
+	if (y == -1 && !shell->tab[i][0])
 	{
-		shell->is_quoted[i] = shell->is_quoted[i + 1];
-		shell->tab[i] = ft_strdup(shell->tab[i + 1], shell);
-		i++;
+		while (shell->tab[i + 1])
+		{
+			shell->is_quoted[i] = shell->is_quoted[i + 1];
+			shell->tab[i] = ft_strdup(shell->tab[i + 1], shell);
+			i++;
+		}
+		shell->tab[i] = NULL;
+		shell->is_quoted[i] = NULL;
 	}
-	shell->tab[i] = NULL;
-	shell->is_quoted[i] = NULL;
 }
 
 int	ft_var_not_found(char *arg, int *is_quoted)

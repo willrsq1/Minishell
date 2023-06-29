@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 16:49:53 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/25 22:00:08 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/29 03:27:46 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ int	ft_open(char *file, t_shell *shell, int option)
 {
 	int	fd;
 
+	if (!file && open(".....", O_RDONLY))
+		option = FAIL;
 	if (option == RDONLY)
 		fd = open(file, O_RDONLY);
 	else if (option == TRUNC)
