@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:50:19 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/30 11:56:14 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/30 16:47:33 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	ft_create_prompt(t_shell *shell, char **envp, char **argv)
 	if (ft_strcmp(argv[1], "-c") == OK)
 	{
 		shell->buff = argv[2];
+		shell->exit_after_first_input = 1;
 		return ;
 	}
 	prompt = ft_strdup("\x01\x1b[96m\x02Minishell d'Arbesa \x01\x1b[0m\x02", shell);
