@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 16:58:46 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/19 13:08:02 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/30 11:48:02 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	ft_atoi_error(int result, char *str, t_shell *shell);
 
 int	ft_strcmp_unquoted(char *arg, char *checked, int *is_quoted)
 {
-	int	i;
+	long long	i;
 
 	if (!arg && !checked)
 		return (OK);
@@ -25,11 +25,7 @@ int	ft_strcmp_unquoted(char *arg, char *checked, int *is_quoted)
 		return (ERROR);
 	i = 0;
 	while (arg[i] && checked[i] && arg[i] == checked[i] && is_quoted[i] == OK)
-	{
-		if (i == INT32_MAX)
-			return (write(2, "Arg is too long\n", 17), ERROR);
 		i++;
-	}
 	if (is_quoted[i] == IS_QUOTED_END)
 		return (arg[i] - checked[i]);
 	if (is_quoted[i])

@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 13:07:00 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/29 18:36:33 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/30 11:48:18 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ int	ft_exit(t_shell *shell, char **envp)
 		if (shell->tab[2])
 		{
 			g_exit_code = ERROR;
-			buffer = ft_strdup("Minishell: exit: too many arguments\n", shell);
+			buffer = ft_strdup("Minishell: exit: \033[0;31mtoo many ", shell);
+			buffer = ft_strcat(buffer, "arguments\x1b[0m \U0001F621\n", shell);
 			write(2, buffer, ft_strlen(buffer));
 			return (OK);
 		}
@@ -63,9 +64,9 @@ static void	ft_exit_arg_handling(char **tab, t_shell *shell, int i, int sign)
 {
 	unsigned long long	result;
 
-	if (tab[1][0] == '-' && i++)
+	if (tab[1][0] == '-' && ++i)
 		sign = -1;
-	if (tab[1][0] == '+' && i++)
+	if (tab[1][0] == '+' && ++i)
 		sign = 1;
 	if (!(tab[1][i] >= '0' && tab[1][i] <= '9'))
 		ft_exit_syntax_error(tab, shell);
@@ -90,11 +91,12 @@ static void	ft_exit_arg_handling(char **tab, t_shell *shell, int i, int sign)
 static void	ft_exit_syntax_error(char **tab, t_shell *shell)
 {
 	char	*buffer;
-	
+
 	g_exit_code = SYNTAX_ERROR;
-	buffer = ft_strdup("Minishell: exit: ", shell);
+	buffer = ft_strdup("Minishell: exit: \033[0;31m", shell);
 	buffer = ft_strcat(buffer, tab[1], shell);
-	buffer = ft_strcat(buffer, ": numeric argument required\n", shell);
+	buffer = ft_strcat(buffer, \
+		"\x1b[0m: numeric argument required \U0001F621\n", shell);
 	write(2, buffer, ft_strlen(buffer));
 	ft_end_program(shell, OK, SYNTAX_ERROR);
 }

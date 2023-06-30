@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 02:33:08 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/28 20:29:06 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/30 00:39:42 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,14 @@ static int	no_token_after_last_pipe(int i, char *s, t_shell *shell)
 	write(2, "> ", 3);
 	temp = get_next_line(0);
 	i = 0;
-	if (!temp)
+	if (!temp && g_exit_code == SIGINT_EXITVALUE)
 		return (write(2, "\n", 2), SIGINT_EXITVALUE);
+	if (!temp)
+	{
+		write(2, "\nMinishell: \033[0;31msyntax error\033[0m: unexpected", 48);
+		write(2, " end of file\n", 14);
+		return (SYNTAX_ERROR);
+	}
 	while (temp[i])
 		i++;
 	if (i > 0)

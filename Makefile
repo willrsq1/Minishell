@@ -52,6 +52,7 @@ SOURCES =     		main.c \
 					8_utils/B_malloc.c \
 					8_utils/C_open_functs.c \
 					8_utils/D_print_functions.c \
+					8_utils/E_main_utils.c \
 					9_bonus/A_operands.c \
 					9_bonus/B_operands_utils.c \
 					9_bonus/C_wildcard.c \

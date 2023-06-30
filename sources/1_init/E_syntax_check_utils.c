@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   D_syntax_check_utils.c                             :+:      :+:    :+:   */
+/*   E_syntax_check_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 09:29:07 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/27 00:39:56 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/30 13:27:49 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,21 @@ int	ft_is_token_redi(char *arg, int *is_quoted)
 	if (!is_quoted[0] && !is_quoted[1])
 	{
 		if (!ft_strcmp(arg, "<<") || !ft_strcmp(arg, ">>"))
+			return (ERROR);
+	}
+	return (OK);
+}
+
+int	ft_is_token_redi_not_heredoc(char *arg, int *is_quoted)
+{
+	if (!is_quoted[0])
+	{
+		if (!ft_strcmp(arg, "<") || !ft_strcmp(arg, ">"))
+			return (ERROR);
+	}
+	if (!is_quoted[0] && !is_quoted[1])
+	{
+		if (!ft_strcmp(arg, ">>"))
 			return (ERROR);
 	}
 	return (OK);

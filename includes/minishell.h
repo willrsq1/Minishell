@@ -57,9 +57,10 @@ int		ft_check_parenthesis_chars(char **tab, int **iq, int quote, int y);
 
 /*		E_SYNTAX_CHECK_UTILS.C */
 
-int		ft_is_token_operand(char *arg, int *is_quoted);
 int		ft_is_token_meta(char *arg, int *is_quoted);
 int		ft_is_token_redi(char *arg, int *is_quoted);
+int		ft_is_token_redi_not_heredoc(char *arg, int *is_quoted);
+int		ft_is_token_operand(char *arg, int *is_quoted);
 
 /* ------------------------------------------------------------------------- */
 /* -------------------------- 2_EXECVE ------------------------------------- */
@@ -265,6 +266,12 @@ void	print_tokens_operands(char ***operands_tab, int ***operands_is_quoted, \
 	int *options);
 void	ft_initializing_options(t_shell *shell, int argc, char **argv);
 
+/*		E_MAIN_UTILS.C */
+
+void	ft_create_prompt(t_shell *shell, char **envp, char **argv);
+char	**ft_new_envp(char **envp);
+void	ft_shlvl(char **envp);
+
 /* ------------------------------------------------------------------------- */
 /* -------------------------- 9_BONUS -------------------------------------- */
 /* ------------------------------------------------------------------------- */
@@ -286,7 +293,8 @@ int		ft_wildcards_handling(t_shell *shell, char **tab);
 /*		D_WILDCARD_UTILS.C */
 
 void	ft_wildcnew_wildcard(void *file, t_wildc *first, t_shell *shell);
-int		ft_is_invalid_arg_wildcard(char *arg, char *file);
+int		ft_check_wildcard_token(char *file, char *new_tok);
+char	*next_tok(char *arg, t_shell *shell);
 char	*find_wildcard_directory(t_shell *shell, char *arg, char **arg_add);
 int		find_wildcard(char *arg, t_shell *shell, int i);
 

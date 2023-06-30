@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 12:52:01 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/29 22:32:45 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/29 23:55:03 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ int	ft_get_cmd(t_pipex *p, int i)
 		ft_end_program(p->shell, OK, OK);
 	if (!p->commands[i][0][0])
 	{
-		buff = ft_strdup("'': \033[0;31mcommand not found \U0001F621\n", \
+		buff = ft_strdup(\
+			"\x1b[0m'': \033[0;31mcommand not found \U0001F621\x1b[0m\n", \
 			p->shell);
 		write(2, buff, ft_strlen(buff));
 		return (g_exit_code = COMMAND_ERROR, ERROR);
@@ -51,7 +52,8 @@ int	ft_get_cmd(t_pipex *p, int i)
 	if (return_value == ERROR)
 	{
 		buff = ft_strcat(p->commands[i][0], \
-			": \033[0;31mcommand not found \U0001F621\n", p->shell);
+			": \033[0;31mcommand not found \U0001F621\x1b[0m\n", p->shell);
+		buff = ft_strcat("\x1b[0m", buff, p->shell);
 		write(2, buff, ft_strlen(buff));
 		return (g_exit_code = COMMAND_ERROR, ERROR);
 	}
@@ -119,13 +121,12 @@ static void	ft_get_cmd_error_check_special_cases(t_shell *shell, char *cmd)
 	if (cmd[0] == '.' && cmd[1] == '.' && cmd[2] == '\0')
 	{
 		buff = ft_strcat("..", ": \033[0;31mcommand not found \U0001F621\n", \
-		shell);
+			shell);
 		write(2, buff, ft_strlen(buff));
 		ft_end_program(shell, OK, COMMAND_ERROR);
 	}
 	fd = open(cmd, O_DIRECTORY);
-	if (fd != FAIL || (cmd[0] == '.' && ((cmd[1] == '.' && cmd[2] == '/') || \
-		cmd[1] == '/') && access(cmd, X_OK) == FAIL))
+	if (fd != FAIL || (cmd[0] == '.' && access(cmd, X_OK) == FAIL))
 	{
 		ft_add_tbc_list(fd, shell);
 		open(cmd, O_CREAT);

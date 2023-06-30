@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 00:13:01 by root              #+#    #+#             */
-/*   Updated: 2023/06/29 22:35:13 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/30 13:29:44 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ static void	ft_fork_loop(t_pipex *p, char **envp, int i)
 	if (ft_special_operands(p->shell, envp) || \
 		ft_variables_substitution(p->shell))
 		ft_end_program(p->shell, OK, g_exit_code);
+	ft_wildcards_handling(p->shell, p->shell->tab);
 	ft_check_for_redirections(p, i);
 	ft_dup2_exec_pipes(p, i);
 	if (ft_builtins_in_child(p->shell, p->commands[i], envp) == OK || \

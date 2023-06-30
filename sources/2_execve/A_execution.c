@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 14:24:40 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/29 02:55:52 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/30 13:07:13 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void	ft_do_the_execve_thing(t_shell *shell, char **envp)
 		print_tokens(shell);
 	shell->infile = -1;
 	shell->outfile = -1;
-	ft_wildcards_handling(shell, shell->tab);
 	init.shell = shell;
 	init.pipes_number = ft_count_pipes(shell);
 	if (init.pipes_number > 0)

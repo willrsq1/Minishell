@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 00:14:46 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/29 22:35:38 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/30 13:08:09 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	exec_no_pipes(t_shell *shell, char **envp)
 		return ;
 	g_exit_code = 0;
 	ft_get_heredocs(shell);
+	ft_wildcards_handling(shell, shell->tab);
 	if (g_exit_code == 130 || ft_builtins(shell, shell->tab, envp) == OK)
 		return ;
 	pid = fork();

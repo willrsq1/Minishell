@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 16:49:53 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/29 03:27:46 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/30 00:25:50 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ int	ft_open(char *file, t_shell *shell, int option)
 		ft_end_program(shell, ERROR, EXIT_FAILURE);
 	if (fd == FAIL)
 	{
-		perror(ft_strcat("Minishell: ", file, shell));
+		file = ft_strcat(file, "\x1b[0m", shell);
+		perror(ft_strcat("Minishell: \033[0;31m", file, shell));
 		ft_end_program(shell, OK, EXIT_FAILURE);
 		return (FAIL);
 	}

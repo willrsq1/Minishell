@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/25 15:27:41 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/29 04:25:09 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/30 11:47:43 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,8 @@ char	**ft_export_sorted_tab(t_shell *shell, char **envp)
 		y = 0;
 		while (tab[++y])
 		{
-			if (tab[y - 1][0] > tab[y][0])
+			if (tab[y - 1][0] > tab[y][0] || \
+				(tab[y - 1][0] == tab[y][0] && tab[y - 1][1] > tab[y][1]))
 			{
 				temp = tab[y - 1];
 				tab[y - 1] = tab[y];

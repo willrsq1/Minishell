@@ -6,13 +6,14 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 02:17:31 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/17 11:21:54 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/30 13:41:58 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 static int	ft_wildcard(t_shell *shell, char *arg, t_wildc *first);
+static int	ft_get_arg_wildcard(char *arg, char *file, t_shell *shell, int i);
 
 char	**ft_wildcard_loop(t_shell *shell, char **tab, int i, char **new_args)
 {
@@ -62,15 +63,50 @@ int	ft_create_wildcard_lst(t_wildc *first, t_shell *shell, \
 
 	count = 0;
 	first->file = ft_strdup(s_dir->d_name, shell);
-	if (!ft_is_invalid_arg_wildcard(arg, first->file) && ++count)
+	if (!ft_get_arg_wildcard(arg, first->file, shell, 0))
+	{
 		ft_wildcnew_wildcard(ft_strdup(first->file, shell), first, shell);
+		count++;
+	}
 	else if (s_dir->d_type == DT_DIR)
 	{
 		first->file = ft_strcat(first->file, "/", shell);
-		if (!ft_is_invalid_arg_wildcard(arg, first->file) && ++count)
+		if (!ft_get_arg_wildcard(arg, first->file, shell, 0))
+		{
 			ft_wildcnew_wildcard(ft_strdup(first->file, shell), first, shell);
+			count++;
+		}
 	}
 	return (count);
+}
+
+static int	ft_get_arg_wildcard(char *arg, char *file, t_shell *shell, int i)
+{
+	int		y;
+	char	*new_tok;
+
+	i = 0;
+	y = 0;
+	while (arg[i] && file[y])
+	{
+		if (arg[i] == '*')
+		{
+			while (arg[i] && arg[i] == '*')
+				i++;
+			new_tok = next_tok(&arg[i], shell);
+			while (file[y] && ft_check_wildcard_token(&file[y], new_tok))
+				y++;
+			if (!file[y] && !arg[i])
+				return (OK);
+			if (!arg[i])
+				return (OK);
+		}
+		else if (file[y] != arg[i])
+			return (FAIL);
+		else if (++i)
+			++y;
+	}
+	return (arg[i] - file[y]);
 }
 
 static int	ft_wildcard(t_shell *shell, char *arg, t_wildc *first)

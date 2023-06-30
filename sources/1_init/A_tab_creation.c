@@ -6,15 +6,15 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 20:56:19 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/28 18:45:36 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/30 11:46:49 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 static char	**ft_create_tab(t_shell *shell, char *buff);
-static int	ft_count_quotes(char *buff);
-static void	count_quotes_perror(int quote, char c);
+static int	ft_count_quotes(char *buff, t_shell *shell);
+static void	count_quotes_perror(int quote, char c, t_shell *shell);
 static char	**fix_tab(t_shell *shell, char **tab);
 
 int	tab_creation(t_shell *shell, char *buff)
@@ -42,13 +42,13 @@ static char	**ft_create_tab(t_shell *shell, char *buff)
 
 	if (!buff || !buff[0])
 		return (NULL);
-	if (!buff || ft_count_quotes(buff))
+	if (!buff || ft_count_quotes(buff, shell))
 		return (g_exit_code = SYNTAX_ERROR, NULL);
 	tab = ft_split_minishell(buff, ' ', shell);
 	return (tab);
 }
 
-static int	ft_count_quotes(char *buff)
+static int	ft_count_quotes(char *buff, t_shell *shell)
 {
 	int		i;
 	int		quote;
@@ -73,19 +73,22 @@ static int	ft_count_quotes(char *buff)
 			break ;
 		i++;
 	}
-	count_quotes_perror(quote, c);
+	count_quotes_perror(quote, c, shell);
 	return (quote % 2);
 }
 
-static void	count_quotes_perror(int quote, char c)
+static void	count_quotes_perror(int quote, char c, t_shell *shell)
 {
+	char	*buff;
+
 	if (quote % 2)
 	{
-		write(2, "Minishell: Expected finishing ", 31);
+		buff = ft_strdup("Minishell: Expected finishing \033[0;31m", shell);
 		if (c == '\'')
-			write(2, "simple quote.\n", 15);
+			buff = ft_strcat(buff, "simple quote.\x1b[0m\n", shell);
 		if (c == '"')
-			write(2, "double quote.\n", 15);
+			buff = ft_strcat(buff, "double quote.\x1b[0m\n", shell);
+		write(2, buff, ft_strlen(buff));
 	}
 }
 

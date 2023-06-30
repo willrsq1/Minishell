@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:37:03 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/29 03:49:37 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/30 01:00:39 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,9 @@ static int	ft_export_check_arg(char *arg)
 	y = -1;
 	if (arg[0] == '=' || !arg[0] || (arg[0] >= '0' && arg[0] <= '9'))
 	{
-		write(2, "Minishell: export: `", 21);
+		write(2, "Minishell: export: `\033[0;31m", 28);
 		write(2, arg, ft_strlen(arg));
-		write(2, "': not a valid identifier\n", 27);
+		write(2, "\x1b[0m': not a valid identifier \U0001F621\n", 36);
 		return (g_exit_code = ERROR, ERROR);
 	}
 	while (arg[++y] && arg[y] != '=')
@@ -89,9 +89,9 @@ static int	ft_export_check_arg(char *arg)
 			arg[y] == '"' || arg[y] == '\'' || arg[y] == '!' || \
 			arg[y] == '|' || arg[y] == '&')
 		{
-			write(2, "Minishell: export: `", 21);
+			write(2, "Minishell: export: `\033[0;31m", 28);
 			write(2, arg, ft_strlen(arg));
-			write(2, "': not a valid identifier\n", 27);
+			write(2, "\x1b[0m': not a valid identifier \U0001F621\n", 36);
 			return (g_exit_code = ERROR, ERROR);
 		}
 	}
@@ -120,7 +120,7 @@ static int	ft_export_var_location(char **envp, t_shell *shell, char *arg)
 			ft_end_program(shell, ERROR, ERROR);
 	}
 	return (i);
-}//SORT EXPORT NO ARG
+}
 
 static int	ft_export_get_envp_lign(char **envp, char *var_name)
 {

@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 18:11:06 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/25 15:45:43 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/06/30 13:35:29 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,28 +29,33 @@ void	ft_wildcnew_wildcard(void *file, t_wildc *first, t_shell *shell)
 	first->next = lst;
 }
 
-int	ft_is_invalid_arg_wildcard(char *arg, char *file)
+char	*next_tok(char *arg, t_shell *shell)
 {
 	int		i;
-	int		y;
-	char	next_char;
+	char	*new;
 
-	i = -1;
-	while (arg[++i] != '*')
-	{
-		if (file[i] != arg[i])
-			return (FAIL);
-	}
-	y = i + 1;
-	next_char = arg[y];
-	while (file[i] && file[i] != next_char)
+	i = 0;
+	while (arg[i] && arg[i] != '*')
 		i++;
-	if (next_char == '\0' && file[i] == next_char)
-		return (OK);
-	while (arg[y] && arg[y] != '*' && file[i] && arg[y] == file[i++])
-		y++;
-	//upgrade this ( ls *ource*)
-	return (arg[y] - file[i]);
+	new = ft_calloc(sizeof(char) * (i + 1), shell);
+	i = -1;
+	while (arg[++i] && arg[i] != '*')
+		new[i] = arg[i];
+	return (new);
+}
+
+int	ft_check_wildcard_token(char *file, char *new_tok)
+{
+	int	i;
+
+	i = 0;
+	while (new_tok[i])
+	{
+		if (file[i] != new_tok[i])
+			return (1);
+		i++;
+	}
+	return (OK);
 }
 
 char	*find_wildcard_directory(t_shell *shell, char *arg, char **arg_add)
