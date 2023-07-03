@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 12:52:01 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/30 17:00:08 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/07/03 03:58:24 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ static void	ft_get_cmd_error_check_special_cases(t_shell *shell, char *cmd)
 		ft_end_program(shell, OK, COMMAND_ERROR);
 	}
 	fd = open(cmd, O_DIRECTORY);
-	if (fd != FAIL || (cmd[0] == '.' && access(cmd, X_OK) == FAIL))
+	if (fd != FAIL)
 	{
 		ft_add_tbc_list(fd, shell);
 		open(cmd, O_CREAT);

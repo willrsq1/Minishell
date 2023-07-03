@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 02:17:31 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/30 13:41:58 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/07/03 03:53:25 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	ft_wildcards_handling(t_shell *shell, char **tab)
 		}
 	}
 	return (OK);
-}
+}//ls */*
 
 int	ft_create_wildcard_lst(t_wildc *first, t_shell *shell, \
 	struct dirent *s_dir, char *arg)
