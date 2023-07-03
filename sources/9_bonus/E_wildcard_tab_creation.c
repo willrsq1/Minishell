@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 10:02:39 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/05/11 17:52:03 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/07/03 03:07:11 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 static int	ft_new_tab_filling(char **new_args, char **tab, \
 	int **new_is_quoted, t_shell *shell);
+static int	ft_get_i_widlcard_new_tab(char **tab, t_shell *shell, \
+	int **new_is_quoted);
 
 char	**ft_wildc_new_init(int count, t_wildc *first, \
 	char *dir_path, t_shell *shell)
@@ -55,14 +57,6 @@ int	ft_dup_new_tab_wildcard(t_shell *shell, char **tab, char **new_args)
 		y++;
 	shell->tab = ft_calloc(sizeof(char *) * (i + y), shell);
 	new_is_quoted = ft_calloc(sizeof(int *) * (i + y), shell);
-	i = -1;
-	y = -1;
-	while (tab[++i] && !(find_wildcard(tab[i], shell, i)))
-	{
-		new_is_quoted[i] = shell->is_quoted[i];
-		shell->tab[i] = tab[i];
-	}
-	shell->i = i;
 	new_pos = ft_new_tab_filling(new_args, tab, new_is_quoted, shell);
 	return (new_pos);
 }
@@ -76,7 +70,7 @@ static int	ft_new_tab_filling(char **new_args, char **tab, \
 	int	i;
 
 	y = -1;
-	i = shell->i;
+	i = ft_get_i_widlcard_new_tab(tab, shell, new_is_quoted);
 	while (new_args[++y])
 	{
 		count = -1;
@@ -94,4 +88,17 @@ static int	ft_new_tab_filling(char **new_args, char **tab, \
 	}
 	shell->is_quoted = new_is_quoted;
 	return (new_pos);
+}
+
+static int	ft_get_i_widlcard_new_tab(char **tab, t_shell *shell, int **new_is_quoted)
+{
+	int	i;
+	
+	i = -1;
+	while (tab[++i] && !(find_wildcard(tab[i], shell, i)))
+	{
+		new_is_quoted[i] = shell->is_quoted[i];
+		shell->tab[i] = tab[i];
+	}
+	return (i);
 }

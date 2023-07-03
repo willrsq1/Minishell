@@ -164,7 +164,7 @@ int		ft_variables_substitution(t_shell *shell);
 
 /*		B_VAR_SUBSTITUTION.C */
 
-void	ft_substitute_var(t_shell *shell, char *var, char *arg, int *is_quoted);
+void	ft_substitute_var(t_shell *shell, char *var, int i);
 
 /*		C_EXIT_VALUE_VAR.C */
 

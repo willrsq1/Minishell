@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/25 15:18:53 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/25 16:39:10 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/07/03 03:03:56 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,21 +22,21 @@ static void	ft_substitute_var_part2(t_replace_chars r, char *var, \
 	char *new_arg, int *new_is_quoted);
 static int	ft_get_lenght_replace_chars(char *var, char *arg, int *is_quoted);
 
-void	ft_substitute_var(t_shell *shell, char *var, char *arg, int *is_quoted)
+void	ft_substitute_var(t_shell *shell, char *var, int i)
 {
 	t_replace_chars	r;
 	int				len;
 	char			*new_arg;
 	int				*new_is_quoted;
 
-	len = ft_get_lenght_replace_chars(var, arg, is_quoted);
+	len = ft_get_lenght_replace_chars(var, shell->tab[i], shell->is_quoted[i]);
 	new_arg = ft_calloc(sizeof(char) * (len + 1), shell);
 	new_is_quoted = ft_calloc(sizeof(int) * (len + 1), shell);
-	r.arg = arg;
-	r.i_q = is_quoted;
+	r.arg = shell->tab[i];
+	r.i_q = shell->is_quoted[i];
 	ft_substitute_var_part2(r, var, new_arg, new_is_quoted);
-	shell->tab[shell->i] = new_arg;
-	shell->is_quoted[shell->i] = new_is_quoted;
+	shell->tab[i] = new_arg;
+	shell->is_quoted[i] = new_is_quoted;
 }
 
 static void	ft_substitute_var_part2(t_replace_chars r, char *var, \

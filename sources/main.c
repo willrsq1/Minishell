@@ -36,7 +36,6 @@ int	main(int argc, char **argv, char **envp)
 
 static void	ft_reset_shell(t_shell *shell)
 {
-	shell->nb_of_double_quotes = NO_VALUE;
 	shell->no_exit = NO_VALUE;
 	shell->tab = NULL;
 	shell->pipex = NULL;
@@ -52,6 +51,4 @@ static void	ft_reset_shell(t_shell *shell)
 	shell->to_be_freed_list = NULL;
 	shell->tbc_list = NULL;
 	shell->exit = NO_VALUE;
-	shell->id_pipe = NO_VALUE;
-	shell->i = NO_VALUE;
 }

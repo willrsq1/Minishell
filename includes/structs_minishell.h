@@ -36,7 +36,6 @@ typedef struct s_shell			t_shell;
 typedef struct s_pipex			t_pipex;
 typedef struct s_to_be_freed	t_to_be_freed;
 typedef struct s_to_be_closed	t_to_be_closed;
-typedef struct s_init			t_init;
 typedef struct s_split			t_split;
 typedef struct s_wildc			t_wildc;
 
@@ -44,7 +43,6 @@ typedef struct s_shell
 {
 	int				no_exit;
 	char			**envp;
-	int				nb_of_double_quotes;
 	char			**tab;
 	t_pipex			*pipex;
 	int				infile;
@@ -59,8 +57,6 @@ typedef struct s_shell
 	t_to_be_closed	*tbc_list;
 	t_split			*split;
 	int				exit;
-	int				id_pipe;
-	int				i;
 	int				show_tokens;
 	int				show_tokens_operands;
 	int				show_exit_status;
@@ -94,16 +90,6 @@ typedef struct s_to_be_closed
 	int				fd;
 	t_to_be_closed	*next;
 }		t_to_be_closed;
-
-typedef struct s_init
-{
-	char		**tab;
-	int			*mode;
-	char		***args;
-	int			***is_quoted;
-	int			number_of_pipes;
-	t_shell		*shell;
-}		t_init;
 
 typedef struct s_split
 {

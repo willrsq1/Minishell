@@ -6,13 +6,13 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:47:15 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/07/01 00:30:19 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/07/03 03:05:17 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static int	ft_var(t_shell *shell, char *arg, int *is_quoted, int y);
+static int	ft_var(t_shell *shell, int i, int y);
 static int	ft_check_for_ambiguous_redirect(t_shell *shell, int i);
 
 int	ft_variables_substitution(t_shell *shell)
@@ -34,8 +34,7 @@ int	ft_variables_substitution(t_shell *shell)
 					ft_exit_value_sub(shell, i, y, ft_strlen(shell->tab[i]));
 				else
 				{
-					shell->i = i;
-					y = ft_var(shell, shell->tab[i], shell->is_quoted[i], y);
+					y = ft_var(shell, i, y);
 					ft_remove_one_token(shell, i, y);
 				}
 			}
@@ -44,12 +43,16 @@ int	ft_variables_substitution(t_shell *shell)
 	return (OK);
 }
 
-static int	ft_var(t_shell *shell, char *arg, int *is_quoted, int y)
+static int	ft_var(t_shell *shell, int i, int y)
 {
 	char	*var;
 	int		envp_lign;
-	int		i;
+	int		z;
+	char	*arg;
+	int		*is_quoted;
 
+	arg = shell->tab[i],
+	is_quoted = shell->is_quoted[i];
 	var = ft_get_var_name(shell, &arg[y], &is_quoted[y]);
 	if (!var)
 		return (y);
@@ -59,11 +62,11 @@ static int	ft_var(t_shell *shell, char *arg, int *is_quoted, int y)
 		ft_var_not_found(&arg[y], &is_quoted[y]);
 		return (y - 1);
 	}
-	i = 0;
-	while (shell->envp[envp_lign][i] != '=')
-		i++;
-	var = ft_strdup(&shell->envp[envp_lign][i + 1], shell);
-	ft_substitute_var(shell, var, arg, is_quoted);
+	z = 0;
+	while (shell->envp[envp_lign][z] != '=')
+		z++;
+	var = ft_strdup(&shell->envp[envp_lign][z + 1], shell);
+	ft_substitute_var(shell, var, i);
 	return (y);
 }
 
