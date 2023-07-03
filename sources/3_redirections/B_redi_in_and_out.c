@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 21:08:45 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/24 01:51:26 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/07/02 23:03:14 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,25 @@ void	ft_outfile(t_shell *shell, int i, int option)
 	shell->outfile = fd;
 	return ;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 void	ft_infile_with_fd(t_shell *shell, int i, int file_fd)
 {

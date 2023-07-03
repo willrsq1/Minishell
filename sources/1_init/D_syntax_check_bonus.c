@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 19:00:25 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/28 20:30:01 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/07/01 00:29:26 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	ft_check_parenthesis_tokens(char **tab, t_shell *shell)
 					write(2, tab[i + 1], ft_strlen(tab[i + 1]));
 				else
 					write(2, tab[i], ft_strlen(tab[i]));
-				return (write(2, "'\n", 3), SYNTAX_ERROR);
+				return (write(2, "' \U0001F630\n", 8), SYNTAX_ERROR);
 			}
 		}
 		i++;
@@ -82,6 +82,6 @@ static int	ft_parenthesis_chars_check_error(int count)
 		write(2, "(", 1);
 	else
 		write(2, ")", 1);
-	write(2, "'\n", 3);
+	write(2, "' \U0001F630\n", 8);
 	return (SYNTAX_ERROR);
 }

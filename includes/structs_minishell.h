@@ -14,7 +14,10 @@
 # define STRUCTS_MINISHELL_H
 
 # define FAIL -1
+# define NO_REDI -1
+# define NO_HEREDOC -1
 # define OK 0
+# define NO_VALUE 0
 # define ERROR 1
 # define SYNTAX_ERROR 2
 # define DIRECTORY_ERROR 126
@@ -98,7 +101,7 @@ typedef struct s_init
 	int			*mode;
 	char		***args;
 	int			***is_quoted;
-	int			pipes_number;
+	int			number_of_pipes;
 	t_shell		*shell;
 }		t_init;
 

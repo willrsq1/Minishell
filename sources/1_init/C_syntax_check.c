@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 02:33:08 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/30 00:39:42 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/07/01 00:29:03 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,12 @@ static int	ft_check_redi_tokens(char **tab, t_shell *shell, int i)
 				write(2, "Minishell: \033[0;31msyntax error\033[0m near", 40);
 				write(2, " unexpected token `", 20);
 				write(2, s, ft_strlen(s));
-				return (write(2, "'\n", 3), SYNTAX_ERROR);
+				return (write(2, "' \U0001F630\n", 8), SYNTAX_ERROR);
 			}
 			if (!s)
 			{
 				write(2, "Minishell: \033[0;31msyntax error\033[0m near", 40);
-				write(2, " unexpected token `newline'\n", 29);
+				write(2, " unexpected token `newline' \U0001F630\n", 34);
 				return (SYNTAX_ERROR);
 			}
 		}
@@ -82,7 +82,7 @@ static int	ft_check_pipes_tokens(char **tab, t_shell *shell)
 					write(2, tab[i + 1], ft_strlen(tab[i + 1]));
 				else
 					write(2, tab[i], ft_strlen(tab[i]));
-				return (write(2, "'\n", 3), SYNTAX_ERROR);
+				return (write(2, "' \U0001F630\n", 8), SYNTAX_ERROR);
 			}
 			if (!tab[i + 1] && ft_strcmp_unquoted(tab[i], ";", \
 				shell->is_quoted[i]))
@@ -104,7 +104,7 @@ static int	no_token_after_last_pipe(int i, char *s, t_shell *shell)
 	if (!temp)
 	{
 		write(2, "\nMinishell: \033[0;31msyntax error\033[0m: unexpected", 48);
-		write(2, " end of file\n", 14);
+		write(2, " end of file \U0001F630\n", 19);
 		return (SYNTAX_ERROR);
 	}
 	while (temp[i])

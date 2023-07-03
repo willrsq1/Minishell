@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 15:07:54 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/25 22:35:29 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/07/03 01:53:25 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,11 @@ char	**ft_split(char *s, char c, t_shell *shell)
 
 int	reading(t_pipex *p, int i)
 {
-	if (i > 1000)
-		ft_close_pipes(i - 100, p, ERROR);
+	if (i < 1000)
+		return (1);
+	ft_close_pipes(i - 995, p);
+	close(p->pipe[i - 995][0]);
+	close(p->pipe[i - 995][1]);
 	return (1);
 }
 

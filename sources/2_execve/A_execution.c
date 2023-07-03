@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 14:24:40 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/30 13:07:13 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/07/03 01:09:07 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,23 @@ static int	ft_count_pipes(t_shell *shell);
 
 void	ft_do_the_execve_thing(t_shell *shell, char **envp)
 {
-	t_init	init;
+	int	number_of_pipes;
 
 	if (tab_creation(shell, shell->buff) != OK)
 		return ;
 	if (shell->show_tokens)
 		print_tokens(shell);
-	shell->infile = -1;
-	shell->outfile = -1;
-	init.shell = shell;
-	init.pipes_number = ft_count_pipes(shell);
-	if (init.pipes_number > 0)
-		ft_pipex(init.pipes_number, &init, envp);
+	shell->infile = NO_REDI;
+	shell->outfile = NO_REDI;
+	number_of_pipes = ft_count_pipes(shell);
+	if (number_of_pipes > 0)
+		ft_pipex(number_of_pipes, shell, envp);
 	else
 		exec_no_pipes(shell, envp);
+	if (shell->show_exit_status)
+		printf("		The exit status is = %d\n", g_exit_code);
+	if (shell->exit_after_first_input)
+		ft_end_program(shell, OK, g_exit_code);
 }
 
 static int	ft_count_pipes(t_shell *shell)

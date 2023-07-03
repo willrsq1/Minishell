@@ -36,33 +36,30 @@ void	ft_pipex_initialisation(t_pipex *p)
 	p->fds[i] = ft_calloc(sizeof(int) * 2, p->shell);
 }
 
-void	ft_pipex_big_tab(int pipes_number, t_init *init, t_shell *shell)
+void	ft_split_tab_in_pipex_tabs(int number_of_cmds, t_pipex *p, t_shell *shell)
 {
-	char	***args;
-	int		tab;
-	int		lign;
-	int		nb;
-	int		args_lign;
+	int		tab_id;
+	int		i;
+	int		size_of_tab;
+	int		tab_lign;
 
-	args = ft_calloc(sizeof(char **) * (pipes_number + 2), shell);
-	init->is_quoted = ft_calloc(sizeof(int **) * (pipes_number + 2), shell);
-	tab = -1;
-	lign = -1;
-	while (++tab <= pipes_number)
+	p->commands = ft_calloc(sizeof(char **) * (number_of_cmds + 1), shell);
+	p->is_quoted = ft_calloc(sizeof(int **) * (number_of_cmds + 1), shell);
+	tab_id = -1;
+	i = -1;
+	while (++tab_id < number_of_cmds)
 	{
-		args_lign = -1;
-		nb = get_size_until_pipe(shell, lign);
-		args[tab] = ft_calloc(sizeof(char *) * (nb + 1), shell);
-		init->is_quoted[tab] = ft_calloc(sizeof(int *) * (nb + 1), shell);
-		while (shell->tab[++lign] && \
-			!(ft_strcmp(shell->tab[lign], "|") == OK && \
-			shell->is_quoted[lign][0] == OK))
+		tab_lign = -1;
+		size_of_tab = get_size_until_pipe(shell, i);
+		p->commands[tab_id] = ft_calloc(sizeof(char *) * (size_of_tab + 1), shell);
+		p->is_quoted[tab_id] = ft_calloc(sizeof(int *) * (size_of_tab + 1), shell);
+		while (shell->tab[++i] && \
+			ft_strcmp_unquoted(shell->tab[i], "|", shell->is_quoted[i]) != OK)
 		{
-			args[tab][++args_lign] = ft_strdup(shell->tab[lign], shell);
-			init->is_quoted[tab][args_lign] = shell->is_quoted[lign];
+			p->commands[tab_id][++tab_lign] = shell->tab[i];
+			p->is_quoted[tab_id][tab_lign] = shell->is_quoted[i];
 		}
 	}
-	init->args = args;
 }
 
 static int	get_size_until_pipe(t_shell *shell, int i)
@@ -107,7 +104,7 @@ void	ft_get_heredocs_pipex(t_pipex *p, int i)
 	}
 }
 
-void	ft_close_pipes(int i, t_pipex *p, int x)
+void	ft_close_pipes(int i, t_pipex *p)
 {
 	int	y;
 	int	status;
@@ -130,8 +127,4 @@ void	ft_close_pipes(int i, t_pipex *p, int x)
 			g_exit_code = WEXITSTATUS(status);
 		p->forks_id[y] = -1;
 	}
-	if (x == OK)
-		return ;
-	close(p->pipe[i][0]);
-	close(p->pipe[i][1]);
 }

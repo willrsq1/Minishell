@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 08:10:57 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/23 17:44:08 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/07/03 01:41:39 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,27 +36,28 @@ void	*ft_calloc(size_t nmemb, t_shell *shell)
 
 static void	ft_ptr_list(t_shell *shell, void *ptr)
 {
-	t_to_be_freed	*to_be_freed_lst;
-	t_to_be_freed	*temp;
+	t_to_be_freed			*to_be_freed_lst;
+	static t_to_be_freed	*temp;
 
 	to_be_freed_lst = malloc(sizeof(t_to_be_freed));
 	if (!to_be_freed_lst)
 	{
-		free (ptr);
+		free(ptr);
 		ft_end_program(shell, ERROR, EXIT_FAILURE);
 	}
-	to_be_freed_lst->to_be_freed = NULL;
 	to_be_freed_lst->to_be_freed = ptr;
 	to_be_freed_lst->next = NULL;
 	if (shell->to_be_freed_list == NULL)
 	{
+		temp = to_be_freed_lst;
 		shell->to_be_freed_list = to_be_freed_lst;
 		return ;
 	}
-	temp = shell->to_be_freed_list;
-	while (temp && temp->next)
-		temp = temp->next;
+	// temp = shell->to_be_freed_list;
+	// while (temp && temp->next)
+	// 	temp = temp->next;
 	temp->next = to_be_freed_lst;
+	temp = temp->next;
 }
 
 static void	ft_bzero(void *s, size_t n)

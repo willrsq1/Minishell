@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 00:13:01 by root              #+#    #+#             */
-/*   Updated: 2023/06/30 16:59:51 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/07/03 02:07:13 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,19 @@ static void	ft_fork_loop(t_pipex *p, char **envp, int i);
 static void	ft_check_for_redirections(t_pipex *p, int i);
 static void	ft_dup2_exec_pipes(t_pipex *p, int i);
 
-void	ft_pipex(int argc, t_init *init, char **envp)
+void	ft_pipex(int number_of_pipes, t_shell *shell, char **envp)
 {
 	t_pipex	*p;
 
-	ft_pipex_big_tab(init->pipes_number, init, init->shell);
-	p = ft_calloc(sizeof(t_pipex), init->shell);
-	p->nb_cmds = argc + 1;
-	p->shell = init->shell;
-	p->shell->pipex = p;
+	p = ft_calloc(sizeof(t_pipex), shell);
+	p->nb_cmds = number_of_pipes + 1;
+	printf("%d\n", p->nb_cmds);
+	shell->pipex = p;
+	p->shell = shell;
 	ft_pipex_initialisation(p);
+	ft_split_tab_in_pipex_tabs(p->nb_cmds, p, shell);
 	ft_get_envp_paths(p, envp);
-	p->commands = init->args;
 	g_exit_code = 0;
-	p->is_quoted = init->is_quoted;
 	ft_get_heredocs_pipex(p, 0);
 	if (g_exit_code == SIGINT_EXITVALUE)
 		return ;
@@ -42,7 +41,7 @@ static void	ft_forking(t_pipex *p, char **envp)
 	int	i;
 
 	i = -1;
-	while (++i < p->nb_cmds)
+	while (++i < p->nb_cmds && g_exit_code != SIGINT_EXITVALUE)
 	{
 		if (i < p->nb_cmds - 1)
 			ft_pipe(p->pipe[i], p->shell);
@@ -56,7 +55,7 @@ static void	ft_forking(t_pipex *p, char **envp)
 	}
 	signal(SIGINT, SIG_IGN);
 	ft_close_all_fds(p->shell);
-	ft_close_pipes(i, p, OK);
+	ft_close_pipes(i, p);
 	ft_signal(p->shell);
 }
 

@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:47:15 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/30 13:36:22 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/07/01 00:30:19 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ static int	ft_check_for_ambiguous_redirect(t_shell *shell, int i)
 		return (OK);
 	write(2, "Minishell: \033[0;31m", 19);
 	write(2, shell->tab[i], ft_strlen(shell->tab[i]));
-	write(2, "\x1b[0m: ambiguous redirect \U0001F621\n", 31);
+	write(2, "\x1b[0m: ambiguous redirect \U0001F613\n", 31);
 	if (shell->pipex)
 		ft_end_program(shell, OK, ERROR);
 	g_exit_code = ERROR;
