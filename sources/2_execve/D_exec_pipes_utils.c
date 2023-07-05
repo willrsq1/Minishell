@@ -36,23 +36,23 @@ void	ft_pipex_initialisation(t_pipex *p)
 	p->fds[i] = ft_calloc(sizeof(int) * 2, p->shell);
 }
 
-void	ft_split_tab_in_pipex_tabs(int number_of_cmds, t_pipex *p, t_shell *shell)
+void	ft_split_tab_in_pipex_tabs(int nb_of_cmds, t_pipex *p, t_shell *shell)
 {
 	int		tab_id;
 	int		i;
-	int		size_of_tab;
+	int		tab_len;
 	int		tab_lign;
 
-	p->commands = ft_calloc(sizeof(char **) * (number_of_cmds + 1), shell);
-	p->is_quoted = ft_calloc(sizeof(int **) * (number_of_cmds + 1), shell);
+	p->commands = ft_calloc(sizeof(char **) * (nb_of_cmds + 1), shell);
+	p->is_quoted = ft_calloc(sizeof(int **) * (nb_of_cmds + 1), shell);
 	tab_id = -1;
 	i = -1;
-	while (++tab_id < number_of_cmds)
+	while (++tab_id < nb_of_cmds)
 	{
 		tab_lign = -1;
-		size_of_tab = get_size_until_pipe(shell, i);
-		p->commands[tab_id] = ft_calloc(sizeof(char *) * (size_of_tab + 1), shell);
-		p->is_quoted[tab_id] = ft_calloc(sizeof(int *) * (size_of_tab + 1), shell);
+		tab_len = get_size_until_pipe(shell, i);
+		p->commands[tab_id] = ft_calloc(sizeof(char *) * (tab_len + 1), shell);
+		p->is_quoted[tab_id] = ft_calloc(sizeof(int *) * (tab_len + 1), shell);
 		while (shell->tab[++i] && \
 			ft_strcmp_unquoted(shell->tab[i], "|", shell->is_quoted[i]) != OK)
 		{

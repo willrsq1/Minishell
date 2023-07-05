@@ -22,6 +22,7 @@ int	main(int argc, char **argv, char **envp)
 
 	ft_reset_shell(&shell);
 	ft_initialize_shell(&shell, argc, argv, envp);
+	envp = shell.envp;
 	while (1)
 	{
 		ft_create_prompt(&shell, envp, argv);

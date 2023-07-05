@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 14:24:40 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/07/03 03:52:12 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/07/05 12:11:05 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	ft_do_the_execve_thing(t_shell *shell, char **envp)
 	else
 		exec_no_pipes(shell, envp);
 	if (shell->show_exit_status)
-		printf("		The exit status is = %d\n", g_exit_code);
+		printf("		\x1b[0mThe exit status is = %d\n\n", g_exit_code);
 	if (shell->exit_after_first_input)
 		ft_end_program(shell, OK, g_exit_code);
 }

@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:32:43 by marvin            #+#    #+#             */
-/*   Updated: 2023/06/25 12:28:45 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/07/05 12:11:27 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ static int	ft_spliting_2(t_shell *shell, char **tab, t_split split, int i)
 			quote = 1;
 		}
 		else if (s[i])
-			split.len = ft_len_without_quotes(&s[i]);
+			split.len = ft_len_without_quotes(&s[i], shell);
 		tab[split.j] = ft_weird_realloc_thing(tab[split.j], split.len, shell);
 		while (split.len >= 0 && split.len--)
 		{
@@ -141,7 +141,7 @@ static int	ft_spliting_2(t_shell *shell, char **tab, t_split split, int i)
 			tab[split.j][++split.w] = s[i];
 			i++;
 		}
-		if (ft_break_split_loop(s, i) == OK)
+		if (ft_break_split_loop(s, i, shell) == OK)
 			return (i);
 	}
 }

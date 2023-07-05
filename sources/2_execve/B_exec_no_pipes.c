@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 00:14:46 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/07/03 00:49:43 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/07/03 21:45:31 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,15 @@ void	ft_dup2_exec_no_pipes(t_shell *shell)
 	if (shell->outfile == FAIL)
 		shell->outfile = STDOUT_FILENO;
 	if (dup2(shell->infile, STDIN_FILENO) == FAIL)
-		ft_end_program(shell, ERROR, EXIT_FAILURE);
+	{	
+		perror(ft_strcat("dup 2: ", ft_itoa(shell->infile, shell), shell));
+		ft_end_program(shell, OK, EXIT_FAILURE);
+	}
 	if (dup2(shell->outfile, STDOUT_FILENO) == FAIL)
-		ft_end_program(shell, ERROR, EXIT_FAILURE);
+	{
+		perror(ft_strcat("dup 2: ", ft_itoa(shell->outfile, shell), shell));
+		ft_end_program(shell, OK, EXIT_FAILURE);
+	}
 }
 
 static void	ft_waitpid_no_pipes(t_shell *shell, pid_t pid)

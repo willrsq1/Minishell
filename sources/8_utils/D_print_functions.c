@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 09:34:25 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/07/03 00:41:55 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/07/05 12:31:00 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	ft_initialize_shell(t_shell *shell, int argc, char **argv, char **envp)
 	ft_signal(shell);
 	ft_shlvl(envp);
 	ft_initializing_options(shell, argc, argv);
-	
 }
 
 static void	ft_initializing_options(t_shell *shell, int argc, char **argv)
@@ -32,49 +31,53 @@ static void	ft_initializing_options(t_shell *shell, int argc, char **argv)
 	shell->show_tokens = 0;
 	shell->show_tokens_operands = 0;
 	shell->exit_after_first_input = 0;
-	while (argc > 0)
+	shell->enable_semicolons = 0;
+	while (--argc > 0)
 	{
-		if (!ft_strcmp(argv[argc - 1], "--show-exit-status"))
+		if (!ft_strcmp(argv[argc], "--show-exit-status") && \
+			!shell->show_exit_status++)
+			printf("The exit status will be shown at exit.\n");
+		else if (!ft_strcmp(argv[argc], "--show-tokens") && \
+			!shell->show_tokens++)
+			printf("The Tokens will be showned.\n");
+		else if (!ft_strcmp(argv[argc], "--exit") && \
+			!shell->exit_after_first_input++)
+			printf("The args will be showned.\n");
+		else if (!ft_strcmp(argv[argc], "--show-all") && \
+			printf("Exit status and all tokens will be showned.\n"))
 		{
 			shell->show_exit_status = 1;
-			printf("The exit status will be shown at exit.\n");
-		}
-		else if (!ft_strcmp(argv[argc - 1], "--show-tokens"))
-		{
-			printf("The Tokens will be showned.\n");
 			shell->show_tokens = 1;
-		}
-		else if (!ft_strcmp(argv[argc - 1], "--exit"))
-		{
-			printf("The args will be showned.\n");
-			shell->exit_after_first_input = 1;
+			shell->show_tokens_operands = 1;
 		}
 		else
 			ft_initializing_options_2(shell, argc, argv);
-		argc--;
 	}
 }
 
 static void	ft_initializing_options_2(t_shell *shell, int argc, char **argv)
 {
-	if (!ft_strcmp(argv[argc - 1], "--help"))
+	if (!ft_strcmp(argv[argc], "--help"))
 	{
 		printf("Usage: ./minishell [options]\n\n");
 		printf("Options:\n");
 		printf("\t--exit: The Minishell will exit after the first input.\n");
 		printf("\t--help: The Minishell will display the Help menu.\n");
+		printf("\t--enable-semicolons: The semicolons will be enabled.\n");
+		printf("\t--show-all: Exit status and all tokens will be showned.\n");
 		printf("\t--show-exit-status: The Minishell will display ");
 		printf("the exit status of the input.\n");
-		printf("\t--show-tokens: The Minishell will display the tokens obtained ");
-		printf("from the input.\n");
+		printf("\t--show-tokens: The Minishell will display the tokens ");
+		printf("obtained from the input.\n");
 		printf("\t--show-tokens-operands: The Minishell will display the ");
 		printf("tokens obtained when operands are used.\n\n");
 	}
-	else if (!ft_strcmp(argv[argc - 1], "--show-tokens-operands"))
-	{
+	else if (!ft_strcmp(argv[argc], "--show-tokens-operands") && \
+		!shell->show_tokens_operands++)
 		printf("The Operands Tokens will be showned.\n");
-		shell->show_tokens_operands = 1;
-	}
+	else if (!ft_strcmp(argv[argc], "--enable-semicolons") && \
+		!shell->enable_semicolons++)
+		printf("The semicolons will be unabled.\n");
 }
 
 void	print_tokens(t_shell *shell)
@@ -101,24 +104,27 @@ void	print_tokens_operands(char ***operands_tab, int ***operands_is_quoted, \
 {
 	int	y;
 	int	i;
-	int	z;
 	int	j;
 
 	i = -1;
+	printf("----Start of operands tokens-----\n\n");
 	while (operands_tab[++i])
 	{
 		y = -1;
 		while (operands_tab[i][++y])
 		{
-			z = ft_strlen(operands_tab[i][y]);
-			printf("NEWLINE %d of tab[%d]= %s *** ", y, i, operands_tab[i][y]);
+			printf("Tab[%d][%d]: %s *** ", i, y, operands_tab[i][y]);
 			j = -1;
-			while (++j < z)
+			while (++j < ft_strlen(operands_tab[i][y]))
 				printf("%d", operands_is_quoted[i][y][j]);
-			printf("\n");
 		}
 		if (operands_tab[i + 1])
-			printf("\nOPERAND IS = %d\n\n", options[i]);
+		{
+			if ((options[i] == 401 && printf("\n\tOperand: '||'\n")) || \
+				(options[i] == 402 && printf("\n\tOperand: '&&'\n")) || \
+				(options[i] == 403 && printf("\n\tOperand: ';'\n")))
+				continue ;
+		}
 	}
-	printf("\n\n\n DONE\n");
+	printf("\n\n----End of operands tokens-----\n");
 }

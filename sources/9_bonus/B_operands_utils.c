@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 14:30:53 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/22 00:25:55 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/07/05 11:59:53 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,14 @@
  * IS USED TO GET THE OPTIONS FOR EXECUTION WHEN AN OPERAND IS PRESENT
 */
 
-int	ft_is_it_operand(char *arg, int *is_quoted)
+int	ft_is_it_operand(char *arg, int *is_quoted, t_shell *shell)
 {
 	if (ft_strcmp_unquoted(arg, "||", is_quoted) == OK)
 		return (OR_OPERAND);
 	if (ft_strcmp_unquoted(arg, "&&", is_quoted) == OK)
 		return (AND_OPERAND);
-	if (ft_strcmp_unquoted(arg, ";", is_quoted) == OK)
+	if (shell->enable_semicolons && \
+		ft_strcmp_unquoted(arg, ";", is_quoted) == OK)
 		return (SEMICOLON);
 	return (OK);
 }
@@ -52,7 +53,7 @@ int	ft_count_operands(t_shell *shell)
 			shell->tab[i] = &shell->tab[i][1];
 			count++;
 		}
-		if (ft_is_it_operand(shell->tab[i], shell->is_quoted[i]))
+		if (ft_is_it_operand(shell->tab[i], shell->is_quoted[i], shell))
 			count++;
 	}
 	return (count);
@@ -71,7 +72,7 @@ int	ft_find_op_lenght(char **tab, t_shell *shell, int i)
 	lenght = 0;
 	while (tab[i])
 	{
-		if (ft_is_it_operand(tab[i], shell->is_quoted[i]))
+		if (ft_is_it_operand(tab[i], shell->is_quoted[i], shell))
 			return (lenght);
 		lenght++;
 		i++;

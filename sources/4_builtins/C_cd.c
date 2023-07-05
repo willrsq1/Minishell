@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 02:30:12 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/30 11:50:33 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/07/05 12:42:46 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ static void	ft_cd_special_args(t_shell *shell, char *var)
 	ft_export(shell, shell->tab, shell->envp);
 	shell->tab[1] = ft_strcat("PWD=", new_pwd, shell);
 	ft_export(shell, shell->tab, shell->envp);
+	printf("DONE\n");
 }
 
 static int	ft_cd_spe_args_error_message(char *var)

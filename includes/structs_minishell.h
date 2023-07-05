@@ -13,11 +13,13 @@
 #ifndef STRUCTS_MINISHELL_H
 # define STRUCTS_MINISHELL_H
 
+# define HEREDOC_IN_PIPES -2
 # define FAIL -1
 # define NO_REDI -1
 # define NO_HEREDOC -1
 # define OK 0
 # define NO_VALUE 0
+# define CHILD 0
 # define ERROR 1
 # define SYNTAX_ERROR 2
 # define DIRECTORY_ERROR 126
@@ -61,6 +63,7 @@ typedef struct s_shell
 	int				show_tokens_operands;
 	int				show_exit_status;
 	int				exit_after_first_input;
+	int				enable_semicolons;
 }		t_shell;
 
 typedef struct s_pipex

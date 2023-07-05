@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 16:12:41 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/25 12:28:55 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/07/05 12:18:09 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*ft_weird_realloc_thing(char *initial, int added_len, t_shell *shell)
 	}
 }
 
-int	ft_len_without_quotes(char *s)
+int	ft_len_without_quotes(char *s, t_shell *shell)
 {
 	int	i;
 
@@ -56,7 +56,11 @@ int	ft_len_without_quotes(char *s)
 	while (s[i] && s[i] != ' ' && s[i] != '<' && s[i] != '>' && \
 		s[i] != '"' && s[i] != '\'' && s[i] != '|' && \
 		s[i] != '&' && s[i] != ';' && s[i] != '$')
-		i++;
+		{
+			if (shell->enable_semicolons && s[i] == ';')
+				break ;
+			i++;
+		}
 	return (i);
 }
 
@@ -73,17 +77,17 @@ int	ft_len_within_quotes(char *s)
 	return (i + 1);
 }
 
-int	ft_break_split_loop(char *s, int i)
+int	ft_break_split_loop(char *s, int i, t_shell *shell)
 {
 	if ((i > 0 && !s[i - 1]) || !s[i] || s[i] == ' ' || s[i - 1] == '<' \
-		|| s[i - 1] == ';' || \
+		|| (s[i - 1] == ';' && shell->enable_semicolons) || \
 		s[i - 1] == '>' || s[i - 1] == '|' || s[i - 1] == '&')
 		return (OK);
 	if ((s[i - 1] == '"' || s[i - 1] == '\'') && (s[i] == '<' || \
 		s[i] == '>'))
 		return (OK);
 	if (s[i] == '|' || s[i] == '<' || s[i] == '>' || s[i] == '&' \
-		|| s[i] == ';')
+		|| (s[i] == ';' && shell->enable_semicolons))
 		return (OK);
 	return (ERROR);
 }

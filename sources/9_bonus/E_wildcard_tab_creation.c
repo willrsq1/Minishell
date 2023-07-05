@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 10:02:39 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/07/03 03:07:11 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/07/03 22:12:39 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ char	**ft_wildc_new_init(int count, t_wildc *first, \
 	char	**new;
 
 	new = ft_calloc(sizeof(char *) * (count + 1), shell);
-	new[count] = NULL;
 	count = 0;
 	first = first->next;
 	while (first)
@@ -90,10 +89,11 @@ static int	ft_new_tab_filling(char **new_args, char **tab, \
 	return (new_pos);
 }
 
-static int	ft_get_i_widlcard_new_tab(char **tab, t_shell *shell, int **new_is_quoted)
+static int	ft_get_i_widlcard_new_tab(char **tab, t_shell *shell, \
+	int **new_is_quoted)
 {
 	int	i;
-	
+
 	i = -1;
 	while (tab[++i] && !(find_wildcard(tab[i], shell, i)))
 	{

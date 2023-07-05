@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 00:13:01 by root              #+#    #+#             */
-/*   Updated: 2023/07/03 02:07:13 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/07/03 21:46:34 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	ft_pipex(int number_of_pipes, t_shell *shell, char **envp)
 
 	p = ft_calloc(sizeof(t_pipex), shell);
 	p->nb_cmds = number_of_pipes + 1;
-	printf("%d\n", p->nb_cmds);
 	shell->pipex = p;
 	p->shell = shell;
 	ft_pipex_initialisation(p);
@@ -46,9 +45,9 @@ static void	ft_forking(t_pipex *p, char **envp)
 		if (i < p->nb_cmds - 1)
 			ft_pipe(p->pipe[i], p->shell);
 		p->forks_id[i] = fork();
-		if (p->forks_id[i] == -1)
+		if (p->forks_id[i] == FAIL)
 			ft_end_program(p->shell, ERROR, EXIT_FAILURE);
-		if (p->forks_id[i] == 0)
+		if (p->forks_id[i] == CHILD)
 			ft_fork_loop(p, envp, i);
 		if (i < p->nb_cmds - 1 && reading(p, i))
 			close(p->pipe[i][1]);
@@ -67,7 +66,9 @@ static void	ft_fork_loop(t_pipex *p, char **envp, int i)
 	if (ft_special_operands(p->shell, envp) || \
 		ft_variables_substitution(p->shell))
 		ft_end_program(p->shell, OK, g_exit_code);
-	ft_wildcards_handling(p->shell, p->shell->tab);
+	ft_wildcards_handling(p->shell, p->commands[i]);
+	p->commands[i] = p->shell->tab;
+	p->is_quoted[i] = p->shell->is_quoted;
 	ft_check_for_redirections(p, i);
 	ft_dup2_exec_pipes(p, i);
 	if (ft_builtins_in_child(p->shell, p->commands[i], envp) == OK || \
@@ -92,7 +93,7 @@ static void	ft_check_for_redirections(t_pipex *p, int i)
 	ft_get_redi(shell);
 	if (shell->infile != FAIL)
 		p->fds[i][0] = p->shell->infile;
-	if (shell->infile == -2)
+	if (shell->infile == HEREDOC_IN_PIPES)
 		p->fds[i][0] = p->heredoc_fds[i];
 	if (shell->outfile != FAIL)
 		p->fds[i][1] = p->shell->outfile;
@@ -111,7 +112,13 @@ static void	ft_dup2_exec_pipes(t_pipex *p, int i)
 		p->fds[i][1] = p->pipe[i][1];
 	}
 	if (dup2(p->fds[i][0], STDIN_FILENO) == FAIL)
-		ft_end_program(p->shell, ERROR, EXIT_FAILURE);
+	{
+		perror(ft_strcat("dup 2: ", ft_itoa(p->fds[i][0], p->shell), p->shell));
+		ft_end_program(p->shell, OK, EXIT_FAILURE);
+	}
 	if (dup2(p->fds[i][1], STDOUT_FILENO) == FAIL)
+	{
+		perror(ft_strcat("dup 2: ", ft_itoa(p->fds[i][1], p->shell), p->shell));
 		ft_end_program(p->shell, ERROR, EXIT_FAILURE);
+	}
 }

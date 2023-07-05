@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:50:19 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/30 16:47:33 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/07/05 12:36:20 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ void	ft_create_prompt(t_shell *shell, char **envp, char **argv)
 	shell->buff = readline(prompt);
 	if (!shell->buff)
 		ft_exit(shell, envp);
-	add_history(shell->buff);
+	if (shell->buff[0])
+		add_history(shell->buff);
 }
 
 static char	*ft_get_cwd_in_prompt(t_shell *shell)

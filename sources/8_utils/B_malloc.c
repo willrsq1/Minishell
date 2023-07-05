@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 08:10:57 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/07/03 01:41:39 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/07/03 21:47:06 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,6 @@ static void	ft_ptr_list(t_shell *shell, void *ptr)
 		shell->to_be_freed_list = to_be_freed_lst;
 		return ;
 	}
-	// temp = shell->to_be_freed_list;
-	// while (temp && temp->next)
-	// 	temp = temp->next;
 	temp->next = to_be_freed_lst;
 	temp = temp->next;
 }

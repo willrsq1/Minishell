@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:47:15 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/07/03 03:05:17 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/07/03 22:14:19 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static int	ft_var(t_shell *shell, int i, int y)
 	char	*arg;
 	int		*is_quoted;
 
-	arg = shell->tab[i],
+	arg = shell->tab[i];
 	is_quoted = shell->is_quoted[i];
 	var = ft_get_var_name(shell, &arg[y], &is_quoted[y]);
 	if (!var)

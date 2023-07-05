@@ -82,7 +82,7 @@ void	ft_pipex(int argc, t_shell *shell, char **envp);
 /*		D_EXEC_PIPES_UTILS.C */
 
 void	ft_pipex_initialisation(t_pipex *p);
-void	ft_split_tab_in_pipex_tabs(int number_of_cmds, t_pipex *p, t_shell *shell);
+void	ft_split_tab_in_pipex_tabs(int nb_of_cmds, t_pipex *p, t_shell *shell);
 void	ft_get_heredocs_pipex(t_pipex *p, int i);
 void	ft_close_pipes(int i, t_pipex *p);
 
@@ -202,9 +202,9 @@ char	**ft_split_minishell(char *s, char c, t_shell *shell);
 /* 		B_FT_SPLIT_MINISHELL_UTILS.C */
 
 char	*ft_weird_realloc_thing(char *initial, int added_len, t_shell *shell);
-int		ft_len_without_quotes(char *s);
+int		ft_len_without_quotes(char *s, t_shell *shell);
 int		ft_len_within_quotes(char *s);
-int		ft_break_split_loop(char *s, int i);
+int		ft_break_split_loop(char *s, int i, t_shell *shell);
 int		parenthesis(t_split split, t_shell *shell, char **tab, int i);
 
 /*		C_FUNCTS.C */
@@ -300,7 +300,7 @@ int		find_wildcard(char *arg, t_shell *shell, int i);
 
 /*		B_OPERANDS_UTILS.C */
 
-int		ft_is_it_operand(char *arg, int *is_quoted);
+int		ft_is_it_operand(char *arg, int *is_quoted, t_shell *shell);
 int		ft_count_operands(t_shell *shell);
 int		ft_find_op_lenght(char **tab, t_shell *shell, int i);
 

@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 20:56:19 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/30 11:46:49 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/07/03 22:09:35 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ static char	**fix_tab(t_shell *shell, char **tab);
 int	tab_creation(t_shell *shell, char *buff)
 {
 	char	**tab;
-	int		return_result;
 
 	shell->tab = NULL;
 	tab = ft_create_tab(shell, buff);
@@ -30,10 +29,7 @@ int	tab_creation(t_shell *shell, char *buff)
 	tab = quotes_management(shell, tab);
 	shell->tab = tab;
 	shell->buff = buff;
-	return_result = ft_syntax_error(tab, shell);
-	if (return_result != OK)
-		return (return_result);
-	return (OK);
+	return (ft_syntax_error(tab, shell));
 }
 
 static char	**ft_create_tab(t_shell *shell, char *buff)

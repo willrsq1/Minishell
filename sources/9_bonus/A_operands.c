@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 23:05:03 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/29 22:34:19 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/07/05 11:59:41 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static char	***ft_create_operands_tab(t_shell *shell, char **tab, int count)
 		w = -1;
 		op_tab[++y] = ft_calloc(sizeof(char *) * \
 			(1 + ft_find_op_lenght(tab, shell, i)), shell);
-		while (tab[i] && !ft_is_it_operand(tab[i], shell->is_quoted[i]))
+		while (tab[i] && !ft_is_it_operand(tab[i], shell->is_quoted[i], shell))
 			op_tab[y][++w] = tab[i++];
 		if (!tab[i])
 			break ;
@@ -92,7 +92,7 @@ static int	***ft_create_op_is_quoted(t_shell *shell, char **tab, int count)
 		w = -1;
 		op_tab[++y] = ft_calloc(sizeof(int *) * \
 			(1 + ft_find_op_lenght(tab, shell, i)), shell);
-		while (tab[i] && !ft_is_it_operand(tab[i], shell->is_quoted[i]))
+		while (tab[i] && !ft_is_it_operand(tab[i], shell->is_quoted[i], shell))
 			op_tab[y][++w] = shell->is_quoted[i++];
 		if (!tab[i])
 			break ;
@@ -111,11 +111,11 @@ static int	*ft_get_op_options(t_shell *shell, char **tab, int count)
 	y = -1;
 	while (tab[++i])
 	{
-		while (tab[i] && !ft_is_it_operand(tab[i], shell->is_quoted[i]))
+		while (tab[i] && !ft_is_it_operand(tab[i], shell->is_quoted[i], shell))
 			i++;
 		if (!tab[i])
 			break ;
-		options[++y] = ft_is_it_operand(tab[i], shell->is_quoted[i]);
+		options[++y] = ft_is_it_operand(tab[i], shell->is_quoted[i], shell);
 	}
 	return (options);
 }
