@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 09:34:25 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/07/05 12:31:00 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/07/23 23:44:37 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,18 @@ void	ft_initialize_shell(t_shell *shell, int argc, char **argv, char **envp)
 	g_exit_code = 0;
 	envp = ft_new_envp(envp);
 	shell->envp = envp;
-	ft_signal(shell);
+	ft_signal();
 	ft_shlvl(envp);
-	ft_initializing_options(shell, argc, argv);
-}
-
-static void	ft_initializing_options(t_shell *shell, int argc, char **argv)
-{
 	shell->show_exit_status = 0;
 	shell->show_tokens = 0;
 	shell->show_tokens_operands = 0;
 	shell->exit_after_first_input = 0;
 	shell->enable_semicolons = 0;
+	ft_initializing_options(shell, argc, argv);
+}
+
+static void	ft_initializing_options(t_shell *shell, int argc, char **argv)
+{
 	while (--argc > 0)
 	{
 		if (!ft_strcmp(argv[argc], "--show-exit-status") && \

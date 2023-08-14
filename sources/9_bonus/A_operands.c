@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 23:05:03 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/07/05 11:59:41 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/07/26 21:46:36 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	ft_special_operands(t_shell *shell, char **envp)
 		shell->tab = operands_tab[w];
 		shell->is_quoted = operands_is_quoted[w];
 		shell->buff = ft_join_tab(operands_tab[w], shell);
-		ft_do_the_execve_thing(shell, envp);
+		ft_minishell(shell, envp);
 		ft_close_all_fds(shell);
 		w = ft_special_operands_actions(options, w);
 	}

@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 03:44:56 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/28 02:35:22 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/07/26 21:45:16 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ static void	fill_is_quoted_loop(char **tab, int **is_quoted, int i, char c)
 		{
 			ft_delete_char(&tab[i][y]);
 			c = ft_which_quote(&tab[i][y]);
-			if (tab[i][y] == c && quote++ > -1)
+			if (tab[i][y] == c && ++quote)
 				ft_delete_char(&tab[i][y--]);
 		}
 		else if (tab[i][y] == c && quote % 2 == 0 && ++quote)

@@ -13,7 +13,6 @@ SRC_PATH  = sources
 
 ### SOURCE FILES ###
 SOURCES =     		main.c \
-					signal.c \
 					1_init/A_tab_creation.c \
 					1_init/B_quote_handling.c \
 					1_init/C_syntax_check.c \
@@ -39,6 +38,7 @@ SOURCES =     		main.c \
 					5_variable_replacement/B_var_substitution.c \
 					5_variable_replacement/C_exit_value_var.c \
 					5_variable_replacement/D_var_utils.c \
+					6_signal/signal.c \
 					7_libft_minishell/gnl/get_next_line.c \
 					7_libft_minishell/gnl/get_next_line_utils.c \
 					7_libft_minishell/A_ft_split_minishell.c \

@@ -6,11 +6,13 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 21:08:45 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/07/03 22:14:34 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/07/09 12:53:23 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+/*	OPEN RDONLY, returns the fd to the infile variable, removes the tokens. */
 
 void	ft_infile(t_shell *shell, int i)
 {
@@ -26,6 +28,8 @@ void	ft_infile(t_shell *shell, int i)
 	return ;
 }
 
+/*	OPEN APPEND OR TRUNC, returns the fd, removes the tokens of the redi. */
+
 void	ft_outfile(t_shell *shell, int i, int option)
 {
 	char	**tab;
@@ -39,6 +43,8 @@ void	ft_outfile(t_shell *shell, int i, int option)
 	shell->outfile = fd;
 	return ;
 }
+
+/*	Open the file specified, dup2 the fd onto it. */
 
 void	ft_infile_with_fd(t_shell *shell, int i, int file_fd)
 {
@@ -58,6 +64,8 @@ void	ft_infile_with_fd(t_shell *shell, int i, int file_fd)
 	ft_add_tbc_list(fd, shell);
 	return ;
 }
+
+/*	Open the file specified, dup2 the fd onto it. */
 
 void	ft_outfile_with_fd(t_shell *shell, int i, int file_fd, int option)
 {

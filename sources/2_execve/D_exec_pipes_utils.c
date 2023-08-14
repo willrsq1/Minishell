@@ -14,7 +14,9 @@
 
 static int	get_size_until_pipe(t_shell *shell, int lign);
 
-void	ft_pipex_initialisation(t_pipex *p)
+/*	Setss up the pipex struct. */
+
+void	execution_with_pipes_initialisation(t_pipex *p)
 {
 	int	i;
 
@@ -35,6 +37,11 @@ void	ft_pipex_initialisation(t_pipex *p)
 	}
 	p->fds[i] = ft_calloc(sizeof(int) * 2, p->shell);
 }
+
+/*	Divides the char **tab input into a char ***tab.
+	Parses the input; put each token into its new tab;
+		When a pipe is encountered, create a new tab for the tokens to come.
+	Does this "big split" for is_quoted as well.*/
 
 void	ft_split_tab_in_pipex_tabs(int nb_of_cmds, t_pipex *p, t_shell *shell)
 {
@@ -62,6 +69,8 @@ void	ft_split_tab_in_pipex_tabs(int nb_of_cmds, t_pipex *p, t_shell *shell)
 	}
 }
 
+/*	Returns the number of tokens before the pipe. */
+
 static int	get_size_until_pipe(t_shell *shell, int i)
 {
 	int	nb;
@@ -75,6 +84,11 @@ static int	get_size_until_pipe(t_shell *shell, int i)
 	}
 	return (nb);
 }
+
+/* Setups all the fds[x][y] to -1 (FAIL) except for those that can't be pipes.
+	Gets the heredocs fds into a tab. However, the heredocs tokens won't
+		be removed. But the reads(0) happend here.
+	The stored fds will be accessed later, in the child processes. */
 
 void	ft_get_heredocs_pipex(t_pipex *p, int i)
 {
@@ -103,6 +117,10 @@ void	ft_get_heredocs_pipex(t_pipex *p, int i)
 			p->heredoc_fds[i] = p->shell->infile;
 	}
 }
+
+/*	Waits for all childs to finish.
+	Gets the exit status.
+	If SIGINT happens, only write one '\n'. */
 
 void	ft_close_pipes(int i, t_pipex *p)
 {

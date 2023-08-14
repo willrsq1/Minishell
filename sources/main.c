@@ -27,7 +27,7 @@ int	main(int argc, char **argv, char **envp)
 	{
 		ft_create_prompt(&shell, envp, argv);
 		if (shell.buff[0])
-			ft_do_the_execve_thing(&shell, envp);
+			ft_minishell(&shell, envp);
 		ft_close_all_fds(&shell);
 		ft_clear_memory(&shell);
 		ft_reset_shell(&shell);

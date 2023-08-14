@@ -6,11 +6,16 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 15:35:05 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/28 04:02:57 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/07/09 12:51:56 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+/*	Gets all the heredocs of the input. Returns the read end of the last pipe.
+	Is used for both execution with and without pipes.
+	Is used in a loop by the execution with pipes, to get all heredocs before
+		forking.*/
 
 void	ft_get_heredocs(t_shell *shell)
 {
@@ -33,6 +38,8 @@ void	ft_get_heredocs(t_shell *shell)
 			i = ft_dup_heredoc_pipex(tab, i, shell);
 	}
 }
+
+/*	Reads from STDIN until delimiter with '\n' is found. */
 
 int	ft_heredoc(char *delimiter, t_shell *shell)
 {
@@ -63,6 +70,8 @@ int	ft_heredoc(char *delimiter, t_shell *shell)
 	return (free(buffer), shell->pipe_heredoc[0]);
 }
 
+/*	Opens a heredoc and dups it onto the file specified. */
+
 int	ft_dup_heredoc_pipex(char **tab, int i, t_shell *shell)
 {
 	int	y;
@@ -78,6 +87,8 @@ int	ft_dup_heredoc_pipex(char **tab, int i, t_shell *shell)
 	}
 	return (i);
 }
+
+/*	If the user inputs it, refuse to execute it. Follow through though. */
 
 void	heredoc_dup_error(t_shell *shell, char **tab, int i, int file_fd)
 {

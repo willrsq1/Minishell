@@ -85,4 +85,3 @@ exit
 exit
  wc Makefile | ls |ls |cat | cat
 ./l
-exit -398289893289

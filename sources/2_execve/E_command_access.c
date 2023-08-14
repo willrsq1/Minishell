@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 12:52:01 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/07/03 03:58:24 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/07/09 12:54:21 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 static int	ft_get_cmd_p2(t_pipex *p, int index);
 static int	ft_get_cmd_err_check(t_pipex *p, t_shell *shell, char *cmd);
 static void	ft_get_cmd_error_check_special_cases(t_shell *shell, char *cmd);
+
+/*	Gets the paths from $PATH env variable into a char **tab. */
 
 void	ft_get_envp_paths(t_pipex *p, char **envp)
 {
@@ -32,6 +34,13 @@ void	ft_get_envp_paths(t_pipex *p, char **envp)
 	envp2 = envp[i] + 5;
 	p->paths = ft_split(envp2, ':', p->shell);
 }
+
+/*	Checks for access of the command.
+	1) If no token, exit.
+	2) If the token is an empty input, but quoted, triggers the first return.
+	3) ft_get_cmd_p2 checks all sorts of stuff for the command.
+		If it returns ERROR, the command is not accessible.
+		Otherwise, it has been found and is ready to be executed. */
 
 int	ft_get_cmd(t_pipex *p, int i)
 {
@@ -60,6 +69,13 @@ int	ft_get_cmd(t_pipex *p, int i)
 	return (OK);
 }
 
+/*	Checks for special cases and access the commands when joined with PATHS.
+	1) If the command starts with a '.' or a '/', apply a special funct.
+	2) If the command is a regular one, checks for its executability.
+		Tries with all paths until one works.
+		If no one works, tries the command without paths.
+		If nothing works, returns ERROR.*/
+
 static int	ft_get_cmd_p2(t_pipex *p, int index)
 {
 	char	*path_tested;
@@ -87,6 +103,8 @@ static int	ft_get_cmd_p2(t_pipex *p, int index)
 	return (ERROR);
 }
 
+/*	Cases handled : ".", DIRECTORIES, "..", ".xxx". */
+
 static int	ft_get_cmd_err_check(t_pipex *p, t_shell *shell, char *cmd)
 {
 	char	*buff;
@@ -110,8 +128,12 @@ static int	ft_get_cmd_err_check(t_pipex *p, t_shell *shell, char *cmd)
 		ft_end_program(shell, OK, COMMAND_ERROR);
 	}
 	access(cmd, X_OK);
-	return (ft_end_program(shell, ERROR, PERMISSION_ERROR), FAIL);
+	cmd = ft_strcat(cmd, "\033[0;31m", shell);
+	perror(ft_strcat("Minishell: ", cmd, shell));
+	return (ft_end_program(shell, OK, PERMISSION_ERROR), FAIL);
 }
+
+/* Handles DIRECTORY cases and the ".." case. */
 
 static void	ft_get_cmd_error_check_special_cases(t_shell *shell, char *cmd)
 {

@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:47:15 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/07/03 22:14:19 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/07/17 20:23:27 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static int	ft_var(t_shell *shell, int i, int y)
 	envp_lign = ft_var_get_envp_lign(shell->envp, var);
 	if (envp_lign == FAIL)
 	{
-		ft_var_not_found(&arg[y], &is_quoted[y]);
+		ft_not_an_existing_var(&arg[y], &is_quoted[y]);
 		return (y - 1);
 	}
 	z = 0;

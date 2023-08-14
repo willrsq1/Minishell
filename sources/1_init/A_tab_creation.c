@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 20:56:19 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/07/03 22:09:35 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/07/09 00:15:12 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,11 @@ static char	**ft_create_tab(t_shell *shell, char *buff);
 static int	ft_count_quotes(char *buff, t_shell *shell);
 static void	count_quotes_perror(int quote, char c, t_shell *shell);
 static char	**fix_tab(t_shell *shell, char **tab);
+
+/*	Creates the tab, returns ERROR if something went wrong.
+	Manages the " " and ' ' empty arg, resizing the tab if needed.
+	Gets rid of the quoted, creates the is_quoted tab.
+	Checks for syntax errors and returns its result. */
 
 int	tab_creation(t_shell *shell, char *buff)
 {

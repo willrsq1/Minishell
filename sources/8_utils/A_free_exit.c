@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 18:29:00 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/28 03:55:27 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/08/14 20:48:14 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	ft_end_program(t_shell *shell, int mode, int err)
 	if (err == FAIL)
 		err = EXIT_FAILURE;
 	if (mode == ERROR)
-		perror("Minishell");
+		perror("Minishell: error: fatal");
 	g_exit_code = err;
 	if (shell->no_exit == OK)
 		rl_clear_history();

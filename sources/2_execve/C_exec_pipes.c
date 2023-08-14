@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 00:13:01 by root              #+#    #+#             */
-/*   Updated: 2023/07/03 21:46:34 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/07/24 00:42:08 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	ft_fork_loop(t_pipex *p, char **envp, int i);
 static void	ft_check_for_redirections(t_pipex *p, int i);
 static void	ft_dup2_exec_pipes(t_pipex *p, int i);
 
-void	ft_pipex(int number_of_pipes, t_shell *shell, char **envp)
+void	execution_with_pipes(int number_of_pipes, t_shell *shell, char **envp)
 {
 	t_pipex	*p;
 
@@ -25,7 +25,7 @@ void	ft_pipex(int number_of_pipes, t_shell *shell, char **envp)
 	p->nb_cmds = number_of_pipes + 1;
 	shell->pipex = p;
 	p->shell = shell;
-	ft_pipex_initialisation(p);
+	execution_with_pipes_initialisation(p);
 	ft_split_tab_in_pipex_tabs(p->nb_cmds, p, shell);
 	ft_get_envp_paths(p, envp);
 	g_exit_code = 0;
@@ -55,7 +55,7 @@ static void	ft_forking(t_pipex *p, char **envp)
 	signal(SIGINT, SIG_IGN);
 	ft_close_all_fds(p->shell);
 	ft_close_pipes(i, p);
-	ft_signal(p->shell);
+	ft_signal();
 }
 
 static void	ft_fork_loop(t_pipex *p, char **envp, int i)
@@ -75,7 +75,6 @@ static void	ft_fork_loop(t_pipex *p, char **envp, int i)
 		ft_builtins(p->shell, p->commands[i], envp) == OK || \
 		ft_get_cmd(p, i) == ERROR)
 		ft_end_program(p->shell, OK, g_exit_code);
-	write(1, "\x1b[32m", 6);
 	execve(p->cmd, p->commands[i], envp);
 	ft_end_program(p->shell, ERROR, EXIT_FAILURE);
 }

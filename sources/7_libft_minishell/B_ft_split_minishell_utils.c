@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 16:12:41 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/07/05 12:18:09 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/07/06 14:18:39 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,11 @@ int	ft_len_without_quotes(char *s, t_shell *shell)
 	while (s[i] && s[i] != ' ' && s[i] != '<' && s[i] != '>' && \
 		s[i] != '"' && s[i] != '\'' && s[i] != '|' && \
 		s[i] != '&' && s[i] != ';' && s[i] != '$')
-		{
-			if (shell->enable_semicolons && s[i] == ';')
-				break ;
-			i++;
-		}
+	{
+		if (shell->enable_semicolons && s[i] == ';')
+			break ;
+		i++;
+	}
 	return (i);
 }
 

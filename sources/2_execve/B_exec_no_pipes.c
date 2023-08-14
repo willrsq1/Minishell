@@ -5,17 +5,29 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/02 00:14:46 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/07/03 21:45:31 by wruet-su         ###   ########.fr       */
+/*   Created: 2023/07/06 14:20:07 by wruet-su          #+#    #+#             */
+/*   Updated: 2023/08/06 19:48:23 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 static void	get_cmd_no_pipes(t_shell *shell, char **envp);
-static void	ft_waitpid_no_pipes(t_shell *shell, pid_t pid);
+static void	ft_waitpid_no_pipes(pid_t pid);
 
-void	exec_no_pipes(t_shell *shell, char **envp)
+/*	Executes the input. The input doesn't have any pipes.
+	STDIN and STDOUT are the initial inputs and outputs.
+	First, checks for bonuses part; "&&" and "||".
+	Second, substitutes the $XXX variables.
+	If any of those return something other than 0, the execution stops.
+	Third, gets the heredocs. Stops the exec if they were Ctrl + C'd.
+	Fourth, checks for outside-of-shild builtins: exit, cd, export, unset.
+	Fifth, child creation and execution: find redirections, dup2 the final fds,
+	checks for in-child builtins (pwd, echo, env); if no builtins, gets the cmd.
+	If execve fails, exit the child.
+	In the parent, wait for the child to finish. */
+
+void	execution_no_pipes(t_shell *shell, char **envp)
 {
 	pid_t	pid;
 
@@ -30,16 +42,18 @@ void	exec_no_pipes(t_shell *shell, char **envp)
 	if (pid == 0)
 	{
 		ft_get_redi(shell);
-		ft_dup2_exec_no_pipes(shell);
+		ft_dup2_execution_no_pipes(shell);
 		if (ft_builtins_in_child(shell, shell->tab, envp) == OK)
 			ft_end_program(shell, OK, g_exit_code);
 		get_cmd_no_pipes(shell, envp);
-		write(1, "\x1b[32m", 6);
 		execve(shell->no_pipes_cmd, shell->tab, envp);
 		ft_end_program(shell, ERROR, EXIT_FAILURE);
 	}
-	ft_waitpid_no_pipes(shell, pid);
+	ft_waitpid_no_pipes(pid);
 }
+
+/*	Gets the PATHS from envp, looks for access to the command.
+	If something goes wrong, exit the child. Otherwise, the command is ready. */
 
 static void	get_cmd_no_pipes(t_shell *shell, char **envp)
 {
@@ -58,7 +72,11 @@ static void	get_cmd_no_pipes(t_shell *shell, char **envp)
 	shell->no_pipes_cmd = pipex->cmd;
 }
 
-void	ft_dup2_exec_no_pipes(t_shell *shell)
+/*	If no redirections were found, infile and outfile are still uninitialized.
+	Sets them to 0 and 1 if so.
+	Dup2 the fds; if redirections were found, their fds are these variables. */
+
+void	ft_dup2_execution_no_pipes(t_shell *shell)
 {
 	if (shell->infile == FAIL)
 		shell->infile = STDIN_FILENO;
@@ -76,7 +94,10 @@ void	ft_dup2_exec_no_pipes(t_shell *shell)
 	}
 }
 
-static void	ft_waitpid_no_pipes(t_shell *shell, pid_t pid)
+/*	Disables SIGINT, waits for the child to end.
+	Gets the exit_status and renables SIGINT. */
+
+static void	ft_waitpid_no_pipes(pid_t pid)
 {
 	int	status;
 
@@ -87,5 +108,5 @@ static void	ft_waitpid_no_pipes(t_shell *shell, pid_t pid)
 		g_exit_code = SIGINT_EXITVALUE;
 	if (WIFEXITED(status))
 		g_exit_code = WEXITSTATUS(status);
-	ft_signal(shell);
+	ft_signal();
 }

@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 14:24:40 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/07/05 12:11:05 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/07/26 21:46:36 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,13 @@
 
 static int	ft_count_pipes(t_shell *shell);
 
-void	ft_do_the_execve_thing(t_shell *shell, char **envp)
+/*	Everything is launched from there.
+	Creates the char **tab of tokens, and its int **is_quoted.
+	If the creation has an issue (syntax, quotes), the execution stops.
+	Resets redirections; prints tokens it the option is activated.
+	Two possible paths to execution, depending on whether there are pipes. */
+
+void	ft_minishell(t_shell *shell, char **envp)
 {
 	int	number_of_pipes;
 
@@ -26,14 +32,16 @@ void	ft_do_the_execve_thing(t_shell *shell, char **envp)
 	shell->outfile = NO_REDI;
 	number_of_pipes = ft_count_pipes(shell);
 	if (number_of_pipes > 0)
-		ft_pipex(number_of_pipes, shell, envp);
+		execution_with_pipes(number_of_pipes, shell, envp);
 	else
-		exec_no_pipes(shell, envp);
+		execution_no_pipes(shell, envp);
 	if (shell->show_exit_status)
 		printf("		\x1b[0mThe exit status is = %d\n\n", g_exit_code);
 	if (shell->exit_after_first_input)
 		ft_end_program(shell, OK, g_exit_code);
 }
+
+/*	If unquoted pipes are found, the execution will be done differently. */
 
 static int	ft_count_pipes(t_shell *shell)
 {

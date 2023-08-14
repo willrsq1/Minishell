@@ -6,11 +6,14 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:36:59 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/29 01:00:25 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/07/23 23:57:22 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+/*	pwd builtin.
+	Prints the pwd goten from getcwd system funct. */
 
 int	ft_pwd(void)
 {

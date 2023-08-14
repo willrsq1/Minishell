@@ -28,10 +28,11 @@
 # include <limits.h>
 
 /*		MAIN.C */
+
 extern int	g_exit_code;
 
 // int		main(int argc, char **argv, char **envp);
-void	ft_signal(t_shell *shell);
+void	ft_signal(void);
 
 /* ------------------------------------------------------------------------- */
 /* -------------------------- 1_INIT --------------------------------------- */
@@ -68,20 +69,20 @@ int		ft_is_token_operand(char *arg, int *is_quoted);
 
 /*		A_EXECUTION.C */
 
-void	ft_do_the_execve_thing(t_shell *shell, char **envp);
+void	ft_minishell(t_shell *shell, char **envp);
 
-/*		B_EXEC_NO_PIPES.C */
+/*		B_execution_no_pipes.C */
 
-void	exec_no_pipes(t_shell *shell, char **envp);
-void	ft_dup2_exec_no_pipes(t_shell *shell);
+void	execution_no_pipes(t_shell *shell, char **envp);
+void	ft_dup2_execution_no_pipes(t_shell *shell);
 
 /*		C_EXEC_PIPES.C */
 
-void	ft_pipex(int argc, t_shell *shell, char **envp);
+void	execution_with_pipes(int argc, t_shell *shell, char **envp);
 
 /*		D_EXEC_PIPES_UTILS.C */
 
-void	ft_pipex_initialisation(t_pipex *p);
+void	execution_with_pipes_initialisation(t_pipex *p);
 void	ft_split_tab_in_pipex_tabs(int nb_of_cmds, t_pipex *p, t_shell *shell);
 void	ft_get_heredocs_pipex(t_pipex *p, int i);
 void	ft_close_pipes(int i, t_pipex *p);
@@ -176,7 +177,7 @@ char	*ft_get_var_name(t_shell *shell, char *arg, int *is_quoted);
 int		ft_var_get_envp_lign(char **envp, char *var_name);
 int		reading(t_pipex *pipex, int i);
 void	ft_remove_one_token(t_shell *shell, int i, int y);
-int		ft_var_not_found(char *arg, int *is_quoted);
+int		ft_not_an_existing_var(char *arg, int *is_quoted);
 char	**ft_export_sorted_tab(t_shell *shell, char **envp);
 
 /* ------------------------------------------------------------------------- */

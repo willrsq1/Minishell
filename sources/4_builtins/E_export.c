@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:37:03 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/30 01:00:39 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/07/23 23:56:03 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,12 @@ static void	ft_export_no_args(char **envp, t_shell *shell);
 static int	ft_export_check_arg(char *arg);
 static int	ft_export_var_location(char **envp, t_shell *shell, char *arg);
 static int	ft_export_get_envp_lign(char **envp, char *var_name);
+
+/*	Export builtin:
+	- If no args: prints the env.
+	- For each arg, checks its validity;
+		Then, finds the line in char **envp where it should go.
+		Finally, writes the arg to the accroding envp lign. */
 
 int	ft_export(t_shell *shell, char **tab, char **envp)
 {
@@ -45,6 +51,9 @@ int	ft_export(t_shell *shell, char **tab, char **envp)
 	return (OK);
 }
 
+/*	If no args: prints each lign of envp: inside db quotes, with
+	"declare -x" before. */
+
 static void	ft_export_no_args(char **envp, t_shell *shell)
 {
 	int		i;
@@ -69,6 +78,8 @@ static void	ft_export_no_args(char **envp, t_shell *shell)
 		printf("\n");
 	}
 }
+
+/*	Checks for bad inputs in the exported arg/variable. */
 
 static int	ft_export_check_arg(char *arg)
 {
@@ -98,6 +109,10 @@ static int	ft_export_check_arg(char *arg)
 	return (OK);
 }
 
+/*	Gets the new line to be written to.
+	If the line is empty, mallocs a new line. 
+	If we're reached the max size of the envp_tab, returns FAIL. */
+
 static int	ft_export_var_location(char **envp, t_shell *shell, char *arg)
 {
 	int		i;
@@ -110,7 +125,7 @@ static int	ft_export_var_location(char **envp, t_shell *shell, char *arg)
 	if (arg[i])
 		var_name[i] = '=';
 	i = ft_export_get_envp_lign(envp, var_name);
-	if (i == 936)
+	if (i == FILENAME_MAX)
 		return (write(2, "Max exports allowed reached\n", 29), FAIL);
 	if (i != FAIL && envp[i] == NULL)
 	{
@@ -121,6 +136,10 @@ static int	ft_export_var_location(char **envp, t_shell *shell, char *arg)
 	}
 	return (i);
 }
+
+/*	Returns the lign to put the arg to.
+	If the variable doesn't exit already, returns the last line. 
+	If no envp, returns -1 (FAIL).*/
 
 static int	ft_export_get_envp_lign(char **envp, char *var_name)
 {

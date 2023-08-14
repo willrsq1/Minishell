@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/25 15:27:41 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/30 11:47:43 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/07/17 20:23:27 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	ft_remove_one_token(t_shell *shell, int i, int y)
 	}
 }
 
-int	ft_var_not_found(char *arg, int *is_quoted)
+int	ft_not_an_existing_var(char *arg, int *is_quoted)
 {
 	int	i;
 	int	y;

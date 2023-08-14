@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 18:56:00 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/07/03 21:45:07 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/07/09 12:47:57 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,10 @@
 
 static int	ft_redirection_with_fd(char *arg, int i, t_shell *shell);
 static void	ft_heredoc_was_found(t_shell *shell, int i);
+
+/*	Gets all the redirections, one by one, and executes them.
+	Removes the redirections tokens from the input data.
+	If error, ends the execution.*/
 
 void	ft_get_redi(t_shell *shell)
 {
@@ -41,6 +45,10 @@ void	ft_get_redi(t_shell *shell)
 	}
 }
 
+/*	Checks for and executes "XXX>XXX" redirections.
+	Could be 2>err_file: this redirects stderr onto err_file.
+	Could be 7>fd_7, ect.*/
+
 static int	ft_redirection_with_fd(char *arg, int i, t_shell *shell)
 {
 	int		y;
@@ -64,6 +72,11 @@ static int	ft_redirection_with_fd(char *arg, int i, t_shell *shell)
 	return (0);
 }
 
+/*	When a heredoc is found here, its creation/writing to has already been done.
+	If pipex exists, the input contained pipes. The "HEREDOC_IN_PIPES" value
+		will make the program get the heredoc's fd in p->fds[i].
+	If the input is without pipes, we simply get the fd. */
+
 static void	ft_heredoc_was_found(t_shell *shell, int i)
 {
 	if (shell->pipex)
@@ -72,6 +85,10 @@ static void	ft_heredoc_was_found(t_shell *shell, int i)
 		shell->infile = shell->heredoc;
 	ft_remove_two_tokens(shell, i);
 }
+
+/*	Removes tab[i] and tab[i + 1] from the data.
+	They are not needed anymore because their redirection has happened.
+	We cant them out of the input now. */
 
 void	ft_remove_two_tokens(t_shell *shell, int i)
 {

@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:36:55 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/29 04:15:28 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/07/09 00:13:23 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,11 @@
 
 static void	ft_echo_option_no_new_line(char **tab);
 static void	ft_echo_no_option(char **tab);
+
+/*	Echo builtin:
+	If no arg, only print -n;
+	If first arg == -n, launch the no_new_line part.
+	Otherwise, args are present, and no options are activated: Regular launch.*/
 
 int	ft_echo(char **tab)
 {
@@ -30,12 +35,20 @@ int	ft_echo(char **tab)
 	return (OK);
 }
 
+/*	-n option part: prints the args without a newline at the end.
+	Starts at tab[2]: tab[0] is "echo", tab[1] is "-n".
+	Prints the args, followed by spaces if there is another arg after.
+	IF the arg is another "-n", or "-nnnnn" or any other nb of 'n' after a '-',
+	We won't print it. (that is what is checked in the second if).
+	This second if will only proc if no arg has been printed. */
+
 static void	ft_echo_option_no_new_line(char **tab)
 {
 	int	i;
 	int	y;
 
 	i = 2;
+	y = 0;
 	while (tab[i])
 	{
 		if (y != -42)
@@ -57,6 +70,8 @@ static void	ft_echo_option_no_new_line(char **tab)
 		i++;
 	}
 }
+
+/*	Prints the args, spaced, followed by newline. */
 
 static void	ft_echo_no_option(char **tab)
 {

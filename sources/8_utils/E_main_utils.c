@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:50:19 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/07/05 12:36:20 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/08/14 20:47:57 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ void	ft_shlvl(char **envp)
 {
 	int				i;
 	int				y;
-	unsigned int	level;
 	char			*new_lvl;
 
 	i = 0;
@@ -97,8 +96,7 @@ void	ft_shlvl(char **envp)
 		i++;
 	if (!envp[i])
 		return ;
-	level = ft_atoi(&envp[i][6], NULL, NULL, OK);
-	new_lvl = ft_itoa(level + 1, NULL);
+	new_lvl = ft_itoa(ft_atoi(&envp[i][6], NULL, NULL, OK) + 1, NULL);
 	if (!new_lvl)
 		return ;
 	y = -1;
@@ -106,4 +104,11 @@ void	ft_shlvl(char **envp)
 		envp[i][6 + y] = new_lvl[y];
 	envp[i][6 + y] = '\0';
 	free(new_lvl);
+	i = 0;
+	while (envp && envp[i] && ft_strncmp(envp[i], "SHELL=", 7))
+		i++;
+	if (!envp[i])
+		return ;
+	free(envp[i]);
+	envp[i] = ft_strdup("SHELL=Minishell", NULL);
 }
