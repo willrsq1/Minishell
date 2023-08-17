@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 13:07:00 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/30 11:48:18 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/08/17 16:03:22 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ int	ft_exit(t_shell *shell, char **envp)
 	buffer = ft_strdup("exit\n", shell);
 	if (!shell->pipex)
 		write(2, buffer, ft_strlen(buffer));
-	g_exit_code = OK;
 	if (shell->tab && shell->tab[1])
 	{
 		ft_exit_arg_handling(shell->tab, shell, 0, 1);
