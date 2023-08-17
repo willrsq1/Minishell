@@ -110,7 +110,7 @@ void	ft_outfile_with_fd(t_shell *shell, int i, int file_fd, int option);
 
 /*		C_HEREDOC.C */
 
-void	ft_get_heredocs(t_shell *shell);
+int		ft_get_heredocs(t_shell *shell);
 int		ft_heredoc(char *delimiter, t_shell *shell);
 void	heredoc_dup_error(t_shell *shell, char **tab, int i, int file_fd);
 int		ft_dup_heredoc_pipex(char **tab, int i, t_shell *shell);

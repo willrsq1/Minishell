@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:37:09 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/06/25 16:47:13 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/08/17 19:43:42 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ int	ft_unset(t_shell *shell, char **tab, char **envp)
 	int	y;
 
 	y = -1;
+	g_exit_code = OK;
 	while (tab[++y])
 	{
 		i = ft_unset_get_envp_lign(envp, tab[y]);

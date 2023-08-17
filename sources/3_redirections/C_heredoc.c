@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 15:35:05 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/07/09 12:51:56 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/08/17 19:58:39 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,26 +17,29 @@
 	Is used in a loop by the execution with pipes, to get all heredocs before
 		forking.*/
 
-void	ft_get_heredocs(t_shell *shell)
+int	ft_get_heredocs(t_shell *shell)
 {
 	int		i;
 	char	**tab;
 
 	tab = shell->tab;
 	i = -1;
-	while (tab[++i] && g_exit_code != SIGINT_EXITVALUE)
+	while (tab[++i])
 	{
 		if (ft_strcmp_unquoted(tab[i], "<<", shell->is_quoted[i]) == OK)
 		{
 			shell->heredoc = ft_heredoc(ft_strcat(tab[i + 1], "\n", shell), \
 				shell);
 			shell->infile = shell->heredoc;
+			if (shell->infile == SIGINT_EXITVALUE)
+				return (SIGINT_EXITVALUE);
 			i = i + 1;
 		}
 		else if (arg_is_unquoted(tab[i], shell->is_quoted[i]) == OK && \
 			ft_find_redi_with_fd(tab[i], 0))
 			i = ft_dup_heredoc_pipex(tab, i, shell);
 	}
+	return (0);
 }
 
 /*	Reads from STDIN until delimiter with '\n' is found. */
@@ -53,7 +56,7 @@ int	ft_heredoc(char *delimiter, t_shell *shell)
 		if (!buffer)
 		{
 			if (write(2, "\n", 2) && g_exit_code == SIGINT_EXITVALUE)
-				break ;
+				return (SIGINT_EXITVALUE);
 			write(2, "Minishell: warning: here-document delimited by ", 47);
 			write(2, "end-of-file (wanted `", 22);
 			delimiter[ft_strlen(delimiter) - 1] = '\0';
@@ -95,6 +98,8 @@ void	heredoc_dup_error(t_shell *shell, char **tab, int i, int file_fd)
 	int	fd;
 
 	fd = ft_heredoc(ft_strcat(tab[i + 1], "\n", shell), shell);
+	if (fd == SIGINT_EXITVALUE)
+		return ;
 	ft_add_tbc_list(file_fd, shell);
 	ft_add_tbc_list(fd, shell);
 	if (file_fd > 1023)

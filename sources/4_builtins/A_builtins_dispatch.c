@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:37:23 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/08/17 16:03:08 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/08/17 19:39:03 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ int	ft_builtins(t_shell *shell, char **tab, char **envp)
 	}
 	if (ft_strcmp(tab[0], "exit") == OK)
 		return (ft_exit(shell, envp));
-	g_exit_code = OK;
 	if (ft_strcmp(tab[0], "cd") == OK)
 		return (ft_cd(shell, tab));
 	if (ft_strcmp(tab[0], "export") == OK)

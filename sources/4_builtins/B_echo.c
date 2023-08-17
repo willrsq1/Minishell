@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:36:55 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/07/09 00:13:23 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/08/17 19:42:35 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static void	ft_echo_no_option(char **tab);
 
 int	ft_echo(char **tab)
 {
+	g_exit_code = OK;
 	if (!tab[1])
 	{
 		printf("\n");
@@ -31,7 +32,6 @@ int	ft_echo(char **tab)
 		ft_echo_option_no_new_line(tab);
 	else
 		ft_echo_no_option(tab);
-	g_exit_code = OK;
 	return (OK);
 }
 

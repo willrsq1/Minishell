@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 02:30:12 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/07/06 14:41:26 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/08/17 19:43:05 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static int	ft_cd_spe_args_error_message(char *var);
 
 int	ft_cd(t_shell *shell, char **tab)
 {
+	g_exit_code = OK;
 	if (!tab[1])
 		ft_cd_special_args(shell, "HOME");
 	else if (tab[2])
@@ -38,7 +39,6 @@ static void	ft_cd_one_arg(char **tab, t_shell *shell)
 	char	*old_pwd;
 	char	*new_pwd;
 
-	g_exit_code = OK;
 	old_pwd = ft_calloc(sizeof(char) * FILENAME_MAX, shell);
 	new_pwd = ft_calloc(sizeof(char) * FILENAME_MAX, shell);
 	if (!getcwd(old_pwd, FILENAME_MAX))
