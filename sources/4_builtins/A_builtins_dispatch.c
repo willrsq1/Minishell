@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:37:23 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/08/18 20:04:18 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/08/19 00:17:19 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	ft_builtins(t_shell *shell, char **tab, char **envp)
 		ft_get_redi(shell);
 		if (!shell->to_be_freed_list)
 			return (OK);
-		shell->no_exit = 0;
+		shell->no_exit = OK;
 		ft_dup2_execution_no_pipes(shell);
 	}
 	if (ft_strcmp(tab[0], "exit") == OK)

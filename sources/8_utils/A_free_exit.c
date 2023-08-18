@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 18:29:00 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/08/18 20:10:50 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/08/19 00:17:52 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,18 +33,18 @@ void	ft_end_program(t_shell *shell, int mode, int err)
 	if (mode == ERROR)
 		perror("Minishell: error: fatal");
 	g_exit_code = err;
-	if (shell->no_exit == OK)
-		rl_clear_history();
 	ft_close_all_fds(shell);
 	ft_clear_memory(shell);
+	if (shell->no_exit != OK)
+		return ;
+	rl_clear_history();
 	envp = shell->envp;
 	i = -1;
 	while (envp && envp[++i])
 		free(envp[i]);
 	if (envp)
 		free(envp);
-	if (shell->no_exit == OK)
-		exit(err);
+	exit(err);
 }
 
 void	ft_clear_memory(t_shell *shell)
