@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 14:20:07 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/08/17 19:50:21 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/08/18 19:57:50 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,9 @@ static void	get_cmd_no_pipes(t_shell *shell, char **envp)
 
 void	ft_dup2_execution_no_pipes(t_shell *shell)
 {
-	if (shell->infile == FAIL)
+	if (shell->infile == NO_REDI)
 		shell->infile = STDIN_FILENO;
-	if (shell->outfile == FAIL)
+	if (shell->outfile == NO_REDI)
 		shell->outfile = STDOUT_FILENO;
 	if (dup2(shell->infile, STDIN_FILENO) == FAIL)
 	{	

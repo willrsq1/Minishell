@@ -83,23 +83,20 @@ all: $(NAME)
 
 $(NAME): $(OBJS)
 	$(CC) $(FLAGS) -o $@ $^ -lreadline
-	@echo "$(GREEN)Project successfully compiled\nRun ./minishell --help for help menu\n"
+	@echo "$(GREEN)Project successfully compiled\n$(CYAN)Run ./minishell --help for help menu\n"
 
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c $(HEADER)/*.h Makefile
+	@mkdir -p $(@D)
 	@$(CC) $(FLAGS) -c -o $@ $< 
 	@echo "$(BLUE)Creating object file -> $(WHITE)$(notdir $@)... $(RED)[Done]$(NOC)"
 
 clean:
 	@echo "$(GREEN)Supressing libraries files$(CYAN)"
-	@rm -f $(OBJ_PATH)/*.o
-	@rm -f $(OBJ_PATH)/*/*.o
-	@rm -f $(OBJ_PATH)/*/*/*.o
+	@rm -rf $(OBJ_PATH)
 
 fclean:
 	@echo "$(GREEN)Supressing libraries files$(CYAN)"
-	@rm -f $(OBJ_PATH)/*.o
-	@rm -f $(OBJ_PATH)/*/*.o
-	@rm -f $(OBJ_PATH)/*/*/*.o
+	@rm -rf $(OBJ_PATH)
 	@rm -f $(NAME)
 
 norminette:

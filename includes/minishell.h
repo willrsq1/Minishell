@@ -140,7 +140,7 @@ char	*ft_getenv(char *var, t_shell *shell);
 
 /*		D_PWD.C */
 
-int		ft_pwd(void);
+int		ft_pwd(t_shell *shell);
 
 /*		E_EXPORT.C */
 
@@ -253,6 +253,7 @@ void	ft_close_all_fds(t_shell *shell);
 /*		B_MALLOC.C */
 
 void	*ft_calloc(size_t nmemb, t_shell *shell);
+void	ft_ptr_list(t_shell *shell, void *ptr);
 
 /*		C_OPEN_FUNCTS.C */
 

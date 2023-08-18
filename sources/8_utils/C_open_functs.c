@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 16:49:53 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/07/03 22:12:48 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/08/18 14:19:59 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	ft_add_tbc_list(int fd, t_shell *shell)
 		return ;
 	}
 	temp->next = lst;
-	temp = temp->next;
+	temp = lst;
 }
 
 int	ft_open(char *file, t_shell *shell, int option)

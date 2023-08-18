@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 18:56:00 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/07/09 12:47:57 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/08/18 17:15:49 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ static void	ft_heredoc_was_found(t_shell *shell, int i)
 
 /*	Removes tab[i] and tab[i + 1] from the data.
 	They are not needed anymore because their redirection has happened.
-	We cant them out of the input now. */
+	We can take them out of the input now. */
 
 void	ft_remove_two_tokens(t_shell *shell, int i)
 {

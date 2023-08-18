@@ -6,13 +6,12 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 08:10:57 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/07/03 21:47:06 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/08/18 20:11:49 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void	ft_ptr_list(t_shell *shell, void *ptr);
 static void	ft_bzero(void *s, size_t n);
 
 void	*ft_calloc(size_t nmemb, t_shell *shell)
@@ -34,7 +33,7 @@ void	*ft_calloc(size_t nmemb, t_shell *shell)
 	return (ptr);
 }
 
-static void	ft_ptr_list(t_shell *shell, void *ptr)
+void	ft_ptr_list(t_shell *shell, void *ptr)
 {
 	t_to_be_freed			*to_be_freed_lst;
 	static t_to_be_freed	*temp;

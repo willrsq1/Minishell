@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:50:19 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/08/14 20:47:57 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/08/18 20:13:00 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	ft_create_prompt(t_shell *shell, char **envp, char **argv)
 	shell->buff = readline(prompt);
 	if (!shell->buff)
 		ft_exit(shell, envp);
+	ft_ptr_list(shell, shell->buff);
 	if (shell->buff[0])
 		add_history(shell->buff);
 }
@@ -45,6 +46,8 @@ static char	*ft_get_cwd_in_prompt(t_shell *shell)
 	int		i;
 
 	cwd = ft_getenv("PWD", shell);
+	if (ft_strcmp(cwd, ft_getenv("HOME", shell)) == OK)
+		return (ft_strdup("\x01\033[38;5;207m~\x02", shell));
 	if (cwd)
 	{
 		i = ft_strlen(cwd);
@@ -104,11 +107,4 @@ void	ft_shlvl(char **envp)
 		envp[i][6 + y] = new_lvl[y];
 	envp[i][6 + y] = '\0';
 	free(new_lvl);
-	i = 0;
-	while (envp && envp[i] && ft_strncmp(envp[i], "SHELL=", 7))
-		i++;
-	if (!envp[i])
-		return ;
-	free(envp[i]);
-	envp[i] = ft_strdup("SHELL=Minishell", NULL);
 }
