@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:37:03 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/07/23 23:56:03 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/08/18 23:35:08 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,14 +68,17 @@ static void	ft_export_no_args(char **envp, t_shell *shell)
 	while (new_envp[++i])
 	{
 		y = -1;
-		temp = ft_calloc(ft_strlen(new_envp[i]) + 1, shell);
-		printf("declare -x ");
-		while (new_envp[i][++y] && new_envp[i][y] != '=')
-			temp[y] = new_envp[i][y];
-		printf("%s", temp);
-		if (new_envp[i][y])
-			printf("=\"%s\"", &new_envp[i][y + 1]);
-		printf("\n");
+		if (new_envp[i][0] != '_')
+		{
+			temp = ft_calloc(ft_strlen(new_envp[i]) + 1, shell);
+			printf("declare -x ");
+			while (new_envp[i][++y] && new_envp[i][y] != '=')
+				temp[y] = new_envp[i][y];
+			printf("%s", temp);
+			if (new_envp[i][y])
+				printf("=\"%s\"", &new_envp[i][y + 1]);
+			printf("\n");
+		}
 	}
 }
 

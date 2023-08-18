@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 14:20:07 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/08/18 19:57:50 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/08/19 00:01:58 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,11 @@ void	execution_no_pipes(t_shell *shell, char **envp)
 {
 	pid_t	pid;
 
-	if (ft_special_operands(shell, envp) || ft_variables_substitution(shell))
-		return ;
 	if (ft_get_heredocs(shell) == SIGINT_EXITVALUE)
+		return ;
+	if (ft_special_operands(shell, envp))
+		return ;
+	if (ft_variables_substitution(shell))
 		return ;
 	ft_wildcards_handling(shell, shell->tab);
 	if (ft_builtins(shell, shell->tab, envp) == OK)
