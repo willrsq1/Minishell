@@ -6,14 +6,14 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:37:03 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/08/20 15:25:36 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/08/20 16:19:17 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 static void	ft_export_no_args(char **envp, t_shell *shell);
-static int	ft_export_check_arg(char *arg);
+static int	ft_export_check_arg(char *arg, t_shell *shell);
 static int	ft_export_var_location(char **envp, t_shell *shell, char *arg);
 static int	ft_export_get_envp_lign(char **envp, char *var_name);
 
@@ -37,7 +37,7 @@ int	ft_export(t_shell *shell, char **tab, char **envp)
 	{
 		i = -1;
 		y = -1;
-		if (ft_export_check_arg(tab[z]) == ERROR)
+		if (ft_export_check_arg(tab[z], shell) == ERROR)
 			return (OK);
 		i = ft_export_var_location(envp, shell, tab[z]);
 		if (i == FAIL)
@@ -84,7 +84,7 @@ static void	ft_export_no_args(char **envp, t_shell *shell)
 
 /*	Checks for bad inputs in the exported arg/variable. */
 
-static int	ft_export_check_arg(char *arg)
+static int	ft_export_check_arg(char *arg, t_shell *shell)
 {
 	int	y;
 
@@ -101,7 +101,8 @@ static int	ft_export_check_arg(char *arg)
 		if (arg[y] == ' ' || arg[y] == '$' || arg[y] == '-' || \
 			arg[y] == '+' || arg[y] == '*' || arg[y] == '@' || \
 			arg[y] == '"' || arg[y] == '\'' || arg[y] == '!' || \
-			arg[y] == '|' || arg[y] == '&' || arg[y] == '\t')
+			arg[y] == '|' || arg[y] == '&' || arg[y] == '\t' || \
+			(arg[y] == ';' && shell->enable_semicolons == 0))
 		{
 			write(2, "Minishell: export: `\033[0;31m", 28);
 			write(2, arg, ft_strlen(arg));

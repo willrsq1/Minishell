@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 00:13:01 by root              #+#    #+#             */
-/*   Updated: 2023/07/24 00:42:08 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/08/20 16:13:20 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,22 +100,22 @@ static void	ft_check_for_redirections(t_pipex *p, int i)
 
 static void	ft_dup2_exec_pipes(t_pipex *p, int i)
 {
-	if (p->fds[i][0] == FAIL)
+	if (p->fds[i][STDIN_FILENO] == FAIL)
 	{
 		close(p->pipe[i - 1][1]);
-		p->fds[i][0] = p->pipe[i - 1][0];
+		p->fds[i][STDIN_FILENO] = p->pipe[i - 1][0];
 	}
-	if (p->fds[i][1] == FAIL)
+	if (p->fds[i][STDOUT_FILENO] == FAIL)
 	{
 		close(p->pipe[i][0]);
-		p->fds[i][1] = p->pipe[i][1];
+		p->fds[i][STDOUT_FILENO] = p->pipe[i][1];
 	}
-	if (dup2(p->fds[i][0], STDIN_FILENO) == FAIL)
+	if (dup2(p->fds[i][STDIN_FILENO], STDIN_FILENO) == FAIL)
 	{
 		perror(ft_strcat("dup 2: ", ft_itoa(p->fds[i][0], p->shell), p->shell));
 		ft_end_program(p->shell, OK, EXIT_FAILURE);
 	}
-	if (dup2(p->fds[i][1], STDOUT_FILENO) == FAIL)
+	if (dup2(p->fds[i][STDOUT_FILENO], STDOUT_FILENO) == FAIL)
 	{
 		perror(ft_strcat("dup 2: ", ft_itoa(p->fds[i][1], p->shell), p->shell));
 		ft_end_program(p->shell, ERROR, EXIT_FAILURE);

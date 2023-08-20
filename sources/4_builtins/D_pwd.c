@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:36:59 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/08/18 20:04:39 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/08/20 15:43:40 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,12 @@ int	ft_pwd(t_shell *shell)
 	buf = NULL;
 	buf = ft_getenv("PWD", shell);
 	if (!buf)
-		return (perror("Minishell: pwd"), g_exit_code = ERROR, OK);
+	{
+		write(2, "Minishell: pwd: no PWD\n", 23);
+		g_exit_code = ERROR;
+		return (OK);
+	}
 	printf("%s\n", buf);
 	g_exit_code = OK;
-	return (0);
+	return (OK);
 }
