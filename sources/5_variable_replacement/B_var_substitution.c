@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/25 15:18:53 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/07/03 03:03:56 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/08/20 15:26:22 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ static void	ft_substitute_var_part2(t_replace_chars r, char *var, \
 		new_arg[i] = var[len];
 		new_is_quoted[i++] = 2;
 	}
-	while (r.arg[y] && !(r.arg[y] == '$' && r.i_q[y] != 2) && r.arg[y] != ' ')
+	while (r.arg[y] && !(r.arg[y] == '$' && r.i_q[y] != 2) && \
+		r.arg[y] != ' ' && r.arg[y] != '\t')
 		y++;
 	while (r.arg[y])
 	{

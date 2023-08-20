@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 16:12:41 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/07/06 14:18:39 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/08/20 15:16:27 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	ft_len_without_quotes(char *s, t_shell *shell)
 	}
 	while (s[i] && s[i] != ' ' && s[i] != '<' && s[i] != '>' && \
 		s[i] != '"' && s[i] != '\'' && s[i] != '|' && \
-		s[i] != '&' && s[i] != ';' && s[i] != '$')
+		s[i] != '&' && s[i] != ';' && s[i] != '$' && s[i] != '\t')
 	{
 		if (shell->enable_semicolons && s[i] == ';')
 			break ;
@@ -79,8 +79,8 @@ int	ft_len_within_quotes(char *s)
 
 int	ft_break_split_loop(char *s, int i, t_shell *shell)
 {
-	if ((i > 0 && !s[i - 1]) || !s[i] || s[i] == ' ' || s[i - 1] == '<' \
-		|| (s[i - 1] == ';' && shell->enable_semicolons) || \
+	if ((i > 0 && !s[i - 1]) || !s[i] || s[i] == ' ' || s[i] == '\t' || \
+		s[i - 1] == '<' || (s[i - 1] == ';' && shell->enable_semicolons) || \
 		s[i - 1] == '>' || s[i - 1] == '|' || s[i - 1] == '&')
 		return (OK);
 	if ((s[i - 1] == '"' || s[i - 1] == '\'') && (s[i] == '<' || \

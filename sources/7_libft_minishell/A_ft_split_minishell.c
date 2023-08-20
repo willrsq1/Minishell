@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 12:32:43 by marvin            #+#    #+#             */
-/*   Updated: 2023/07/05 12:11:27 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/08/20 15:35:28 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ char	**ft_split_minishell(char *s, char c, t_shell *shell)
 		return (NULL);
 	shell->split = &split;
 	lignes = ft_nb_lignes(s, c, i, shell);
-	tab = (char **)ft_calloc((lignes * 10 + 1) * sizeof(char *), shell);
+	tab = (char **)ft_calloc((lignes * 3 + 1) * sizeof(char *), shell);
 	tab[lignes * 2] = NULL;
 	shell->buff = s;
-	if (ft_spliting(tab, shell, c, lignes * 10) == NULL)
+	if (ft_spliting(tab, shell, c, lignes * 3) == NULL)
 		return (NULL);
 	return (tab);
 }
@@ -46,7 +46,7 @@ static int	ft_nb_lignes(char *s, char c, int i, t_shell *shell)
 		i++;
 	while (s[i])
 	{
-		while (s[i] && s[i] == c)
+		while (s[i] && (s[i] == c || s[i] == '\t'))
 			i++;
 		if (!s[i])
 			return (lignes);
@@ -67,7 +67,7 @@ static int	nb_lignes_2(int *lignes, int i, char *s, char c)
 
 	quote = '"';
 	y = 0;
-	while (s[i] && !(s[i] == ' ' && y % 2 == 0))
+	while (s[i] && !((s[i] == ' ' || s[i] == '\t') && y % 2 == 0))
 	{
 		if (y == 0 && (s[i] == '"' || s[i] == '\''))
 			quote = s[i];
@@ -77,7 +77,8 @@ static int	nb_lignes_2(int *lignes, int i, char *s, char c)
 		{
 			if (s[i + 1] && s[i + 1] != c && ft_is_meta_carac(s[i + 1] == OK))
 				*lignes += 1;
-			if (i > 0 && !(s[i - 1] == ' ' || ft_is_meta_carac(s[i - 1]) == OK))
+			if (i > 0 && !(s[i - 1] == ' ' || ft_is_meta_carac(s[i - 1]) == OK \
+				|| s[i - 1] == '\t'))
 				*lignes += 1;
 			i++;
 			break ;
@@ -88,7 +89,7 @@ static int	nb_lignes_2(int *lignes, int i, char *s, char c)
 	return (i);
 }
 
-static char	**ft_spliting(char **tab, t_shell *shell, char c, int lignes)
+static char	**ft_spliting(char **tab, t_shell *s, char c, int lignes)
 {
 	int		i;
 	t_split	split;
@@ -97,22 +98,22 @@ static char	**ft_spliting(char **tab, t_shell *shell, char c, int lignes)
 	split.j = -1;
 	while (++split.j < lignes)
 	{
-		if (i > 0 && !shell->buff[i - 1])
+		if (i > 0 && !s->buff[i - 1])
 			break ;
 		split.w = -1;
-		while (shell->buff[i] && shell->buff[i] == c)
+		while (s->buff[i] && (s->buff[i] == c || s->buff[i] == '\t'))
 			i++;
-		if (!shell->buff[i])
+		if (!s->buff[i])
 			break ;
-		split.len = ft_find_redi_with_fd((char *)shell->buff, i);
+		split.len = ft_find_redi_with_fd((char *)s->buff, i);
 		if (split.len != 0)
 		{
-			tab[split.j] = (char *)ft_calloc((split.len + 1), shell);
+			tab[split.j] = (char *)ft_calloc((split.len + 1), s);
 			while (++split.w < split.len)
-				tab[split.j][split.w] = shell->buff[i++];
+				tab[split.j][split.w] = s->buff[i++];
 		}
 		else
-			i = ft_spliting_2(shell, tab, split, i);
+			i = ft_spliting_2(s, tab, split, i);
 	}
 	return (tab);
 }
