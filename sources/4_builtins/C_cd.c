@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 02:30:12 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/08/18 19:39:25 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/08/20 18:44:28 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	ft_cd(t_shell *shell, char **tab)
 	}
 	else if (ft_strcmp(tab[1], "-") == OK)
 		ft_cd_special_args(shell, "OLDPWD");
-	else if (ft_strcmp(tab[1], "~") == OK)
+	else if (ft_strcmp(tab[1], "~") == OK || ft_strcmp(tab[1], "--") == OK)
 		ft_cd_special_args(shell, "HOME");
 	else
 		ft_cd_one_arg(tab, shell);
