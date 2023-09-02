@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 00:13:01 by root              #+#    #+#             */
-/*   Updated: 2023/08/20 16:13:20 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/09/02 15:29:55 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ static void	ft_fork_loop(t_pipex *p, char **envp, int i)
 {
 	p->shell->tab = p->commands[i];
 	p->shell->is_quoted = p->is_quoted[i];
-	ft_dup2_exec_pipes(p, i);
 	if (ft_special_operands(p->shell, envp) || \
 		ft_variables_substitution(p->shell))
 		ft_end_program(p->shell, OK, g_exit_code);
