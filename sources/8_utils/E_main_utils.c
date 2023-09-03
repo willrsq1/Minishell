@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:50:19 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/09/03 02:30:18 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/09/03 03:14:40 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	ft_create_prompt(t_shell *shell, char **envp, char **argv)
 	if (!shell->buff)
 		ft_exit(shell, envp);
 	ft_ptr_list(shell, shell->buff);
-	if (shell->buff[0])
+	if (shell->buff[0] && cwd)
 		add_history(shell->buff);
 }
 
@@ -47,13 +47,13 @@ static char	*ft_get_cwd_in_prompt(t_shell *shell)
 
 	cwd = ft_getenv("PWD", shell);
 	if (ft_strcmp(cwd, ft_getenv("HOME", shell)) == OK)
-		return (ft_strdup("\x01\033[38;5;207m~\x02", shell));
+		return (ft_strdup("\x01\033[38;5;207m\x02", shell));
 	if (cwd)
 	{
 		i = ft_strlen(cwd);
 		while (--i > -1 && cwd[i] != '/')
 			;
-		cwd = ft_strcat("\x01\033[38;5;207m~\x02", &cwd[i], shell);
+		cwd = ft_strcat("\x01\033[38;5;207m\x02", &cwd[i], shell);
 	}
 	else
 		cwd = ft_strdup("\x01\xF0\x9F\x98\x81\x02", shell);
