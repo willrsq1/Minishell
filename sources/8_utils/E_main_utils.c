@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:50:19 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/09/03 02:12:15 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/09/03 02:30:18 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	ft_create_prompt(t_shell *shell, char **envp, char **argv)
 	{
 		shell->buff = argv[2];
 		shell->exit_after_first_input = 1;
-		printf("\nOption \"./minishell -c [arg]\" activated. Exiting after first input.\n");
 		return ;
 	}
 	prompt = ft_strdup("\x01\x1b[96m\x02Minishell d'Arbesa \x01\x1b[0m\x02", shell);
