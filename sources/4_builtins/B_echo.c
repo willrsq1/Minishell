@@ -6,13 +6,18 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:36:55 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/08/17 19:42:35 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/09/03 00:57:06 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+#ifndef NO_NEW_LINE
+# define NO_NEW_LINE 1
+#endif
+
 static void	ft_echo_option_no_new_line(char **tab);
+static int	ft_skip_noline_options(char **tab);
 static void	ft_echo_no_option(char **tab);
 
 /*	Echo builtin:
@@ -28,7 +33,7 @@ int	ft_echo(char **tab)
 		printf("\n");
 		return (OK);
 	}
-	if (ft_strcmp(tab[1], "-n") == OK)
+	if (tab[1][0] == '-' && tab[1][1] == 'n')
 		ft_echo_option_no_new_line(tab);
 	else
 		ft_echo_no_option(tab);
@@ -47,28 +52,39 @@ static void	ft_echo_option_no_new_line(char **tab)
 	int	i;
 	int	y;
 
-	i = 2;
-	y = 0;
+	i = ft_skip_noline_options(tab);
+	y = NO_NEW_LINE;
+	if (i == 1)
+		y = 1;
 	while (tab[i])
 	{
-		if (y != -42)
-			y = 0;
-		if (y != -42 && tab[i][0] == '-')
-		{
-			while (tab[i][++y] && tab[i][y] == 'n')
-				;
-			if (!tab[i][y])
-				y = FAIL;
-		}
-		if (y != FAIL)
-		{
-			printf("%s", tab[i]);
-			if (tab[i + 1])
-				printf(" ");
-			y = -42;
-		}
+		printf("%s", tab[i]);
+		if (tab[i + 1])
+			printf(" ");
 		i++;
 	}
+	if (y != NO_NEW_LINE)
+		printf("\n");
+}
+
+static int	ft_skip_noline_options(char **tab)
+{
+	int	i;
+	int	y;
+
+	i = 1;
+	while (tab[i])
+	{
+		if (tab[i][0] != '-')
+			return (i);
+		y = 1;
+		while (tab[i][y] && tab[i][y] == 'n')
+			y++;
+		if (tab[i][y] != '\0')
+			return (i);
+		i++;
+	}
+	return (i);
 }
 
 /*	Prints the args, spaced, followed by newline. */

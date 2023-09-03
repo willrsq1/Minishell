@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 18:29:00 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/08/19 00:17:52 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/09/03 02:27:01 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,6 @@ void	ft_close_all_fds(t_shell *shell)
 
 	if (!shell)
 		return ;
-	dup2(STDOUT_FILENO, STDIN_FILENO);
-	dup2(STDIN_FILENO, STDOUT_FILENO);
 	lst = shell->tbc_list;
 	if (!lst)
 		return ;
@@ -86,4 +84,7 @@ void	ft_close_all_fds(t_shell *shell)
 		lst = lst->next;
 	}
 	shell->tbc_list = NULL;
+	dup2(STDOUT_FILENO, STDIN_FILENO);
+	dup2(STDERR_FILENO, STDIN_FILENO);
+	dup2(STDIN_FILENO, STDOUT_FILENO);
 }

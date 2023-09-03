@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:47:15 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/08/18 17:27:08 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/09/03 01:34:55 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,28 +45,23 @@ int	ft_variables_substitution(t_shell *shell)
 
 static int	ft_var(t_shell *shell, int i, int y)
 {
-	char	*var;
-	int		envp_lign;
-	int		z;
+	char	*var_name;
+	char	*var_replacement;
 	char	*arg;
 	int		*is_quoted;
 
 	arg = shell->tab[i];
 	is_quoted = shell->is_quoted[i];
-	var = ft_get_var_name(shell, &arg[y], &is_quoted[y]);
-	if (!var)
+	var_name = ft_get_var_name(shell, &arg[y], &is_quoted[y]);
+	if (!var_name)
 		return (y);
-	envp_lign = ft_var_get_envp_lign(shell->envp, var);
-	if (envp_lign == FAIL)
+	var_replacement = ft_getenv(var_name, shell);
+	if (!var_replacement)
 	{
 		ft_not_an_existing_var(&arg[y], &is_quoted[y]);
 		return (y - 1);
 	}
-	z = 0;
-	while (shell->envp[envp_lign][z] != '=')
-		z++;
-	var = ft_strdup(&shell->envp[envp_lign][z + 1], shell);
-	ft_substitute_var(shell, var, i);
+	ft_substitute_var(shell, var_replacement, i);
 	return (y);
 }
 
