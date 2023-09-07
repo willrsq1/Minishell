@@ -1,25 +1,22 @@
-Test1:
+// Test1:
 
-Leaks/Segfault:
+// Leaks/Segfault:
 
-Type this in bash:
+// Type this in bash:
 
-cat /dev/urandom > err.txt | valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes ./minishell 2>> err.txt 1>> err.txt ; grep -an "0x1" err.txt | grep -av "main" >> results.txt
+cat /dev/urandom > trash.txt | valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes ./minishell 2>> err.txt 1>> err.txt ; grep -an "0x1" err.txt | grep -av "main" >> results.txt
 
-You can do it multiple times.
+// You can do it multiple times.
 
-If any leaks happened, they will be in the "results.txt" file.
+// If any leaks happened, they will be in the "results.txt" file.
 
 So: "cat results.txt" to find leaks.
-If results.txt is not empty, there are leaks:
-	open the err.txt file, go at the corresponding line (value on the left) to see the leak.
-	You can also do : "sed -n '[line - 50], [line + 50]' err.txt" to get a precise part.
 
+//If results.txt is not empty, there are leaks:
+//	open the err.txt file, go at the corresponding line (value on the left) to see the leak.
+//	You can also do : "sed -n '[line - 50], [line + 50]p' err.txt" to get a precise part. Example: sed -n '100, 150p' err.txt
 
-Do it again , exactly the same, but with "cat /dev/random" instead of "urandom".
-
-
-
+// Do it again , exactly the same, but with "cat /dev/random" instead of "urandom".
 
 Now, use the "make leaks" command to do your tests. If the Makefile doesn't have the rule, add it:
 
@@ -41,7 +38,6 @@ leaks:    all
 			--show-leak-kinds=all --track-origins=yes --verbose --track-fds=yes\
 			--show-mismatched-frees=yes --read-var-info=yes ./${NAME}
 
-
 To launch, simply do "make leaks".
 
 A few tests:
@@ -49,12 +45,23 @@ A few tests:
 cat <<l | sleep 3 | cat << u | gorpre >fezfze | hello <infile <outfile <cat <heyhey < sources | ff | wc Makefile >> output
 			input "l" and "u" as delimiters. Should behave like bash: no execution until both heredocs are closed. You can also close the heredocs with Ctrl+D.
 
-cat '''' '>' lll
-cat '>' ''l outfile
-echo -nnnnnnn "Hey" > infile | ca't' in'f'""ile
-
 step1: "export PATH="$PATH:$PWD""
 step2: "echo -nnnn -nnnnnn -n -n -nnnnnnn 'hello from file Atchoum'>Atchoum"
 step3: "Atchoum"
 
-export PATH="$PATH:$PWD";echo -nnnn -nnnnnn -n -n -nnnnnnn 'hello from file Atchoum'>A
+cat '''' '>' lll
+cat '>' ''l outfile
+echo -nnnnnnn "Hey" > infile | ca't' in'f'""ile
+
+vim l | cat "'"'"'"'"'"'""l
+// input "ESC + :wq" to restore prompt
+
+
+
+Simple tests:
+
+sleep 0 | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat
+grep 1 < filedoesnotexist | echo 1 | grep 1 | head -1 | cat | ls
+/bin/echo -e "\033[33mHello, world\033[0m"
+yes "no" | head -n 10
+ls | wc -l | xargs echo

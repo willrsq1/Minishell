@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 20:56:20 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/08/19 00:08:08 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/09/07 23:51:05 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	ft_signal(void)
 	sigemptyset(&signal_int.sa_mask);
 	signal_int.sa_sigaction = sig_int_handler;
 	signal_int.sa_flags = 23;
-	signal(SIGTERM, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, SIG_IGN);
 	sigaction(SIGINT, &signal_int, NULL);
 }

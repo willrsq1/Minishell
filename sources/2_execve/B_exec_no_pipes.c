@@ -6,14 +6,14 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 14:20:07 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/09/03 02:26:25 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/09/07 23:52:25 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 static void	get_cmd_no_pipes(t_shell *shell, char **envp);
-static void	ft_waitpid_no_pipes(pid_t pid);
+static void	ft_waitpid_no_pipes(pid_t pid, t_shell *shell);
 
 /*	Executes the input. The input doesn't have any pipes.
 	STDIN and STDOUT are the initial inputs and outputs.
@@ -52,7 +52,7 @@ void	execution_no_pipes(t_shell *shell, char **envp)
 		execve(shell->no_pipes_cmd, shell->tab, envp);
 		ft_end_program(shell, ERROR, EXIT_FAILURE);
 	}
-	ft_waitpid_no_pipes(pid);
+	ft_waitpid_no_pipes(pid, shell);
 }
 
 /*	Gets the PATHS from envp, looks for access to the command.
@@ -85,6 +85,7 @@ void	ft_dup2_execution_no_pipes(t_shell *shell)
 		shell->infile = STDIN_FILENO;
 	if (shell->outfile == NO_REDI)
 		shell->outfile = STDOUT_FILENO;
+		// shell->infile != STDIN_FILENO && ? check valg
 	if (dup2(shell->infile, STDIN_FILENO) == FAIL)
 	{
 		perror(ft_strcat("dup 2: ", ft_itoa(shell->infile, shell), shell));
@@ -100,15 +101,22 @@ void	ft_dup2_execution_no_pipes(t_shell *shell)
 /*	Disables SIGINT, waits for the child to end.
 	Gets the exit_status and renables SIGINT. */
 
-static void	ft_waitpid_no_pipes(pid_t pid)
+static void	ft_waitpid_no_pipes(pid_t pid, t_shell *shell)
 {
 	int	status;
 
+	if (pid == -1)
+		ft_end_program(shell, ERROR, ERROR);
 	signal(SIGINT, SIG_IGN);
 	status = 0;
 	waitpid(pid, &status, 0);
-	if (WIFSIGNALED(status) && status == 2 && write(2, "\n", 2))
-		g_exit_code = SIGINT_EXITVALUE;
+	if (WIFSIGNALED(status))
+	{
+		if (status == 2 && write(2, "\n", 1))
+			g_exit_code = SIGINT_EXITVALUE;
+		else if (status == 11 && write(2, "Segmentation Fault\n", 19))
+			g_exit_code = SEGFAULT_EXITVALUE;
+	}
 	if (WIFEXITED(status))
 		g_exit_code = WEXITSTATUS(status);
 	ft_signal();

@@ -141,8 +141,10 @@ void	ft_close_pipes(int i, t_pipex *p)
 				write(2, "\n", 2);
 			g_exit_code = SIGINT_EXITVALUE;
 		}
-		if (WIFEXITED(status))
-			g_exit_code = WEXITSTATUS(status);
 		p->forks_id[y] = -1;
 	}
+	if (status == 11 && write(2, "Segmentation Fault\n", 19))
+			g_exit_code = SEGFAULT_EXITVALUE;
+	if (WIFEXITED(status))
+		g_exit_code = WEXITSTATUS(status);
 }
