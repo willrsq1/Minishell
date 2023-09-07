@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   B_redi_in_and_out.c                                :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/19 21:08:45 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/08/18 14:20:33 by wruet-su         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../../includes/minishell.h"
 
 /*	OPEN RDONLY, returns the fd to the infile variable, removes the tokens. */
