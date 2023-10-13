@@ -1,7 +1,7 @@
 
 ### COMPILATION ###
 CC      = gcc
-FLAGS  = -Wall -Wextra -Werror -I -L/usr/local/lib -g3 #-fsanitize=address
+FLAGS  = -Wall -Wextra -Werror
 
 ### EXECUTABLE ###
 NAME   = minishell
@@ -83,7 +83,7 @@ all: $(NAME)
 
 $(NAME): $(OBJS)
 	$(CC) $(FLAGS) -o $@ $^ -lreadline
-	@echo "$(GREEN)Project successfully compiled\n$(CYAN)Run ./minishell --help for help menu\n"
+	@echo "$(GREEN)Project successfully compiled\n$(CYAN)\n\nWelcome.\nRun ./minishell --help to learn about the additional commands.\n\n"
 
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c $(HEADER)/*.h Makefile
 	@mkdir -p $(@D)
@@ -104,6 +104,8 @@ norminette:
 
 re: fclean
 	@$(MAKE) all
+
+bonus: all
 
 leaks:    all
 		echo "{" > valgrind_ignore_leaks.txt
