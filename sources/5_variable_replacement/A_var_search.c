@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 23:57:54 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/09/07 23:57:55 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/10/18 19:23:36 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,8 @@ static int	ft_check_for_ambiguous_redirect(t_shell *shell, int i)
 		shell->tab[i][y] == '*' && iq[i][y] == OK)
 		y++;
 	if (shell->tab[i][y] && !(shell->tab[i][0] == '$' && iq[i][0] == OK))
+		return (OK);
+	if (ft_getenv(shell->tab[i] + 1, shell) != NULL || !shell->tab[i][1])
 		return (OK);
 	write(2, "Minishell: \033[0;31m", 19);
 	write(2, shell->tab[i], ft_strlen(shell->tab[i]));

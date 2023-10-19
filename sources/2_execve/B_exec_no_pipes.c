@@ -73,7 +73,6 @@ void	ft_dup2_execution_no_pipes(t_shell *shell)
 		shell->infile = STDIN_FILENO;
 	if (shell->outfile == NO_REDI)
 		shell->outfile = STDOUT_FILENO;
-		// shell->infile != STDIN_FILENO && ? check valg
 	if (dup2(shell->infile, STDIN_FILENO) == FAIL)
 	{
 		perror(ft_strcat("dup 2: ", ft_itoa(shell->infile, shell), shell));
