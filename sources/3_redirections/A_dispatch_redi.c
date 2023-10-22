@@ -57,7 +57,7 @@ static int	ft_redirection_with_fd(char *arg, int i, t_shell *shell)
 		ft_outfile_with_fd(shell, i, ft_atoi(arg, shell, next, APPEND), APPEND);
 	else if (ft_strcmp(&arg[y], ">") == OK)
 		ft_outfile_with_fd(shell, i, ft_atoi(arg, shell, next, TRUNC), TRUNC);
-	return (0);
+	return (OK);
 }
 
 /*	When a heredoc is found here, its creation/writing to has already been done.

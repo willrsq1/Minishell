@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 23:59:30 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/09/07 23:59:32 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/10/22 20:34:55 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	ft_shlvl(char **envp)
 	i = 0;
 	while (envp && envp[i] && ft_strncmp(envp[i], "SHLVL=", 7))
 		i++;
-	if (!envp[i])
+	if (!envp || !envp[i])
 		return ;
 	new_lvl = ft_itoa(ft_atoi(&envp[i][6], NULL, NULL, OK) + 1, NULL);
 	if (!new_lvl)
