@@ -6,7 +6,7 @@
 /*   By: wruet-su <william.ruetsuquet@gmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 23:57:58 by wruet-su          #+#    #+#             */
-/*   Updated: 2023/09/07 23:58:00 by wruet-su         ###   ########.fr       */
+/*   Updated: 2023/10/23 10:09:25 by wruet-su         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ char	*ft_get_var_name(t_shell *shell, char *arg, int *is_quoted)
 		return (NULL);
 	i = 1;
 	while (arg[i] && (arg[i] != '$' && is_quoted[i] != 2) && \
-		arg[i] != ' ' && arg[i] != '=' && arg[i] != '\t' && arg[i] != ':')
+		arg[i] != ' ' && arg[i] != '=' && arg[i] != '\t' && arg[i] != ':' && \
+		arg[i] != '\'')
 		i++;
 	if (i == 1 && (arg[1] == ' ' || arg[1] == '\t'))
 		return (NULL);
