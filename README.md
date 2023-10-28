@@ -37,7 +37,8 @@ Wildcards were easy: some parsing/memory manipulation while using opendir.
 
 Handling "&&", "||" and parenthesis was more challenging, but it ended up going great.
 
-Feel free to try it; some additional pptions are available and can be enabled, just launch "minishell --help".
+Feel free to try it; some additional options are available and can be enabled, just launch "minishell --help".
+Most of them show how the input is treated: what happens inside the program.
 
 ![image](https://github.com/willrsq1/Minishell/assets/117649637/e54093c2-2eb3-414c-9e48-6d8b9ce515de)
 
