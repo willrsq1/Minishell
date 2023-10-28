@@ -27,6 +27,7 @@ We learn how to use different system functions:
 The program is about parsing and execution.
 Taking a char* as input, we create an array of tokens, and execute it depending on its contents.
 Memory allocation and leaks handling was all done with our own C Garbage Collector (featured on my github).
+https://github.com/willrsq1/Garbage_Collector_C
 The same system was used to handle file descriptors, allowing us to open as many redirections/use as many pipes as we want.
 
 It was really fun to do ! But so many small options made it tedious in the end.
