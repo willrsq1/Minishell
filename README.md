@@ -1,10 +1,8 @@
 # Minishell
-![image](https://github.com/willrsq1/Minishell/assets/117649637/cae75dd9-fbc6-4851-bf0f-fd0ac991efb3)
 
 This project teaches us how to create a shell.
 
 It is also the first 42 project that is requiered to be done as a group.
-
 
 
 The requiered part of this program is to handle the basics of a shell:
