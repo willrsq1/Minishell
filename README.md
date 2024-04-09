@@ -39,5 +39,21 @@ Handling "&&", "||" and parenthesis was more challenging, but it ended up going 
 Feel free to try it; some additional options are available and can be enabled, just launch "minishell --help".
 Most of them show how the input is treated: what happens inside the program.
 
-![image](https://github.com/willrsq1/Minishell/assets/117649637/e54093c2-2eb3-414c-9e48-6d8b9ce515de)
+# 💪 Contributers
+[ABDYLI Arbesa](https://github.com/aarbesa)<br/>
+&emsp;42intra profile : [aabdyli](https://profile.intra.42.fr/users/aabdyli) <br/>
+<br/>
+[RUET SUQUET William](https://github.com/willrsq1)
+<br/>
+&emsp;42intra profile : [wruet-su](https://profile.intra.42.fr/users/wruet-su)
+<br/>
+
+# Peer review
+
+![image](https://github.com/willrsq1/Minishell/assets/117649637/0d34df61-a4ea-4680-bb36-7366d73b092d)
+
+# Final Grade
+
+![image](https://github.com/willrsq1/Minishell/assets/117649637/a518225e-5059-40a1-a1da-c83f5f6be1f3)
+
 
